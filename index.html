@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MOKA SFX LIGHT — Professional Stage & SFX Lighting</title>
-<meta name="description" content="MOKA SFX LIGHT designs and manufactures professional moving heads, beam lights, lasers, strobes, fog and confetti machines for concerts, clubs and live events.">
+<title>MOKA LITE — Professional Stage Lighting</title>
+<meta name="description" content="MOKA LITE designs and manufactures professional moving heads, beam lights, lasers, strobes, fog and confetti machines for concerts, clubs and live events.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,8 +15,8 @@
 <!-- ============================ HEADER ============================ -->
 <header class="site-header" id="siteHeader">
   <div class="container nav">
-    <a href="index.html" class="brand" aria-label="MOKA SFX LIGHT home">
-      <img src="assets/img/mokasfx-logo.png" alt="MOKA SFX LIGHT">
+    <a href="index.html" class="brand" aria-label="MOKA LITE home">
+      <img src="assets/img/mokasfx-logo.png" alt="MOKA LITE">
     </a>
 
     <nav class="nav-list" aria-label="Primary">
@@ -30,21 +30,28 @@
         <a class="nav-link" href="solutions.html">Solutions <span class="caret" aria-hidden="true"></span></a>
       </div>
 
-      <div class="nav-item"><a class="nav-link" href="cases.html">Cases</a></div>
+      <!-- <div class="nav-item"><a class="nav-link" href="cases.html">Projects</a></div> -->
+
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="blog.html">Blog <span class="caret" aria-hidden="true"></span></a>
+        <div class="nav-dropdown">
+          <a href="projects.html">Projects</a>
+          <a href="technical-guides.html">Technical Guides</a>
+        </div>
+      </div>
 
       <div class="nav-item has-dropdown">
         <a class="nav-link" href="resources.html">Resources <span class="caret" aria-hidden="true"></span></a>
         <div class="nav-dropdown">
-          <a href="blog.html">Blog</a>
           <a href="about.html">About us</a>
           <a href="privacy.html">Privacy Policy</a>
         </div>
       </div>
 
-      <div class="nav-item"><a class="nav-link" href="contact.html">Contact us</a></div>
+      <div class="nav-item"><a class="nav-link" href="contact.html#inquiry">Contact us</a></div>
     </nav>
 
-    <div class="nav-actions">
+    <!-- <div class="nav-actions">
       <button class="nav-search" type="button" aria-label="Search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       </button>
@@ -55,7 +62,7 @@
       <button class="nav-toggle" type="button" aria-label="Open menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
-    </div>
+    </div> -->
   </div>
 
   <!-- Products mega -->
@@ -78,8 +85,8 @@
         <section class="products-menu-panel">
           <h4 class="products-menu-panel-title">Led Panels</h4>
           <ul class="products-menu-panel-list">
-            <li><a href="products.html?cat=led&amp;sub=dance">LED Dance Floor</a></li>
-            <li><a href="products.html?cat=led&amp;sub=screen">LED Screen</a></li>
+            <li><a href="products.html?cat=led-dance">LED Dance Floor</a></li>
+            <li><a href="products.html?cat=led-screen">LED Screen</a></li>
           </ul>
         </section>
       </div>
@@ -94,7 +101,7 @@
         <div class="mega-col">
           <h4><span class="dot"></span> Live &amp; Touring</h4>
           <ul class="mega-list">
-            <li><a href="solutions.html?cat=concert">Concerts &amp; Tours</a></li>
+            <li><a href="solution-detail.html">Concerts &amp; Tours</a></li>
             <li><a href="solutions.html?cat=festival">Music Festivals</a></li>
             <li><a href="solutions.html?cat=dj">DJ Sets &amp; Clubs</a></li>
             <li><a href="solutions.html?cat=racks">Tour-Ready Racks</a></li>
@@ -129,7 +136,7 @@
         </div>
       </div>
       <a class="mega-feature" href="solution-detail.html">
-        <span class="feature-eyebrow">Case Study</span>
+        <span class="feature-eyebrow">Project Study</span>
         <h3>Tour-ready rack packages, pre-cabled &amp; pre-addressed</h3>
         <p>Shipped in flight cases &mdash; load-in, power up, patch the console, play.</p>
         <span class="feature-cta">See the system &rarr;</span>
@@ -138,64 +145,57 @@
   </div>
 </header>
 <!-- ============================ HERO ============================ -->
-<section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="assets/img/hero.mp4" type="video/mp4">
-  </video>
-  <div class="container hero-grid">
-    <div>
-      <span class="eyebrow">Professional Stage &amp; SFX Lighting</span>
-      <h1>Light the moment.<br><span class="accent">Ignite</span> the <span class="stroke">crowd.</span></h1>
-      <p class="lead">MOKA SFX LIGHT designs and manufactures professional moving heads, beam lights, lasers, strobes, fog and confetti machines trusted by tours, festivals and venues in 60+ countries.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="products.html">Explore products</a>
-        <a class="btn btn-ghost" href="cases.html">Watch showreel →</a>
+<div class="hero-light-stage" data-hero-light-stage>
+  <section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source src="assets/img/hero.mp4" type="video/mp4">
+    </video>
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Professional Stage &amp; LITE</span>
+        <h1>Light the moment.<br><span class="accent">Ignite</span> the <span class="stroke">crowd.</span></h1>
+        <p class="lead">MOKA LITE designs and manufactures professional moving heads, beam lights, lasers, strobes, fog and confetti machines trusted by tours, festivals and venues in 60+ countries.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="products.html">Explore products</a>
+          <a class="btn btn-ghost" href="cases.html">Watch showreel →</a>
+        </div>
       </div>
-    </div>
 
-    <div class="hero-visual" aria-hidden="true">
-      <div class="ring"></div>
-      <div class="ring r2"></div>
-      <div class="ring r3"></div>
-      <div class="beam"></div>
-      <div class="fixture"></div>
-      <div class="ticks">
-        <div class="tick" style="transform: rotate(0deg);" data-label="Beam"></div>
-        <div class="tick" style="transform: rotate(60deg);" data-label="Wash"></div>
-        <div class="tick" style="transform: rotate(120deg);" data-label="Strobe"></div>
-        <div class="tick" style="transform: rotate(180deg);" data-label="Laser"></div>
-        <div class="tick" style="transform: rotate(240deg);" data-label="Fog"></div>
-        <div class="tick" style="transform: rotate(300deg);" data-label="Confetti"></div>
-      </div>
+      <div class="hero-spacer" aria-hidden="true"></div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <!-- ============================ CATEGORIES ============================ -->
+<div class="categories-light-stage" data-categories-light-stage>
 <section class="section" id="categories">
   <div class="container">
     <div class="factory-intro">
       <div class="factory-intro-text">
         <span class="eyebrow">About MOKA</span>
-        <h2>Professional Stage &amp; SFX Lighting Manufacturer in Guangzhou</h2>
-        <p>MOKA SFX LIGHT designs, engineers and manufactures professional moving heads, beam lights, wash lights, lasers, strobes, fog and confetti machines for concerts, clubs, theaters, weddings, broadcast and outdoor events. With an in-house R&amp;D team, optical lab and 8,000&#8239;m&#178; production floor, we ship OEM &amp; ODM solutions to distributors, rental companies and project buyers in 60+ countries.</p>
+        <h2>Professional Stage Lighting Manufacturer in Guangzhou</h2>
+        <p>MOKA LITE designs, engineers and manufactures professional moving heads, beam lights, wash lights, lasers, strobes, fog and confetti machines for concerts, clubs, theaters, weddings, broadcast and outdoor events. With an in-house R&amp;D team, optical lab and 8,000&#8239;m&#178; production floor, we ship OEM &amp; ODM solutions to distributors, rental companies and project buyers in 60+ countries.</p>
         <div class="factory-intro-actions">
-          <a class="btn btn-primary" href="contact.html">Request a Quote</a>
+          <a class="btn btn-primary" href="contact.html#inquiry">Request a Quote</a>
           <a class="btn btn-ghost" href="about.html">Explore OEM &amp; ODM</a>
         </div>
       </div>
-      <div class="factory-intro-visual" aria-hidden="true">
-        <div class="factory-intro-glow"></div>
+      <div class="factory-intro-visual has-factory-carousel" aria-hidden="true">
+        <div class="factory-intro-glow">
+          <img src="assets/img/factory/DSC_9416_1.jpg" alt="" loading="eager">
+          <img src="assets/img/factory/DSC_9432_1.jpg" alt="" loading="lazy">
+          <img src="assets/img/factory/DSC_9433_1.jpg" alt="" loading="lazy">
+        </div>
         <div class="factory-intro-fixture"></div>
         <div class="factory-intro-beam"></div>
         <div class="factory-intro-rings">
           <span></span><span></span><span></span>
         </div>
-        <span class="factory-intro-caption">Guangzhou &middot; ISO 9001 &middot; 5-Year Warranty</span>
       </div>
     </div>
   </div>
 </section>
+</div>
 
 <!-- ============================ FEATURED PRODUCTS ============================ -->
 <section class="section section-tight" id="featured">
@@ -210,92 +210,152 @@
     </div>
 
     <div class="solutions-overview">
-      <ol class="solutions-overview-list">
+      <ol class="solutions-overview-list" aria-label="Solution categories">
         <li class="solutions-overview-item is-active" data-category="performance">
           <span class="solutions-overview-num">01</span>
-          <h3>Performance</h3>
-          <p>Concerts, theaters and livehouses &mdash; dramatic aerial beams, follow spots and front washes that read on camera.</p>
+          <span class="solutions-overview-copy">
+            <h3>Performance</h3>
+            <p>Concerts, theaters and livehouses &mdash; dramatic aerial beams, follow spots and front washes that read on camera.</p>
+          </span>
+          <span class="solutions-mobile-preview" aria-hidden="true">
+            <span>Concert Main Stage</span>
+            <span>Theater &amp; Drama</span>
+            <span>Livehouse Rig</span>
+          </span>
         </li>
         <li class="solutions-overview-item" data-category="multipurpose">
           <span class="solutions-overview-num">02</span>
-          <h3>Multipurpose Venue</h3>
-          <p>Multi-function halls, houses of worship, ballrooms, conference rooms and banquet halls.</p>
+          <span class="solutions-overview-copy">
+            <h3>Multipurpose Venue</h3>
+            <p>Multi-function halls, houses of worship, ballrooms, conference rooms and banquet halls.</p>
+          </span>
+          <span class="solutions-mobile-preview" aria-hidden="true">
+            <span>Wedding Banquet</span>
+            <span>House of Worship</span>
+            <span>Conference Hall</span>
+          </span>
         </li>
         <li class="solutions-overview-item" data-category="nightlife">
           <span class="solutions-overview-num">03</span>
-          <h3>Nightlife</h3>
-          <p>Bars, karaoke OK rooms, clubs and lounges &mdash; compact, designer-friendly fixtures with pixel control.</p>
+          <span class="solutions-overview-copy">
+            <h3>Nightlife</h3>
+            <p>Bars, karaoke OK rooms, clubs and lounges &mdash; compact, designer-friendly fixtures with pixel control.</p>
+          </span>
+          <span class="solutions-mobile-preview" aria-hidden="true">
+            <span>Nightclub Pixel Rig</span>
+            <span>Cocktail Bar</span>
+            <span>Karaoke Room</span>
+          </span>
         </li>
         <li class="solutions-overview-item" data-category="outdoor">
           <span class="solutions-overview-num">04</span>
-          <h3>Outdoor</h3>
-          <p>Tourist towns, theme parks and themed squares &mdash; IP-rated fixtures, truss and atmosphere built to handle weather.</p>
+          <span class="solutions-overview-copy">
+            <h3>Outdoor</h3>
+            <p>Tourist towns, theme parks and themed squares &mdash; IP-rated fixtures, truss and atmosphere built to handle weather.</p>
+          </span>
+          <span class="solutions-mobile-preview" aria-hidden="true">
+            <span>Theme Park Night</span>
+            <span>Tourist Town Square</span>
+            <span>Architectural Facade</span>
+          </span>
         </li>
       </ol>
 
       <div class="solutions-overview-grid" data-active="performance">
-        <a class="solutions-overview-card span-2" data-category="performance" href="solutions.html?cat=performance&amp;sub=concert" style="--sol-bg:linear-gradient(135deg,#1a0f0a,#3b2410 60%,#5a3a14);">
-          <span class="solutions-overview-img" data-img="concert-main-stage.jpg" aria-hidden="true"></span>
+        <a class="solutions-overview-card" data-category="performance" href="solution-detail.html">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
           <span class="solutions-overview-label">
             <span class="solutions-overview-eyebrow">Performance</span>
             <strong>Concert Main Stage</strong>
-            <em>240 heads &middot; Berlin</em>
+            <em>Beam, wash and pixel effects for touring rigs and festival stages.</em>
           </span>
         </a>
-        <a class="solutions-overview-card" data-category="performance" href="solutions.html?cat=performance&amp;sub=theater" style="--sol-bg:linear-gradient(135deg,#0e0e1a,#221a3a 60%,#3a2c66);">
-          <span class="solutions-overview-img" data-img="theater-stage.jpg" aria-hidden="true"></span>
+        <a class="solutions-overview-card" data-category="performance" href="solutions.html?cat=performance&amp;sub=theater">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
           <span class="solutions-overview-label">
             <span class="solutions-overview-eyebrow">Performance</span>
             <strong>Theater &amp; Drama</strong>
-            <em>Silent rig &middot; 1,200 seats</em>
+            <em>Quiet front light, accurate color and smooth dimming for venues.</em>
           </span>
         </a>
-        <a class="solutions-overview-card" data-category="multipurpose" href="solutions.html?cat=multipurpose&amp;sub=wedding" style="--sol-bg:linear-gradient(135deg,#1a1014,#3b1c2a 60%,#5a2740);">
-          <span class="solutions-overview-img" data-img="wedding-ballroom.jpg" aria-hidden="true"></span>
+        <a class="solutions-overview-card" data-category="performance" href="solutions.html?cat=performance&amp;sub=livehouse">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
+          <span class="solutions-overview-label">
+            <span class="solutions-overview-eyebrow">Performance</span>
+            <strong>Livehouse Rig</strong>
+            <em>Compact moving heads and strobes for small touring venues.</em>
+          </span>
+        </a>
+        <a class="solutions-overview-card" data-category="multipurpose" href="solutions.html?cat=multipurpose&amp;sub=wedding">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
           <span class="solutions-overview-label">
             <span class="solutions-overview-eyebrow">Multipurpose</span>
             <strong>Wedding Banquet</strong>
-            <em>Pixel drape &middot; 600 guests</em>
+            <em>Flexible looks for ceremonies, banquets and corporate events.</em>
           </span>
         </a>
-        <a class="solutions-overview-card" data-category="multipurpose" href="solutions.html?cat=multipurpose&amp;sub=worship" style="--sol-bg:linear-gradient(135deg,#101a14,#1a3a2a 60%,#1e5a3a);">
-          <span class="solutions-overview-img" data-img="worship-hall.jpg" aria-hidden="true"></span>
+        <a class="solutions-overview-card" data-category="multipurpose" href="solutions.html?cat=multipurpose&amp;sub=worship">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
           <span class="solutions-overview-label">
             <span class="solutions-overview-eyebrow">Multipurpose</span>
             <strong>House of Worship</strong>
-            <em>Even wash &middot; broadcast-ready</em>
+            <em>Even wash, low-noise fixtures and camera-ready stage coverage.</em>
           </span>
         </a>
-        <a class="solutions-overview-card" data-category="nightlife" href="solutions.html?cat=nightlife&amp;sub=club" style="--sol-bg:linear-gradient(135deg,#0e0a1a,#1d1340 60%,#3a1e6a);">
-          <span class="solutions-overview-img" data-img="nightclub-pixel.jpg" aria-hidden="true"></span>
+        <a class="solutions-overview-card" data-category="multipurpose" href="solutions.html?cat=multipurpose&amp;sub=conference">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
+          <span class="solutions-overview-label">
+            <span class="solutions-overview-eyebrow">Multipurpose</span>
+            <strong>Conference Hall</strong>
+            <em>Clean front wash and controlled accents for speech and awards.</em>
+          </span>
+        </a>
+        <a class="solutions-overview-card" data-category="nightlife" href="solutions.html?cat=nightlife&amp;sub=club">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
           <span class="solutions-overview-label">
             <span class="solutions-overview-eyebrow">Nightlife</span>
             <strong>Nightclub Pixel Rig</strong>
-            <em>MA3 console &middot; 600 m&sup2;</em>
+            <em>Compact beams, strobes and pixel fixtures for dense club ceilings.</em>
           </span>
         </a>
-        <a class="solutions-overview-card" data-category="nightlife" href="solutions.html?cat=nightlife&amp;sub=bar" style="--sol-bg:linear-gradient(135deg,#1a0a0a,#3b1414 60%,#5a1f1f);">
-          <span class="solutions-overview-img" data-img="cocktail-bar.jpg" aria-hidden="true"></span>
+        <a class="solutions-overview-card" data-category="nightlife" href="solutions.html?cat=nightlife&amp;sub=bar">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
           <span class="solutions-overview-label">
             <span class="solutions-overview-eyebrow">Nightlife</span>
             <strong>Cocktail Bar</strong>
-            <em>Quiet bar lights &middot; warm wash</em>
+            <em>Warm ambience, accent beams and easy-control decorative effects.</em>
           </span>
         </a>
-        <a class="solutions-overview-card" data-category="outdoor" href="solutions.html?cat=outdoor&amp;sub=park" style="--sol-bg:linear-gradient(135deg,#0a1410,#14321e 60%,#1e5a3a);">
-          <span class="solutions-overview-img" data-img="theme-park-night.jpg" aria-hidden="true"></span>
+        <a class="solutions-overview-card" data-category="nightlife" href="solutions.html?cat=nightlife&amp;sub=karaoke">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
+          <span class="solutions-overview-label">
+            <span class="solutions-overview-eyebrow">Nightlife</span>
+            <strong>Karaoke Room</strong>
+            <em>Scene presets, color effects and compact ceiling fixtures.</em>
+          </span>
+        </a>
+        <a class="solutions-overview-card" data-category="outdoor" href="solutions.html?cat=outdoor&amp;sub=park">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
           <span class="solutions-overview-label">
             <span class="solutions-overview-eyebrow">Outdoor</span>
             <strong>Theme Park Night</strong>
-            <em>IP65 wash &middot; 8 zones</em>
+            <em>Weather-ready wash, beam and effect fixtures for fixed scenes.</em>
           </span>
         </a>
-        <a class="solutions-overview-card" data-category="outdoor" href="solutions.html?cat=outdoor&amp;sub=square" style="--sol-bg:linear-gradient(135deg,#14100a,#3b2c14 60%,#5a401e);">
-          <span class="solutions-overview-img" data-img="town-square.jpg" aria-hidden="true"></span>
+        <a class="solutions-overview-card" data-category="outdoor" href="solutions.html?cat=outdoor&amp;sub=square">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
           <span class="solutions-overview-label">
             <span class="solutions-overview-eyebrow">Outdoor</span>
             <strong>Tourist Town Square</strong>
-            <em>Cold spark finale &middot; truss</em>
+            <em>Large-area outlines, facade color and show-control integration.</em>
+          </span>
+        </a>
+        <a class="solutions-overview-card" data-category="outdoor" href="solutions.html?cat=outdoor&amp;sub=facade">
+          <span class="solutions-overview-img" aria-hidden="true"></span>
+          <span class="solutions-overview-label">
+            <span class="solutions-overview-eyebrow">Outdoor</span>
+            <strong>Architectural Facade</strong>
+            <em>IP-rated color wash and beam accents for building exteriors.</em>
           </span>
         </a>
       </div>
@@ -387,11 +447,15 @@
   </div>
 </section>
 
-
 <!-- ============================ WHY CHOOSE US ============================ -->
 <section class="section why-choose" id="cases" data-why-scroll-section aria-labelledby="why-choose-title">
   <div class="container">
     <div class="why-choose-sticky">
+      <div class="why-spotlights" aria-hidden="true">
+        <span class="why-spotlight why-spotlight-left"></span>
+        <span class="why-spotlight why-spotlight-right"></span>
+      </div>
+
       <div class="why-head">
         <span class="eyebrow">Why Choose us</span>
         <h2 id="why-choose-title">Three reasons the show stays on</h2>
@@ -420,6 +484,8 @@
           </div>
         </article>
       </div>
+
+      <div class="why-orbit" aria-hidden="true" data-why-orbit></div>
 
       <div class="why-scroll-progress" aria-hidden="true">
         <span class="why-scroll-progress-fill" data-why-scroll-progress></span>
@@ -490,158 +556,276 @@
   </div>
 </section>
 
-<!-- ============================ CTA STRIP ============================ -->
-<section class="section" id="products-overview">
+<!-- ============================ BLOG OVERVIEW ============================ -->
+<section class="section" id="blog-overview">
   <div class="container">
-    <div class="products-overview">
-      <div class="products-overview-visual" aria-hidden="true">
-        <div class="products-overview-spotlight"></div>
-        <div class="products-overview-fixture">
-          <span class="products-overview-yoke"></span>
-          <span class="products-overview-head"></span>
-          <span class="products-overview-lens"></span>
+    <div class="blog-overview">
+      <div class="blog-overview-head">
+        <div>
+          <span class="eyebrow">Blog Overview</span>
+          <h2>Field notes for stage projects and lighting teams</h2>
         </div>
-        <div class="products-overview-pedestal"></div>
-        <span class="products-overview-caption">Beam 380 IP &middot; 380W</span>
+        <div class="blog-overview-tabs" role="tablist" aria-label="Blog categories">
+          <button class="blog-overview-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="blog-projects" data-blog-tab="projects">Project</button>
+          <button class="blog-overview-tab" type="button" role="tab" aria-selected="false" aria-controls="blog-guides" data-blog-tab="guides">Tech Guides</button>
+        </div>
       </div>
-      <div class="products-overview-text">
-        <h2>Our Products</h2>
-        <ul class="products-accordion" role="list">
-          <li class="products-accordion-item is-open">
-            <button type="button" class="products-accordion-trigger" aria-expanded="true">
-              <span>Fixture</span>
-              <span class="products-accordion-chevron" aria-hidden="true"></span>
-            </button>
-            <div class="products-accordion-panel">
-              <p>From powerful moving heads to rugged static washes, our fixtures are the workhorses of the industry, engineered for uncompromising performance and creative freedom.</p>
-              <a class="products-accordion-link" href="products.html?cat=fixture">Browse Fixture &rarr;</a>
-            </div>
-          </li>
-          <li class="products-accordion-item">
-            <button type="button" class="products-accordion-trigger" aria-expanded="false">
-              <span>LED Displays</span>
-              <span class="products-accordion-chevron" aria-hidden="true"></span>
-            </button>
-            <div class="products-accordion-panel">
-              <p>Modular LED panels, dance floors and video walls with pixel-perfect calibration and rental-ready rigging.</p>
-              <a class="products-accordion-link" href="products.html?cat=led">Browse LED Displays &rarr;</a>
-            </div>
-          </li>
-          <li class="products-accordion-item">
-            <button type="button" class="products-accordion-trigger" aria-expanded="false">
-              <span>Atmospherics</span>
-              <span class="products-accordion-chevron" aria-hidden="true"></span>
-            </button>
-            <div class="products-accordion-panel">
-              <p>Tour-grade fog, hazers, CO2 jets, confetti cannons and cold-spark machines tuned for indoor and outdoor stages.</p>
-              <a class="products-accordion-link" href="products.html?cat=atmo">Browse Atmospherics &rarr;</a>
-            </div>
-          </li>
-          <li class="products-accordion-item">
-            <button type="button" class="products-accordion-trigger" aria-expanded="false">
-              <span>Control</span>
-              <span class="products-accordion-chevron" aria-hidden="true"></span>
-            </button>
-            <div class="products-accordion-panel">
-              <p>Consoles, Art-Net / sACN nodes, splitters and wireless DMX for rigs from a 24-channel club to a 1,000-universe festival.</p>
-              <a class="products-accordion-link" href="products.html?cat=control">Browse Control &rarr;</a>
-            </div>
-          </li>
-          <li class="products-accordion-item">
-            <button type="button" class="products-accordion-trigger" aria-expanded="false">
-              <span>Power</span>
-              <span class="products-accordion-chevron" aria-hidden="true"></span>
-            </button>
-            <div class="products-accordion-panel">
-              <p>Tour-grade power distro, hot-power cabling and rack-mount protection that keeps the show running through the encore.</p>
-              <a class="products-accordion-link" href="products.html?cat=power">Browse Power &rarr;</a>
-            </div>
-          </li>
-          <li class="products-accordion-item">
-            <button type="button" class="products-accordion-trigger" aria-expanded="false">
-              <span>Accessory</span>
-              <span class="products-accordion-chevron" aria-hidden="true"></span>
-            </button>
-            <div class="products-accordion-panel">
-              <p>Truss clamps, safety cables, flight cases and rigging hardware engineered to fit our fixtures out of the box.</p>
-              <a class="products-accordion-link" href="products.html?cat=accessory">Browse Accessory &rarr;</a>
-            </div>
-          </li>
-        </ul>
-        <a class="btn btn-ghost products-overview-cta" href="products.html">View All Products</a>
+
+      <div class="blog-overview-panel is-active" id="blog-projects" role="tabpanel" data-blog-panel="projects">
+        <div class="blog-overview-rail" aria-label="Project blog posts">
+          <a class="blog-card" href="blog.html#project-concert">
+            <span class="blog-card-media blog-card-media-1" aria-hidden="true"><span></span></span>
+            <span class="blog-card-meta">Outdoor concert &middot; Beam layout</span>
+            <strong>How to build a weather-ready festival lighting package</strong>
+            <em>Project checklist for IP fixtures, truss positions and backup DMX routes.</em>
+          </a>
+          <a class="blog-card" href="blog.html#project-club">
+            <span class="blog-card-media blog-card-media-2" aria-hidden="true"><span></span></span>
+            <span class="blog-card-meta">Nightclub &middot; Pixel effects</span>
+            <strong>Compact moving-head rigs for clubs with low ceilings</strong>
+            <em>Fixture placement ideas for tight venues that still need high-impact beams.</em>
+          </a>
+          <a class="blog-card" href="blog.html#project-theater">
+            <span class="blog-card-media blog-card-media-3" aria-hidden="true"><span></span></span>
+            <span class="blog-card-meta">Theater &middot; Quiet operation</span>
+            <strong>Balancing front wash and effect lighting for stage drama</strong>
+            <em>How to keep faces readable while preserving movement and atmosphere.</em>
+          </a>
+          <a class="blog-card" href="blog.html#project-wedding">
+            <span class="blog-card-media blog-card-media-4" aria-hidden="true"><span></span></span>
+            <span class="blog-card-meta">Wedding hall &middot; Fast setup</span>
+            <strong>Rental-friendly lighting plans for banquet and wedding venues</strong>
+            <em>Repeatable packages for warm ambience, entrances and dance-floor moments.</em>
+          </a>
+        </div>
+      </div>
+
+      <div class="blog-overview-panel" id="blog-guides" role="tabpanel" data-blog-panel="guides" hidden>
+        <div class="blog-overview-rail" aria-label="Technical guide blog posts">
+          <a class="blog-card" href="blog.html#guide-dmx">
+            <span class="blog-card-media blog-card-media-5" aria-hidden="true"><span></span></span>
+            <span class="blog-card-meta">DMX &middot; Signal planning</span>
+            <strong>DMX, Art-Net and sACN: choosing the right control path</strong>
+            <em>A practical guide for small venues, touring racks and large pixel systems.</em>
+          </a>
+          <a class="blog-card" href="blog.html#guide-ip">
+            <span class="blog-card-media blog-card-media-6" aria-hidden="true"><span></span></span>
+            <span class="blog-card-meta">IP rating &middot; Outdoor use</span>
+            <strong>What IP65 really means for outdoor stage lighting</strong>
+            <em>Key checks for rain, dust, cable glands, fans and fixture maintenance.</em>
+          </a>
+          <a class="blog-card" href="blog.html#guide-beam">
+            <span class="blog-card-media blog-card-media-7" aria-hidden="true"><span></span></span>
+            <span class="blog-card-meta">Beam light &middot; Optics</span>
+            <strong>Beam angle, lux and throw distance explained for buyers</strong>
+            <em>How to compare fixtures before you commit to a stage or venue layout.</em>
+          </a>
+          <a class="blog-card" href="blog.html#guide-maintenance">
+            <span class="blog-card-media blog-card-media-8" aria-hidden="true"><span></span></span>
+            <span class="blog-card-meta">Maintenance &middot; Warranty</span>
+            <strong>Keeping moving heads reliable through a long show season</strong>
+            <em>Cleaning, transport and inspection habits that prevent downtime.</em>
+          </a>
+        </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============================ PARTNERS ============================ -->
+<section class="section partners-section" aria-labelledby="partners-title">
+  <div class="container">
+    <div class="partners-head">
+      <span class="eyebrow">Partners</span>
+      <h2 id="partners-title">Built with teams who run the show</h2>
+    </div>
+  </div>
+
+  <div class="partners-marquee" aria-label="Partner testimonials">
+    <div class="partners-track" data-partners-track>
+      <article class="partner-card">
+        <span class="partner-card-media partner-card-media-1" aria-hidden="true">
+          <span class="partner-media-mark">LD</span>
+        </span>
+        <div class="partner-card-copy">
+          <span class="partner-card-kicker">Touring Lighting Director</span>
+          <p>&ldquo;fast focus, clean beams&rdquo;</p>
+        </div>
+      </article>
+
+      <article class="partner-card">
+        <span class="partner-card-media partner-card-media-2" aria-hidden="true">
+          <span class="partner-media-mark">AV</span>
+        </span>
+        <div class="partner-card-copy">
+          <span class="partner-card-kicker">Rental &amp; AV Partner</span>
+          <p>&ldquo;easy to prep and ship&rdquo;</p>
+        </div>
+      </article>
+
+      <article class="partner-card">
+        <span class="partner-card-media partner-card-media-3" aria-hidden="true">
+          <span class="partner-media-mark">FX</span>
+        </span>
+        <div class="partner-card-copy">
+          <span class="partner-card-kicker">Festival Production Team</span>
+          <p>&ldquo;reliable through long nights&rdquo;</p>
+        </div>
+      </article>
+
+      <article class="partner-card">
+        <span class="partner-card-media partner-card-media-4" aria-hidden="true">
+          <span class="partner-media-mark">CL</span>
+        </span>
+        <div class="partner-card-copy">
+          <span class="partner-card-kicker">Club Install Designer</span>
+          <p>&ldquo;compact rigs, big looks&rdquo;</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ B2B INQUIRY ============================ -->
+<section class="section inquiry-section" id="b2b-inquiry" aria-labelledby="b2b-inquiry-title">
+  <div class="container inquiry-layout">
+    <div class="inquiry-copy">
+      <span class="eyebrow">B2B Inquiry</span>
+      <h2 id="b2b-inquiry-title">Tell us what your project needs</h2>
+      <p>Share the event type, venue scale and target delivery date. A sales engineer will review the details and reply with a suitable lighting plan.</p>
+      <ul class="inquiry-points" aria-label="Inquiry support">
+        <li>OEM and ODM stage light projects</li>
+        <li>Touring, club, theater and event solutions</li>
+        <li>Export-ready quotation and shipping support</li>
+      </ul>
+    </div>
+
+    <form class="inquiry-form" data-inquiry-form novalidate>
+      <div class="form-feedback" data-form-feedback role="status" aria-live="polite"></div>
+
+      <div class="inquiry-field row-2">
+        <div class="field-control">
+          <label for="home-inquiry-name">Name <span class="required" aria-hidden="true">*</span></label>
+          <input id="home-inquiry-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required data-error-required="Please enter your name.">
+          <p class="field-error" data-error-for="name"></p>
+        </div>
+        <div class="field-control">
+          <label for="home-inquiry-email">Email <span class="required" aria-hidden="true">*</span></label>
+          <input id="home-inquiry-email" name="email" type="email" autocomplete="email" placeholder="name@company.com" required data-error-required="Please enter your email." data-error-format="Please enter a valid email address.">
+          <p class="field-error" data-error-for="email"></p>
+        </div>
+      </div>
+
+      <div class="inquiry-field row-2">
+        <div class="field-control">
+          <label for="home-inquiry-phone">Phone <span class="required" aria-hidden="true">*</span></label>
+          <input id="home-inquiry-phone" name="phone" type="tel" autocomplete="tel" placeholder="(+xx)" required data-error-required="Please enter your phone number." data-error-format="Use an international phone format, for example +86 189 9881 8260.">
+          <p class="field-error" data-error-for="phone"></p>
+        </div>
+        <div class="field-control">
+          <label for="home-inquiry-country">Country <span class="required" aria-hidden="true">*</span></label>
+          <select id="home-inquiry-country" name="country" autocomplete="country-name">
+            <option value="">Select country</option>
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Germany</option>
+            <option>France</option>
+            <option>Spain</option>
+            <option>Italy</option>
+            <option>United Arab Emirates</option>
+            <option>Saudi Arabia</option>
+            <option>India</option>
+            <option>Vietnam</option>
+            <option>Thailand</option>
+            <option>Malaysia</option>
+            <option>Philippines</option>
+            <option>Indonesia</option>
+            <option>Brazil</option>
+            <option>Mexico</option>
+            <option>Australia</option>
+            <option>Other</option>
+          </select>
+          <p class="field-error" data-error-for="country"></p>
+        </div>
+      </div>
+      
+      <div class="inquiry-field other-country-field" data-other-country-field hidden>
+        <label for="home-inquiry-country-other">Other Country <span class="required" aria-hidden="true">*</span></label>
+        <input id="home-inquiry-country-other" name="countryOther" type="text" autocomplete="country-name" placeholder="Please enter your country." data-error-required="Please enter your country.">
+        <p class="field-error" data-error-for="countryOther"></p>
+      </div>
+
+      <div class="inquiry-field">
+        <label for="home-inquiry-details">Project Details <span class="required" aria-hidden="true">*</span></label>
+        <textarea id="home-inquiry-details" name="projectDetails" rows="5" placeholder="Tell us the product type, quantity, event date, venue size or special requirements." required data-error-required="Please describe your project details."></textarea>
+        <p class="field-error" data-error-for="projectDetails"></p>
+      </div>
+
+      <div class="form-submit-row">
+        <button class="btn btn-primary" type="submit" data-submit-label="Send Inquiry">Send Inquiry</button>
+        <p>Required fields are marked with <span class="required" aria-hidden="true">*</span>.</p>
+      </div>
+    </form>
   </div>
 </section>
 
 <!-- ============================ FOOTER ============================ -->
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="index.html" class="brand"><img src="assets/img/mokasfx-logo.png" alt="MOKA SFX LIGHT"></a>
-        <p>Professional stage and SFX lighting for concerts, clubs and live events. Designed in Guangzhou, trusted in 60+ countries.</p>
-        <div class="socials" style="margin-top: var(--sp-6);">
-          <a class="btn-icon" href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-          <a class="btn-icon" href="#" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 8s-.2-1.5-.8-2.2c-.8-.8-1.6-.8-2-.9C16 4.6 12 4.6 12 4.6s-4 0-7.2.3c-.4 0-1.2 0-2 .9C2.2 6.5 2 8 2 8S1.8 9.7 1.8 11.4v1.2C1.8 14.3 2 16 2 16s.2 1.5.8 2.2c.8.8 1.8.8 2.3.9 1.7.2 7 .3 7 .3s4 0 7.2-.3c.4 0 1.2 0 2-.9.6-.7.8-2.2.8-2.2s.2-1.7.2-3.4v-1.2C22.2 9.7 22 8 22 8z"/><path d="m10 9.4 5 2.6-5 2.6z" fill="currentColor"/></svg></a>
-          <a class="btn-icon" href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v8M8 7v.01M12 18v-5a2 2 0 1 1 4 0v5M12 13v5"/></svg></a>
-          <a class="btn-icon" href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+    <div class="footer-top">
+      <h2>MOKA LITE Professional Stage Lights Group</h2>
+      <a class="footer-contact-btn" href="contact.html#inquiry">Contact Us <span aria-hidden="true">&rarr;</span></a>
+    </div>
+
+    <div class="footer-main">
+      <div class="footer-contact">
+        <a href="index.html" class="footer-logo"><img src="assets/img/mokasfx-logo.png" alt="MOKA LITE"></a>
+        <ul class="footer-contact-list">
+          <li><span aria-hidden="true">☎</span> WhatsApp: +86 18998818260</li>
+          <li><span aria-hidden="true">✉</span> <a href="mailto:info@mokasfx.com">info@mokasfx.com</a></li>
+          <li><span aria-hidden="true">📍</span> 501, Building N, No. 46 Shangsheng East St, Baiyun District, Guangzhou, Guangdong, China 510440</li>
+        </ul>
+        <div class="footer-socials">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="TikTok">TK</a>
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="LinkedIn">in</a>
         </div>
       </div>
 
-      <div class="footer-col">
-        <h5>Products</h5>
-        <ul>
-          <li><a href="products.html?cat=beam">Beam Light</a></li>
-          <li><a href="products.html?cat=wash">Wash Light</a></li>
-          <li><a href="products.html?cat=laser">Laser Light</a></li>
-          <li><a href="products.html?cat=kinetic">Kinetic Light</a></li>
-          <li><a href="products.html?cat=effect">Effect Light</a></li>
-          <li><a href="products.html?cat=led">LED Panels</a></li>
-        </ul>
+      <div class="footer-map">
+        <iframe
+          title="MOKA LITE Guangzhou location"
+          src="https://www.google.com/maps?q=501%2C%20Building%20N%2C%20No.%2046%20Shangsheng%20East%20St%2C%20Baiyun%20District%2C%20Guangzhou%2C%20Guangdong%2C%20China%20510440&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
       </div>
 
-      <div class="footer-col">
-        <h5>Solutions</h5>
+      <nav class="footer-col footer-nav-main" aria-label="Footer main links">
+        <h5>Main</h5>
         <ul>
-          <li><a href="solutions.html?cat=concert">Concerts &amp; Tours</a></li>
-          <li><a href="solutions.html?cat=festival">Music Festivals</a></li>
-          <li><a href="solutions.html?cat=theater">Theater</a></li>
-          <li><a href="solutions.html?cat=worship">Houses of Worship</a></li>
-          <li><a href="solutions.html?cat=wedding">Weddings &amp; Events</a></li>
-          <li><a href="solutions.html?cat=hotel">Permanent Install</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="solutions.html">Solutions</a></li>
+          <li><a href="cases.html">Projects</a></li>
+          <li><a href="blog.html">Blogs</a></li>
         </ul>
-      </div>
+      </nav>
 
-      <div class="footer-col">
-        <h5>Resources</h5>
+      <nav class="footer-col footer-nav-support" aria-label="Footer support links">
+        <h5>Support</h5>
         <ul>
-          <li><a href="about.html">About us</a></li>
-          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="about.html">About MOKA LITE</a></li>
+          <li><a href="contact.html#support">Terms of Service</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="contact.html">Warranty &amp; Return</a></li>
+          <li><a href="cases.html">Watch More Videos</a></li>
         </ul>
-      </div>
-
-      <div class="footer-col">
-        <h5>Contact us</h5>
-        <ul>
-          <li><a href="contact.html">Sales &amp; Quotes</a></li>
-          <li><a href="contact.html#support">Technical support</a></li>
-          <li><a href="contact.html#press">Press inquiries</a></li>
-          <li><a href="contact.html#careers">Careers</a></li>
-        </ul>
-        <div style="margin-top: var(--sp-6); color: var(--c-text-mute); font-size: var(--fs-13);">
-          <div>No. 18, Lighting Industrial Park</div>
-          <div>Guangzhou, China 511400</div>
-          <div style="margin-top: 8px;"><a href="mailto:hello@mokasfx.com" style="color: var(--c-accent);">hello@mokasfx.com</a></div>
-        </div>
-      </div>
+      </nav>
     </div>
 
     <div class="footer-bottom">
-      <div>&copy; 2026 MOKA SFX LIGHT Co., Ltd. All rights reserved.</div>
-      <div class="legal">
-        <a href="privacy.html">Privacy</a>
-      </div>
+      <div>MOKA LITE LTD. &copy; 2026. All Rights Reserved</div>
     </div>
   </div>
 </footer>

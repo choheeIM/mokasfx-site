@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact MOKA LITE - B2B Stage Lighting Inquiry</title>
+<meta name="description" content="Send a B2B inquiry to MOKA LITE for stage lighting products, OEM projects, event solutions and export-ready quotation support.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav">
+    <a href="index.html" class="brand" aria-label="MOKA LITE home">
+      <img src="assets/img/mokasfx-logo.png" alt="MOKA LITE">
+    </a>
+
+    <nav class="nav-list" aria-label="Primary">
+      <div class="nav-item"><a class="nav-link" href="index.html">Home</a></div>
+      <div class="nav-item"><a class="nav-link" href="products.html">Products</a></div>
+      <div class="nav-item"><a class="nav-link" href="solutions.html">Solutions</a></div>
+      <div class="nav-item"><a class="nav-link" href="cases.html">Projects</a></div>
+      <div class="nav-item"><a class="nav-link" href="resources.html">Resources</a></div>
+      <div class="nav-item"><a class="nav-link is-active" href="#inquiry">Contact us</a></div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-header">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a><span class="sep">/</span><span>Contact</span></div>
+      <h1>Start your B2B stage lighting inquiry</h1>
+      <p>Send project details for moving heads, beam lights, lasers, strobes and complete venue solutions.</p>
+    </div>
+  </section>
+
+  <section class="section inquiry-section" id="inquiry" aria-labelledby="contact-inquiry-title">
+    <div class="container inquiry-layout">
+      <div class="inquiry-copy">
+        <span class="eyebrow">Inquiry Form</span>
+        <h2 id="contact-inquiry-title">Get export-ready support</h2>
+        <p>Tell us your product needs, quantity, event timing and country. We will review the request and prepare a practical next step.</p>
+        <ul class="inquiry-points" aria-label="Inquiry support">
+          <li>Manufacturer-direct quotation</li>
+          <li>OEM and ODM project consultation</li>
+          <li>Shipping and warranty coordination</li>
+        </ul>
+      </div>
+
+      <form class="inquiry-form" data-inquiry-form novalidate>
+        <div class="form-feedback" data-form-feedback role="status" aria-live="polite"></div>
+
+        <div class="inquiry-field row-2">
+          <div class="field-control">
+            <label for="contact-inquiry-name">Name <span class="required" aria-hidden="true">*</span></label>
+            <input id="contact-inquiry-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required data-error-required="Please enter your name.">
+            <p class="field-error" data-error-for="name"></p>
+          </div>
+          <div class="field-control">
+            <label for="contact-inquiry-email">Email <span class="required" aria-hidden="true">*</span></label>
+            <input id="contact-inquiry-email" name="email" type="email" autocomplete="email" placeholder="name@company.com" required data-error-required="Please enter your email." data-error-format="Please enter a valid email address.">
+            <p class="field-error" data-error-for="email"></p>
+          </div>
+        </div>
+
+        <div class="inquiry-field row-2">
+          <div class="field-control">
+            <label for="contact-inquiry-phone">Phone <span class="required" aria-hidden="true">*</span></label>
+            <input id="contact-inquiry-phone" name="phone" type="tel" autocomplete="tel" placeholder="+1 312 847 1928" required data-error-required="Please enter your phone number." data-error-format="Use an international phone format, for example +86 189 9881 8260.">
+            <p class="field-error" data-error-for="phone"></p>
+          </div>
+          <div class="field-control">
+            <label for="contact-inquiry-country">Country / Region</label>
+            <select id="contact-inquiry-country" name="country" autocomplete="country-name">
+              <option value="">Select country / region</option>
+              <option>United States</option>
+              <option>United Kingdom</option>
+              <option>Germany</option>
+              <option>France</option>
+              <option>Spain</option>
+              <option>Italy</option>
+              <option>United Arab Emirates</option>
+              <option>Saudi Arabia</option>
+              <option>India</option>
+              <option>Vietnam</option>
+              <option>Thailand</option>
+              <option>Malaysia</option>
+              <option>Philippines</option>
+              <option>Indonesia</option>
+              <option>Brazil</option>
+              <option>Mexico</option>
+              <option>Australia</option>
+              <option>Other</option>
+            </select>
+            <p class="field-error" data-error-for="country"></p>
+          </div>
+        </div>
+
+        <div class="inquiry-field other-country-field" data-other-country-field hidden>
+          <label for="contact-inquiry-country-other">Other Country <span class="required" aria-hidden="true">*</span></label>
+          <input id="contact-inquiry-country-other" name="countryOther" type="text" autocomplete="country-name" placeholder="Please enter your country." data-error-required="Please enter your country.">
+          <p class="field-error" data-error-for="countryOther"></p>
+        </div>
+
+        <div class="inquiry-field">
+          <label for="contact-inquiry-details">Project Details <span class="required" aria-hidden="true">*</span></label>
+          <textarea id="contact-inquiry-details" name="projectDetails" rows="6" placeholder="Tell us the product type, quantity, event date, venue size or special requirements." required data-error-required="Please describe your project details."></textarea>
+          <p class="field-error" data-error-for="projectDetails"></p>
+        </div>
+
+        <div class="form-submit-row">
+          <button class="btn btn-primary" type="submit" data-submit-label="Send Inquiry">Send Inquiry</button>
+          <p>Required fields are marked with <span class="required" aria-hidden="true">*</span>.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container contact-grid">
+      <div class="contact-card">
+        <h3>Sales contact</h3>
+        <div class="info-row">
+          <span class="ico" aria-hidden="true">WA</span>
+          <div><div class="lbl">WhatsApp</div><div class="val">+86 18998818260</div></div>
+        </div>
+        <div class="info-row">
+          <span class="ico" aria-hidden="true">@</span>
+          <div><div class="lbl">Email</div><div class="val"><a href="mailto:info@mokasfx.com">info@mokasfx.com</a></div></div>
+        </div>
+        <div class="info-row">
+          <span class="ico" aria-hidden="true">CN</span>
+          <div><div class="lbl">Address</div><div class="val">501, Building N, No. 46 Shangsheng East St, Baiyun District, Guangzhou, Guangdong, China 510440</div></div>
+        </div>
+      </div>
+
+      <div class="contact-card" id="support">
+        <h3>What to include</h3>
+        <div class="info-row">
+          <span class="ico" aria-hidden="true">01</span>
+          <div><div class="lbl">Product scope</div><div class="val">Product model, fixture type, quantity and voltage requirement.</div></div>
+        </div>
+        <div class="info-row">
+          <span class="ico" aria-hidden="true">02</span>
+          <div><div class="lbl">Project context</div><div class="val">Venue type, installation schedule, event date and target budget.</div></div>
+        </div>
+        <div class="info-row">
+          <span class="ico" aria-hidden="true">03</span>
+          <div><div class="lbl">Logistics</div><div class="val">Destination country, preferred shipping mode and after-sales requirements.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <h2>MOKA LITE LIGHTING FOR HAPPINESS</h2>
+      <a class="footer-contact-btn" href="#inquiry">Contact Us <span aria-hidden="true">&rarr;</span></a>
+    </div>
+
+    <div class="footer-main">
+      <div class="footer-contact">
+        <a href="index.html" class="footer-logo"><img src="assets/img/mokasfx-logo.png" alt="MOKA LITE"></a>
+        <ul class="footer-contact-list">
+          <li><span aria-hidden="true">☎</span> WhatsApp: +86 18998818260</li>
+          <li><span aria-hidden="true">✉</span> <a href="mailto:info@mokasfx.com">info@mokasfx.com</a></li>
+          <li><span aria-hidden="true">📍</span> 501, Building N, No. 46 Shangsheng East St, Baiyun District, Guangzhou, Guangdong, China 510440</li>
+        </ul>
+        <div class="footer-socials">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="TikTok">TK</a>
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <div class="footer-map">
+        <iframe
+          title="MOKA LITE Guangzhou location"
+          src="https://www.google.com/maps?q=501%2C%20Building%20N%2C%20No.%2046%20Shangsheng%20East%20St%2C%20Baiyun%20District%2C%20Guangzhou%2C%20Guangdong%2C%20China%20510440&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </div>
+
+      <nav class="footer-col footer-nav-main" aria-label="Footer main links">
+        <h5>Main</h5>
+        <ul>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="solutions.html">Solutions</a></li>
+          <li><a href="cases.html">Projects</a></li>
+          <li><a href="blog.html">Blogs</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col footer-nav-support" aria-label="Footer support links">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="about.html">About MOKA LITE</a></li>
+          <li><a href="#support">Terms of Service</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="#support">Warranty &amp; Return</a></li>
+          <li><a href="cases.html">Watch More Videos</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <div>MOKA LITE LTD. &copy; 2026. All Rights Reserved</div>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
