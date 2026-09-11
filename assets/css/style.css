@@ -3,6 +3,70 @@
    Palette: Gunmetal #1b1b1b + Amber Yellow #FFC600
    ============================================================ */
 
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-Thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-UltraLight.otf") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-UltraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Generator";
+  src: url("../fonts/Generator-Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --c-bg: #1b1b1b;
   --c-bg-2: #141414;
@@ -16,7 +80,9 @@
   --c-accent: #FFC600;
   --c-accent-2: #ffd84d;
   --c-accent-3: #b88d00;
-  --ff-sans: "Inter", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --ff-sans: "Generator", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-body: var(--ff-sans);
+  --font-mono: var(--ff-sans);
   /* body text bumped +2px project-wide (2026-08-26): fs-13→15, fs-14→16, fs-15→17, fs-16→18, fs-17→19, fs-18→20 */
   --fs-12: 12px; --fs-13: 15px; --fs-14: 16px; --fs-15: 17px; --fs-16: 18px;
   --fs-18: 20px; --fs-20: 22px; --fs-24: 24px; --fs-28: 28px; --fs-32: 32px;
