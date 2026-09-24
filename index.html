@@ -16,15 +16,33 @@
       <img src="assets/img/mokasfx-logo.png" alt="MOKA LITE">
     </a>
 
-    <nav class="nav-list" aria-label="Primary">
+    <nav class="nav-list" id="primaryNav" aria-label="Primary">
       <div class="nav-item"><a class="nav-link is-active" href="index.html">Home</a></div>
 
       <div class="nav-item has-mega" data-mega="mega-products">
         <a class="nav-link" href="products.html">Products <span class="caret" aria-hidden="true"></span></a>
+        <div class="nav-sub">
+          <a href="products/waterproof-light/">Waterproof Light</a>
+          <a href="products/beam-light/">Beam Light</a>
+          <a href="products/wash-light/">Wash Light</a>
+          <a href="products/laser-light/">Laser Light</a>
+          <a href="products/kinetic-light/">Kinetic Light</a>
+          <a href="products/effect-light/">Effect Light</a>
+          <a href="products/par-light/">Par Light</a>
+          <a href="products/led-dance-floor/">LED Dance Floor</a>
+          <a href="products/led-screen/">LED Screen</a>
+        </div>
       </div>
 
       <div class="nav-item has-mega" data-mega="mega-solutions">
         <a class="nav-link" href="solutions.html">Solutions <span class="caret" aria-hidden="true"></span></a>
+        <div class="nav-sub">
+          <a href="solutions/bar-nightclub/">Bar &amp; Nightclub</a>
+          <a href="solutions/multipurpose-hall/">Multipurpose Hall</a>
+          <a href="solutions/church-stage/">Church Stage</a>
+          <a href="solution-detail.html">Indoor Stage</a>
+          <a href="solutions/outdoor-stage/">Outdoor Stage</a>
+        </div>
       </div>
 
       <!-- <div class="nav-item"><a class="nav-link" href="cases.html">Projects</a></div> -->
@@ -48,6 +66,10 @@
       <div class="nav-item"><a class="nav-link" href="contact.html#inquiry">Contact us</a></div>
     </nav>
 
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+
     <!-- <div class="nav-actions">
       <button class="nav-search" type="button" aria-label="Search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -69,21 +91,21 @@
         <section class="products-menu-panel">
           <h4 class="products-menu-panel-title">Stage Lights</h4>
           <ul class="products-menu-panel-list">
-            <li><a href="products.html?cat=waterproof">Waterproof Light</a></li>
-            <li><a href="products.html?cat=beam">Beam Light</a></li>
-            <li><a href="products.html?cat=wash">Wash Light</a></li>
-            <li><a href="products.html?cat=laser">Laser Light</a></li>
-            <li><a href="products.html?cat=kinetic">Kinetic Light</a></li>
-            <li><a href="products.html?cat=effect">Effect Light</a></li>
-            <li><a href="products.html?cat=par">Par Light</a></li>
+            <li><a href="products/waterproof-light/">Waterproof Light</a></li>
+            <li><a href="products/beam-light/">Beam Light</a></li>
+            <li><a href="products/wash-light/">Wash Light</a></li>
+            <li><a href="products/laser-light/">Laser Light</a></li>
+            <li><a href="products/kinetic-light/">Kinetic Light</a></li>
+            <li><a href="products/effect-light/">Effect Light</a></li>
+            <li><a href="products/par-light/">Par Light</a></li>
           </ul>
         </section>
 
         <section class="products-menu-panel">
           <h4 class="products-menu-panel-title">Led Panels</h4>
           <ul class="products-menu-panel-list">
-            <li><a href="products.html?cat=led-dance">LED Dance Floor</a></li>
-            <li><a href="products.html?cat=led-screen">LED Screen</a></li>
+            <li><a href="products/led-dance-floor/">LED Dance Floor</a></li>
+            <li><a href="products/led-screen/">LED Screen</a></li>
           </ul>
         </section>
       </div>
@@ -94,50 +116,21 @@
   <!-- Solutions mega -->
   <div class="mega" id="mega-solutions" role="region" aria-label="Solutions mega menu">
     <div class="container mega-inner">
-      <div class="mega-grid">
-        <div class="mega-col">
-          <h4><span class="dot"></span> Live &amp; Touring</h4>
-          <ul class="mega-list">
-            <li><a href="solution-detail.html">Concerts &amp; Tours</a></li>
-            <li><a href="solutions.html?cat=festival">Music Festivals</a></li>
-            <li><a href="solutions.html?cat=dj">DJ Sets &amp; Clubs</a></li>
-            <li><a href="solutions.html?cat=racks">Tour-Ready Racks</a></li>
-          </ul>
+      <ul class="mega-scenarios">
+        <li><a href="solutions/bar-nightclub/">Bar &amp; Nightclub</a></li>
+        <li><a href="solutions/multipurpose-hall/">Multipurpose Hall</a></li>
+        <li><a href="solutions/church-stage/">Church Stage</a></li>
+        <li><a href="solution-detail.html">Indoor Stage</a></li>
+        <li><a href="solutions/outdoor-stage/">Outdoor Stage</a></li>
+      </ul>
+      <div class="mega-feature">
+        <div class="mega-feature-copy">
+          <h3>Have Any Questions?</h3>
+          <p>Experts in modern stage lighting &mdash; tell us about your venue.</p>
+          <a class="feature-cta" href="contact.html#inquiry">Get Free Quote <span aria-hidden="true">&rarr;</span></a>
         </div>
-        <div class="mega-col">
-          <h4><span class="dot"></span> Stage &amp; Theater</h4>
-          <ul class="mega-list">
-            <li><a href="solutions.html?cat=theater">Theaters &amp; Drama</a></li>
-            <li><a href="solutions.html?cat=worship">Houses of Worship</a></li>
-            <li><a href="solutions.html?cat=tv">TV &amp; Broadcast Studios</a></li>
-            <li><a href="solutions.html?cat=ceremony">Awards &amp; Ceremonies</a></li>
-          </ul>
-        </div>
-        <div class="mega-col">
-          <h4><span class="dot"></span> Events &amp; Venues</h4>
-          <ul class="mega-list">
-            <li><a href="solutions.html?cat=wedding">Weddings &amp; Banquets</a></li>
-            <li><a href="solutions.html?cat=corporate">Corporate Events</a></li>
-            <li><a href="solutions.html?cat=nightclub">Nightclubs</a></li>
-            <li><a href="solutions.html?cat=themepark">Theme Parks</a></li>
-          </ul>
-        </div>
-        <div class="mega-col">
-          <h4><span class="dot"></span> Permanent Install</h4>
-          <ul class="mega-list">
-            <li><a href="solutions.html?cat=bar">Bars &amp; Lounges</a></li>
-            <li><a href="solutions.html?cat=facade">Architectural Facade</a></li>
-            <li><a href="solutions.html?cat=hotel">Hotels &amp; Resorts</a></li>
-            <li><a href="solutions.html?cat=retail">Retail Showrooms</a></li>
-          </ul>
-        </div>
+        <img class="mega-feature-img" src="assets/img/solutions/solutions-performance.jpg" alt="Concert stage with blue lighting beams" width="1200" height="840" decoding="async">
       </div>
-      <a class="mega-feature" href="solution-detail.html">
-        <span class="feature-eyebrow">Project Study</span>
-        <h3>Tour-ready rack packages, pre-cabled &amp; pre-addressed</h3>
-        <p>Shipped in flight cases &mdash; load-in, power up, patch the console, play.</p>
-        <span class="feature-cta">See the system &rarr;</span>
-      </a>
     </div>
   </div>
 </header>
@@ -384,7 +377,7 @@
             </button>
             <div class="products-accordion-panel">
               <p>From powerful moving heads to rugged static washes, our fixtures are the workhorses of the industry, engineered for uncompromising performance and creative freedom.</p>
-              <a class="products-accordion-link" href="products.html?cat=fixture">Browse Fixture &rarr;</a>
+              <a class="products-accordion-link" href="products.html">Browse Fixture &rarr;</a>
             </div>
           </li>
           <li class="products-accordion-item">
@@ -394,7 +387,7 @@
             </button>
             <div class="products-accordion-panel">
               <p>Modular LED panels, dance floors and video walls with pixel-perfect calibration and rental-ready rigging.</p>
-              <a class="products-accordion-link" href="products.html?cat=led">Browse LED Displays &rarr;</a>
+              <a class="products-accordion-link" href="products.html">Browse LED Displays &rarr;</a>
             </div>
           </li>
           <li class="products-accordion-item">
@@ -404,7 +397,7 @@
             </button>
             <div class="products-accordion-panel">
               <p>Tour-grade fog, hazers, CO2 jets, confetti cannons and cold-spark machines tuned for indoor and outdoor stages.</p>
-              <a class="products-accordion-link" href="products.html?cat=atmo">Browse Atmospherics &rarr;</a>
+              <a class="products-accordion-link" href="products.html">Browse Atmospherics &rarr;</a>
             </div>
           </li>
           <li class="products-accordion-item">
@@ -414,7 +407,7 @@
             </button>
             <div class="products-accordion-panel">
               <p>Consoles, Art-Net / sACN nodes, splitters and wireless DMX for rigs from a 24-channel club to a 1,000-universe festival.</p>
-              <a class="products-accordion-link" href="products.html?cat=control">Browse Control &rarr;</a>
+              <a class="products-accordion-link" href="products.html">Browse Control &rarr;</a>
             </div>
           </li>
           <li class="products-accordion-item">
@@ -424,7 +417,7 @@
             </button>
             <div class="products-accordion-panel">
               <p>Tour-grade power distro, hot-power cabling and rack-mount protection that keeps the show running through the encore.</p>
-              <a class="products-accordion-link" href="products.html?cat=power">Browse Power &rarr;</a>
+              <a class="products-accordion-link" href="products.html">Browse Power &rarr;</a>
             </div>
           </li>
           <li class="products-accordion-item">
@@ -434,7 +427,7 @@
             </button>
             <div class="products-accordion-panel">
               <p>Truss clamps, safety cables, flight cases and rigging hardware engineered to fit our fixtures out of the box.</p>
-              <a class="products-accordion-link" href="products.html?cat=accessory">Browse Accessory &rarr;</a>
+              <a class="products-accordion-link" href="products.html">Browse Accessory &rarr;</a>
             </div>
           </li>
         </ul>
@@ -788,15 +781,6 @@
           <a href="#" aria-label="YouTube">▶</a>
           <a href="#" aria-label="LinkedIn">in</a>
         </div>
-      </div>
-
-      <div class="footer-map">
-        <iframe
-          title="MOKA LITE Guangzhou location"
-          src="https://www.google.com/maps?q=501%2C%20Building%20N%2C%20No.%2046%20Shangsheng%20East%20St%2C%20Baiyun%20District%2C%20Guangzhou%2C%20Guangdong%2C%20China%20510440&output=embed"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen></iframe>
       </div>
 
       <nav class="footer-col footer-nav-main" aria-label="Footer main links">
