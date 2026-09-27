@@ -140,17 +140,116 @@ const CATEGORIES = [
  * pages, pagination, counts, sitemap and the CSV export all update.
  */
 const TONES = ["Pro", "Tour", "Studio", "Venue", "Matrix"];
-const PRODUCTS = Array.from({ length: 45 }, (_, index) => {
-  const category = CATEGORIES[index % CATEGORIES.length];
-  const number = String(index + 1).padStart(2, "0");
-  return {
-    id: `moka-${category.slug}-${number}`,
-    name: `MOKA ${TONES[index % TONES.length]} ${category.type} ${number}`,
+
+/** Confirmed model names per category (spreadsheet order). Categories not
+ *  listed keep generated placeholder names until their lineup is confirmed. */
+const REAL_NAMES = {
+  "beam-light": [
+    "BEAM X300",
+    "BEAM X500",
+    "BEAM X295",
+    "BEAM X382",
+    "FUSION 250",
+    "FUSION 380",
+    "FUSION 400 CMY",
+    "FUSION 500 CMY",
+    "PROFILE X600",
+    "PROFILE X800",
+    "FUSION 380 WP",
+    "FUSION 600 WP",
+    "FUSION 380 WP Pro",
+  ],
+  "wash-light": ["AURA B1915", "AURA B740", "AURA Z1940", "AURA Z3740", "AURA Z1915", "AURA Z740", "AURA Z1940 WP"],
+  "par-light": [
+    "PULSE 618 AIR",
+    "PULSE 1818 X6",
+    "PULSE 1218 WP",
+    "PULSE 1818 WP",
+    "PULSE 740 WP",
+    "BLINDER C200 X4",
+    "BLINDER 2100 FX",
+    "BLINDER 4100 RGB LINK",
+    "BLINDER 2100 WP",
+    "BLINDER 4100 WP",
+    "BLINDER 2300 WP",
+  ],
+  "waterproof-light": [
+    "Mini 381 waterproof moving beam",
+    "Waterproof 600W BSW",
+    "380 Beam Wash Spot beam 4in1",
+    "AURA Z1940 WP",
+    "MOTION BAR 1818 WP",
+    "MOTION STROBE 600 WP",
+    "CITY 3230 WP",
+    "CITY 6010 WP",
+    "CITY 8020 WP",
+    "STROBE 1200 MOVE WP",
+    "STROBE 3000 RGB WP",
+    "STROBE 1080 PIXEL WP",
+    "PULSE 1218 WP",
+    "PULSE 1818 WP",
+    "PULSE 740 WP",
+    "BLINDER 2100 WP",
+    "BLINDER 4100 WP",
+    "BLINDER 2300 WP",
+  ],
+  "laser-light": ["LASER RGB10", "LASER RGB30 WP", "LASER RGB60 WP"],
+  /* Cleared pending real lineups — empty array = no placeholder products. */
+  "kinetic-light": [],
+  "led-dance-floor": [],
+  "led-screen": [],
+  "effect-light": [
+    "STROBE 3000",
+    "STROBE 3000 RGB",
+    "STROBE 1200 MOVE WP",
+    "STROBE 3000 RGB WP",
+    "STROBE 1080 PIXEL WP",
+    "CITY 3230 WP",
+    "CITY 6010 WP",
+    "CITY 8020 WP",
+    "MOTION BAR 1818",
+    "MOTION BAR 1830",
+    "MOTION PIXEL 640",
+    "MOTION PIXEL 1260",
+    "MOTION FLEX 5120",
+    "MOTION FLEX 1240",
+    "MOTION FLEX 1060",
+    "MOTION BAR 1818 WP",
+    "MOTION STROBE 600 WP",
+    "VINTAGE-6 VERTICAL 3IN1",
+    "VINTAGE-7 ROUND 3IN1",
+    "MINI VINTAGE-7 ROUND",
+    "36 x15W matrices",
+    "LED Matrix Blinder Light",
+  ],
+};
+
+const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+/* Per-category lineups interleaved round-robin, so the all-products page
+   mixes categories the same way the old generated catalog did. */
+const lineups = CATEGORIES.map((category, ci) => {
+  const real = REAL_NAMES[category.slug];
+  const names = real || Array.from({ length: 5 }, (_, i) => `MOKA ${TONES[(ci + i) % TONES.length]} ${category.type} ${String(i + 1).padStart(2, "0")}`);
+  return names.map((name, i) => ({
+    id: `moka-${real ? slugify(name) : `${category.slug}-${String(i + 1).padStart(2, "0")}`}`,
+    name,
     category: category.slug,
-    image: IMAGE_POOL[index % IMAGE_POOL.length],
+    image: IMAGE_POOL[(ci + i) % IMAGE_POOL.length],
     description: category.blurb,
-  };
+  }));
 });
+const PRODUCTS = [];
+for (let i = 0; ; i += 1) {
+  let added = false;
+  for (const lineup of lineups) {
+    if (lineup[i]) {
+      PRODUCTS.push(lineup[i]);
+      added = true;
+    }
+  }
+  if (!added) break;
+}
 
 const ALL_LISTING = {
   slug: "all",
@@ -315,7 +414,7 @@ function footer(prefix) {
         <a href="${prefix}index.html" class="footer-logo"><img src="${prefix}assets/img/mokasfx-logo.png" alt="MOKA LITE"></a>
         <ul class="footer-contact-list">
           <li><span aria-hidden="true">☎</span> WhatsApp: +86 18998818260</li>
-          <li><span aria-hidden="true">✉</span> <a href="mailto:info@mokasfx.com">info@mokasfx.com</a></li>
+          <li><span aria-hidden="true">✉</span> <a href="mailto:info@mokalite.com">info@mokalite.com</a></li>
           <li><span aria-hidden="true">📍</span> 501, Building N, No. 46 Shangsheng East St, Baiyun District, Guangzhou, Guangdong, China 510440</li>
         </ul>
         <div class="footer-socials">
@@ -376,7 +475,6 @@ function productCard(prefix, product, category) {
             <div class="product-card-body">
               <span class="product-card-category">${category.label}</span>
               <h3 itemprop="name">${product.name}</h3>
-              <p itemprop="description">${esc(product.description)}</p>
               <a class="product-card-link" href="${detail}">View Details <span aria-hidden="true">&rarr;</span></a>
             </div>
           </article>`;
@@ -455,6 +553,7 @@ function listingPage(listing, page) {
 
   const rangeStart = (page - 1) * PAGE_SIZE + 1;
   const rangeEnd = Math.min(page * PAGE_SIZE, totalItems);
+  const countText = totalItems ? `Showing ${rangeStart}-${rangeEnd} of ${totalItems} products` : "0 products";
 
   const crumbs =
     slug === "all"
@@ -486,18 +585,9 @@ function listingPage(listing, page) {
   ].filter(Boolean).join("\n");
 
   const cards = items.map((p) => productCard(prefix, p, categoryOf(p.category))).join("\n          ");
-
-  const crossLinks =
-    slug !== "all" && page === 1
-      ? `<nav class="products-related" aria-label="Other product categories">
-        <h2>Explore other categories</h2>
-        <ul>
-${CATEGORIES.filter((c) => c.slug !== slug)
-  .map((c) => `            <li><a href="../${c.slug}/"><strong>${c.label}</strong><span>${c.blurb}</span></a></li>`)
-  .join("\n")}
-        </ul>
-      </nav>`
-      : "";
+  const gridContent = items.length
+    ? cards
+    : `<p class="products-empty">This category is being updated — <a href="${prefix}contact.html#inquiry">ask us for the current lineup</a>.</p>`;
 
   const legacyRedirect =
     slug === "all" && page === 1
@@ -578,18 +668,16 @@ ${header(prefix, slug)}
           <span class="eyebrow">${listing.group}</span>
           <h2 id="products-collection-title">${listing.label}</h2>
         </div>
-        <p>Showing ${rangeStart}-${rangeEnd} of ${totalItems} products</p>
+        <p>${countText}</p>
       </div>
 
       ${filterBar(prefix, slug)}
 
       <div class="products-grid">
-          ${cards}
+          ${gridContent}
       </div>
 
       ${pagination(prefix, slug, page, totalPages)}
-
-      ${crossLinks}
     </div>
   </section>
 </main>
@@ -597,6 +685,8 @@ ${header(prefix, slug)}
 <!-- ============================ FOOTER ============================ -->
 ${footer(prefix)}
 <script src="${prefix}assets/js/core/utils.js"></script>
+<script src="${prefix}assets/js/vendor/lenis.min.js"></script>
+<script src="${prefix}assets/js/core/smooth-scroll.js"></script>
 <script src="${prefix}assets/js/core/site.js"></script>
 </body>
 </html>

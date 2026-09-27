@@ -21,41 +21,6 @@
       });
     });
 
-    // ----- Solutions overview: filter image cards by selected category -----
-    const ovItems = document.querySelectorAll('.solutions-overview-item');
-    const ovGrid = document.querySelector('.solutions-overview-grid');
-    if (ovItems.length && ovGrid) {
-      const cards = ovGrid.querySelectorAll('.solutions-overview-card');
-      const apply = (cat) => {
-        ovGrid.dataset.active = cat;
-        cards.forEach((card) => {
-          const show = card.dataset.category === cat;
-          card.classList.toggle('is-hidden', !show);
-        });
-        const visible = Array.from(cards).filter((c) => !c.classList.contains('is-hidden'));
-        visible.forEach((card, idx) => {
-          card.classList.toggle('span-2', idx === 0);
-        });
-      };
-      const initial = document.querySelector('.solutions-overview-item.is-active') || ovItems[0];
-      apply(initial.dataset.category);
-      ovItems.forEach((item) => {
-        item.tabIndex = 0;
-        item.setAttribute('role', 'button');
-        item.addEventListener('click', () => {
-          if (window.matchMedia('(max-width: 1100px)').matches) return;
-          ovItems.forEach((it) => it.classList.toggle('is-active', it === item));
-          apply(item.dataset.category);
-        });
-        item.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            item.click();
-          }
-        });
-      });
-    }
-
     // ----- Products overview accordion -----
     const accItems = document.querySelectorAll('.products-accordion-item');
     accItems.forEach((item) => {

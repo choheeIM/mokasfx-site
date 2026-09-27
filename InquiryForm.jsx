@@ -100,7 +100,7 @@ export default function InquiryForm({ onSubmit }) {
     } catch (error) {
       setStatus({
         type: "error",
-        message: "Submission failed. Please try again or email info@mokasfx.com.",
+        message: "Submission failed. Please try again or email info@mokalite.com.",
       });
     } finally {
       setSubmitting(false);

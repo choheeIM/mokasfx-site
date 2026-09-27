@@ -15,7 +15,8 @@
     // ----- Same-page anchor smooth scrolling -----
     // A CSS `scroll-behavior: smooth` on the root breaks the browser's native
     // scroll restoration on back/forward, so smooth scrolling is applied only
-    // to user-initiated same-page anchor clicks.
+    // to user-initiated same-page anchor clicks. When Lenis is running
+    // (smooth-scroll.js), anchors glide through it to match wheel scrolling.
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.addEventListener("click", (e) => {
       const link = e.target.closest('a[href^="#"]');
@@ -25,7 +26,12 @@
       const target = document.querySelector(hash);
       if (!target) return;
       e.preventDefault();
-      target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      const smoothScroll = window.MokaLightSmoothScroll;
+      if (!reduceMotion && smoothScroll && smoothScroll.active) {
+        smoothScroll.scrollTo(target);
+      } else {
+        target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      }
       history.pushState(null, "", hash);
     });
 

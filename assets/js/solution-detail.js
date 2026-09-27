@@ -28,8 +28,8 @@
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
   }
 
-  /* ---------- one-shot inview triggers (fit table, scope table) ---------- */
-  ["sd-fit", "sd-scope"].forEach(function (cls) {
+  /* ---------- one-shot inview triggers (fit table) ---------- */
+  ["sd-fit"].forEach(function (cls) {
     var el = document.querySelector("." + cls);
     if (!el) return;
     if ("IntersectionObserver" in window) {

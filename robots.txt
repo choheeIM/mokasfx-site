@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: /sitemap-products.xml
+Sitemap: /sitemap-blog.xml

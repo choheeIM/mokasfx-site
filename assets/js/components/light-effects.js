@@ -37,6 +37,8 @@
         let ticking = false;
         let flashOn = false;
         let flashFrames = 0;
+        let sawHeroOnScroll = false;
+        let fromEvent = false;
 
         const setMask = (opacity, spotSize, featherScale, warm = 0, rim = 0) => {
           const featherSoft = 8 * featherScale;
@@ -55,8 +57,7 @@
         const updateScrollLighting = () => {
           ticking = false;
 
-          const active = !mobileQuery.matches;
-          categoriesStage.classList.toggle("light-stage-active", active);
+          const active = !mobileQuery.matches;categoriesStage.classList.toggle("light-stage-active", active);
           if (!active) {
             // No light animation on mobile
             categoriesStage.classList.remove("is-hidden");
@@ -71,7 +72,12 @@
           const closingProgress = clamp(-stageRect.top / closeDistance);
 
           if (closingProgress < 0.99 && catRect.top > 0) {
-            // Hero lights-off: stays lit most of the scroll, snaps shut at the end
+            // Hero lights-off: stays lit most of the scroll, snaps shut at the end.
+            // Only a hero phase seen during a real scroll/resize event arms the
+            // blackout — the initial onReady render must not, because browser
+            // scroll restoration can fire after it and would look like a
+            // hero→categories transition that never happened.
+            if (fromEvent) sawHeroOnScroll = true;
             categoriesStage.classList.add("is-hidden");
             flashOn = false;
             flashFrames = 0;
@@ -91,6 +97,16 @@
           const pinDistance = Math.max(0, categoriesStage.offsetHeight - viewportH);
           const pinProgress = clamp(-catRect.top / Math.max(1, pinDistance));
 
+          if (!flashOn) {
+            // Entry decision (first flashlight frame after the hero phase):
+            // the blackout hold is the hero→categories transition, so play it
+            // only when scrolled in from the hero at the section boundary.
+            // A restored or jumped scroll position lands deeper and skips
+            // straight to the lit state instead of holding black.
+            if (flashFrames === 0 && (!sawHeroOnScroll || pinProgress >= 0.01)) {
+              flashOn = true;
+            }
+          }
           if (!flashOn) {
             // Hold the full blackout for blackoutFrames, then snap the light on
             flashFrames += 1;
@@ -120,6 +136,7 @@
         const requestScrollLighting = () => {
           if (!ticking) {
             ticking = true;
+            fromEvent = true;
             window.requestAnimationFrame(updateScrollLighting);
           }
         };
@@ -163,9 +180,13 @@
           const rect = scrollSection.getBoundingClientRect();
           const range = Math.max(1, scrollSection.offsetHeight - window.innerHeight);
           const p = Math.min(1, Math.max(0, -rect.top / range));
-          const lightExit = Math.min(1, Math.max(0, (p - 0.65) / 0.35));
+          // Texts cycle in the first 60% of the scroll and the third one holds
+          // fully visible; the spotlight beams stay wide open until 78%, then
+          // collapse over the final 22% as the section is about to release.
+          const orbitP = Math.min(1, p / 0.6);
+          const lightExit = Math.min(1, Math.max(0, (p - 0.78) / 0.22));
           const itemAngles = [34, 0, -34];
-          const orbitAngle = -34 + p * 68;
+          const orbitAngle = -34 + orbitP * 68;
           let activeIndex = 0;
           let activeDistance = Infinity;
 
