@@ -229,7 +229,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 26px 24px 20px;
+  align-items: center;
+  text-align: center;
+  padding: 30px 24px 24px;
   background: var(--c-bg-soft);
   border: 1px solid var(--c-line);
   border-radius: var(--radius-lg);
@@ -250,22 +252,19 @@
 .sd-risk-card:hover::before { color: var(--accent); }
 
 .sd-risk-icon {
-  width: 54px;
-  height: 54px;
+  width: 148px;
+  height: 118px;
   display: grid;
   place-items: center;
-  margin-bottom: 18px;
-  border-radius: 14px;
+  margin: 4px 0 22px;
   color: var(--accent);
-  background: rgba(255, 198, 0, 0.08);
-  border: 1px solid rgba(255, 198, 0, 0.2);
-  transition: background 0.3s, border-color 0.3s;
+  transition: filter 0.3s, transform 0.3s;
 }
 .sd-risk-card:hover .sd-risk-icon {
-  background: rgba(255, 198, 0, 0.15);
-  border-color: rgba(255, 198, 0, 0.45);
+  filter: drop-shadow(0 0 14px rgba(255, 198, 0, 0.35));
+  transform: translateY(-2px);
 }
-.sd-risk-icon svg { width: 28px; height: 28px; display: block; }
+.sd-risk-icon svg { width: 100%; height: 100%; display: block; }
 
 .sd-risk-card > h3 {
   margin: 0 0 10px;

@@ -17,10 +17,13 @@
       const maxSpotSize = 82;
       const flashlightMin = 15;
       const flashlightMax = 96;
-      // 全黑停留帧数：60Hz 屏每帧 ≈16.7ms（15帧≈250ms），120Hz 屏翻倍速度，想要更久就调大
-      const blackoutFrames = 1000;
-      // 初始光圈停留：滚动进度(0~1)低于此值时光圈保持不动，越大停留越久
-      const flashlightHoldEnd = 0.85;
+      // Blackout hold length: the scroll distance (fraction of viewport height)
+      // the screen stays fully black between lights-off and the flashlight
+      // snapping on. Everything is a pure function of scroll position — no
+      // timers — so fast scrolling fast-forwards the effect instead of
+      // trapping the user in the dark while the page moves on behind the mask.
+      // Keep in sync with .hero-light-stage height in style.css.
+      const BLACKOUT_VH = 0.3;
       const factoryText = categoriesStage.querySelector(".factory-intro-text");
       const scrollLightMask = document.createElement("div");
       scrollLightMask.className = "scroll-light-mask";
@@ -35,10 +38,6 @@
         scrollLightMask.style.setProperty("--scroll-spot-feather-end", "52vmax");
       } else {
         let ticking = false;
-        let flashOn = false;
-        let flashFrames = 0;
-        let sawHeroOnScroll = false;
-        let fromEvent = false;
 
         const setMask = (opacity, spotSize, featherScale, warm = 0, rim = 0) => {
           const featherSoft = 8 * featherScale;
@@ -57,7 +56,8 @@
         const updateScrollLighting = () => {
           ticking = false;
 
-          const active = !mobileQuery.matches;categoriesStage.classList.toggle("light-stage-active", active);
+          const active = !mobileQuery.matches;
+          categoriesStage.classList.toggle("light-stage-active", active);
           if (!active) {
             // No light animation on mobile
             categoriesStage.classList.remove("is-hidden");
@@ -66,23 +66,27 @@
           }
 
           const viewportH = window.innerHeight || document.documentElement.clientHeight || 1;
+          const closeLen = Math.min(viewportH * 0.56, 480);
+          const blackoutLen = viewportH * BLACKOUT_VH;
           const stageRect = heroStage.getBoundingClientRect();
           const catRect = categoriesStage.getBoundingClientRect();
-          const closeDistance = Math.max(1, heroStage.offsetHeight - viewportH);
-          const closingProgress = clamp(-stageRect.top / closeDistance);
+          const stageScroll = -stageRect.top;
+          const closingProgress = clamp(stageScroll / Math.max(1, closeLen));
 
-          if (closingProgress < 0.99 && catRect.top > 0) {
-            // Hero lights-off: stays lit most of the scroll, snaps shut at the end.
-            // Only a hero phase seen during a real scroll/resize event arms the
-            // blackout — the initial onReady render must not, because browser
-            // scroll restoration can fire after it and would look like a
-            // hero→categories transition that never happened.
-            if (fromEvent) sawHeroOnScroll = true;
+          // The categories section reaches its pin exactly when the blackout
+          // scroll distance ends (it overlaps the hero stage by one viewport).
+          if (catRect.top > 0) {
             categoriesStage.classList.add("is-hidden");
-            flashOn = false;
-            flashFrames = 0;
             scrollLightMask.style.setProperty("--scroll-spot-x", "50%");
             scrollLightMask.style.setProperty("--scroll-spot-y", "48%");
+
+            if (closingProgress >= 1) {
+              // Blackout hold: a fixed scroll distance spent fully black.
+              setMask(1, 0, 0);
+              return;
+            }
+
+            // Hero lights-off: stays lit most of the scroll, snaps shut at the end.
             const progress = easeInQuad(closingProgress);
             const rawSpotSize = maxSpotSize * (1 - progress);
             const spotSize = rawSpotSize < 0.35 ? 0 : rawSpotSize;
@@ -92,31 +96,12 @@
             return;
           }
 
-          // Flashlight phase: snapped onto the factory intro copy, expanding with scroll
+          // Flashlight phase: snapped onto the factory intro copy, expanding with scroll.
+          // Scroll restoration and jumped positions land here directly with the
+          // correct state — every frame is a pure function of scroll position.
           categoriesStage.classList.remove("is-hidden");
           const pinDistance = Math.max(0, categoriesStage.offsetHeight - viewportH);
           const pinProgress = clamp(-catRect.top / Math.max(1, pinDistance));
-
-          if (!flashOn) {
-            // Entry decision (first flashlight frame after the hero phase):
-            // the blackout hold is the hero→categories transition, so play it
-            // only when scrolled in from the hero at the section boundary.
-            // A restored or jumped scroll position lands deeper and skips
-            // straight to the lit state instead of holding black.
-            if (flashFrames === 0 && (!sawHeroOnScroll || pinProgress >= 0.01)) {
-              flashOn = true;
-            }
-          }
-          if (!flashOn) {
-            // Hold the full blackout for blackoutFrames, then snap the light on
-            flashFrames += 1;
-            if (flashFrames <= blackoutFrames) {
-              setMask(1, 0, 0);
-              window.requestAnimationFrame(updateScrollLighting);
-              return;
-            }
-            flashOn = true;
-          }
 
           if (factoryText) {
             const textRect = factoryText.getBoundingClientRect();
@@ -136,7 +121,6 @@
         const requestScrollLighting = () => {
           if (!ticking) {
             ticking = true;
-            fromEvent = true;
             window.requestAnimationFrame(updateScrollLighting);
           }
         };

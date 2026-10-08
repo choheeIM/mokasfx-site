@@ -4,11 +4,13 @@
  * Compiles the post catalog below into fully pre-rendered HTML:
  *   site/projects.html                        -> "Projects" listing, page 1
  *   site/projects/page/<n>/index.html         -> "Projects" listing, page n
- *   site/technical-guides.html                -> "Technical Guides" listing, page 1
- *   site/technical-guides/page/<n>/index.html -> "Technical Guides" listing, page n
- *   site/blog.html                            -> redirect to the Projects listing
- *   site/blog/<slug>/index.html               -> article page (posts with a
- *                                                POST_CONTENT entry)
+ *   site/blog.html                            -> "Blog" listing, page 1
+ *   site/blog/page/<n>/index.html             -> "Blog" listing, page n
+ *   site/technical-guides.html                -> redirect to the Blog listing
+ *   site/<category>/<slug>/index.html         -> article page (posts with a
+ *                                                POST_CONTENT entry); project
+ *                                                cases live under /projects/,
+ *                                                blog posts under /blog/
  *   site/sitemap-blog.xml                     -> sitemap for every listing URL
  *
  * The two categories are switched with a two-state toggle that is just two
@@ -54,12 +56,12 @@ const CATEGORIES = [
       "Case studies from MOKA LITE stage lighting projects: festivals, nightclubs, theaters, wedding halls and touring rigs — fixtures specified, rigging notes and lessons from site.",
   },
   {
-    slug: "technical-guides",
-    label: "Technical Guides",
-    h1: "Technical Guides",
+    slug: "blog",
+    label: "Blog",
+    h1: "Blog",
     heroText:
       "Engineering notes from the MOKA LITE lab — DMX networks, optics, power and fixture care, written for installers, rental teams and venue technicians.",
-    title: "Technical Lighting Guides — DMX, Optics, Power & Maintenance | MOKA LITE",
+    title: "Blog — Technical Lighting Guides: DMX, Optics, Power & Maintenance | MOKA LITE",
     description:
       "Practical stage lighting guides from MOKA LITE engineers: DMX signal planning, IP ratings, beam angles, LED vs discharge, atmosphere effects, power distribution and fixture maintenance.",
   },
@@ -68,6 +70,21 @@ const CATEGORIES = [
 /** Newest first — page 1 shows the latest posts. */
 const POSTS = [
   /* ------------------------------ Projects ------------------------------ */
+  {
+    slug: "banquet-hall-lighting-new-york",
+    category: "projects",
+    // Hand-built case page with its own design (project-detail.css) — listed
+    // in POSTS so it appears on cards/nav, but never overwritten by articlePage().
+    custom: true,
+    title: "Banquet Hall Lighting Project in New York",
+    date: "2026-09-28",
+    image: "assets/img/projects/banquet-hall-new-york-hero.webp",
+    imageWidth: 1174,
+    imageHeight: 772,
+    alt: "Banquet and wedding hall in New York glowing under a circular kinetic LED ball chandelier and crystal lights during a dinner event",
+    excerpt:
+      "Lighting equipment supplied for a 900 m² banquet and wedding venue in New York, combining moving head lights and kinetic LED balls for different event settings.",
+  },
   {
     slug: "outdoor-festival-beam-layout",
     category: "projects",
@@ -192,7 +209,7 @@ const POSTS = [
   /* -------------------------- Technical Guides -------------------------- */
   {
     slug: "theater-stage-effects-equipment",
-    category: "technical-guides",
+    category: "blog",
     title: "Theater Stage Effects: How Do You Choose the Right Equipment?",
     date: "2026-09-15",
     image: "assets/img/solutions/solutions-hero-stage.jpg",
@@ -204,7 +221,7 @@ const POSTS = [
   },
   {
     slug: "dmx-signal-planning",
-    category: "technical-guides",
+    category: "blog",
     title: "DMX Signal Planning: Universes, Splitters and Cable Runs That Never Drop",
     date: "2026-09-03",
     image: "assets/img/product-detail/pulse-1.webp",
@@ -216,7 +233,7 @@ const POSTS = [
   },
   {
     slug: "ip-ratings-explained",
-    category: "technical-guides",
+    category: "blog",
     title: "IP Ratings Explained: When IP65 Actually Matters for Stage Lights",
     date: "2026-08-22",
     image: "assets/img/light/02.jpg",
@@ -228,7 +245,7 @@ const POSTS = [
   },
   {
     slug: "beam-angle-selection",
-    category: "technical-guides",
+    category: "blog",
     title: "Beam Angle Selection: Matching Optics to Throw Distance and Trim Height",
     date: "2026-08-10",
     image: "assets/img/light/1.jpg",
@@ -240,7 +257,7 @@ const POSTS = [
   },
   {
     slug: "led-vs-discharge",
-    category: "technical-guides",
+    category: "blog",
     title: "LED vs Discharge: Real Power, Heat and Lamp-Life Math for Moving Heads",
     date: "2026-07-29",
     image: "assets/img/light/5.jpg",
@@ -252,7 +269,7 @@ const POSTS = [
   },
   {
     slug: "pixel-mapping-basics",
-    category: "technical-guides",
+    category: "blog",
     title: "Pixel Mapping Basics: From Fixture Groups to Full-Stage Looks",
     date: "2026-07-16",
     image: "assets/img/product-detail/pulse-4.webp",
@@ -264,7 +281,7 @@ const POSTS = [
   },
   {
     slug: "haze-vs-fog-vs-low-fog",
-    category: "technical-guides",
+    category: "blog",
     title: "Haze vs Fog vs Low Fog: Choosing Atmosphere for Beams and Cameras",
     date: "2026-07-02",
     image: "assets/img/product-detail/nightclub.webp",
@@ -276,7 +293,7 @@ const POSTS = [
   },
   {
     slug: "power-distribution-stage-rigs",
-    category: "technical-guides",
+    category: "blog",
     title: "Power Distribution for Stage Rigs: Loads, Phases and Inrush Explained",
     date: "2026-06-18",
     image: "assets/img/product-detail/pulse-7.webp",
@@ -288,7 +305,7 @@ const POSTS = [
   },
   {
     slug: "wireless-dmx-vs-wired",
-    category: "technical-guides",
+    category: "blog",
     title: "Wireless DMX vs Wired Runs: Latency, Reliability and When to Trust Each",
     date: "2026-06-05",
     image: "assets/img/product-detail/pulse-6.webp",
@@ -300,7 +317,7 @@ const POSTS = [
   },
   {
     slug: "moving-head-maintenance-schedule",
-    category: "technical-guides",
+    category: "blog",
     title: "Moving Head Maintenance Schedule: Keep Tour Fixtures Show-Ready",
     date: "2026-05-22",
     image: "assets/img/product-detail/pulse-11.webp",
@@ -423,23 +440,23 @@ function header(prefix, activeSlug) {
       <div class="nav-item has-mega" data-mega="mega-solutions">
         <a class="nav-link" href="${prefix}solutions.html">Solutions <span class="caret" aria-hidden="true"></span></a>
         <div class="nav-sub">
-          <a href="${prefix}solutions/bar-nightclub/">Bar &amp; Nightclub</a>
-          <a href="${prefix}solutions/multipurpose-hall/">Multipurpose Hall</a>
-          <a href="${prefix}solutions/church-stage/">Church Stage</a>
+          <a href="${prefix}404.html">Bar &amp; Nightclub</a>
+          <a href="${prefix}404.html">Multipurpose Hall</a>
+          <a href="${prefix}404.html">Church Stage</a>
           <a href="${prefix}solution-detail.html">Indoor Stage</a>
-          <a href="${prefix}solutions/outdoor-stage/">Outdoor Stage</a>
+          <a href="${prefix}404.html">Outdoor Stage</a>
         </div>
       </div>
 
       <div class="nav-item has-dropdown">
-        <a class="nav-link is-active" href="${prefix}projects.html">Blog <span class="caret" aria-hidden="true"></span></a>
+        <a class="nav-link is-active" href="${prefix}projects.html">News <span class="caret" aria-hidden="true"></span></a>
         <div class="nav-dropdown">
 ${CATEGORIES.map((c) => blogLink(c.slug, c.label)).join("\n")}
         </div>
       </div>
 
       <div class="nav-item has-dropdown">
-        <a class="nav-link" href="${prefix}resources.html">Resources <span class="caret" aria-hidden="true"></span></a>
+        <a class="nav-link" href="${prefix}404.html">Resources <span class="caret" aria-hidden="true"></span></a>
         <div class="nav-dropdown">
           <a href="${prefix}about.html">About us</a>
           <a href="${prefix}privacy.html">Privacy Policy</a>
@@ -486,11 +503,11 @@ ${CATEGORIES.map((c) => blogLink(c.slug, c.label)).join("\n")}
   <div class="mega" id="mega-solutions" role="region" aria-label="Solutions mega menu">
     <div class="container mega-inner">
       <ul class="mega-scenarios">
-        <li><a href="${prefix}solutions/bar-nightclub/">Bar &amp; Nightclub</a></li>
-        <li><a href="${prefix}solutions/multipurpose-hall/">Multipurpose Hall</a></li>
-        <li><a href="${prefix}solutions/church-stage/">Church Stage</a></li>
+        <li><a href="${prefix}404.html">Bar &amp; Nightclub</a></li>
+        <li><a href="${prefix}404.html">Multipurpose Hall</a></li>
+        <li><a href="${prefix}404.html">Church Stage</a></li>
         <li><a href="${prefix}solution-detail.html">Indoor Stage</a></li>
-        <li><a href="${prefix}solutions/outdoor-stage/">Outdoor Stage</a></li>
+        <li><a href="${prefix}404.html">Outdoor Stage</a></li>
       </ul>
       <div class="mega-feature">
         <div class="mega-feature-copy">
@@ -535,7 +552,7 @@ function footer(prefix) {
           <li><a href="${prefix}products.html">Products</a></li>
           <li><a href="${prefix}solutions.html">Solutions</a></li>
           <li><a href="${prefix}projects.html">Projects</a></li>
-          <li><a href="${prefix}projects.html">Blogs</a></li>
+          <li><a href="${prefix}blog.html">Blogs</a></li>
         </ul>
       </nav>
 
@@ -671,7 +688,7 @@ function inquirySection() {
 
 /** Two-state category switch — each state links to its own static page. */
 function categorySwitch(prefix, activeSlug) {
-  const stateClass = activeSlug === "technical-guides" ? " blog-switch--guides" : "";
+  const stateClass = activeSlug === "blog" ? " blog-switch--guides" : "";
   const option = (c) => {
     const active = c.slug === activeSlug;
     return `    <a class="blog-switch-option${active ? " is-active" : ""}" href="${prefix}${urlPathFor(c.slug, 1)}"${active ? ' aria-current="page"' : ""}>${c.label}</a>`;
@@ -683,7 +700,9 @@ ${CATEGORIES.map(option).join("\n")}
 }
 
 function postCard(prefix, post) {
-  const url = `${prefix}blog/${post.slug}/`;
+  // Posts without a POST_CONTENT body and no hand-built custom page have no
+  // detail page yet — point their cards at the friendly 404 page instead.
+  const url = POST_CONTENT[post.slug] || post.custom ? `${prefix}${post.category}/${post.slug}/` : `${prefix}404.html`;
   return `<article class="post-card" itemscope itemtype="https://schema.org/BlogPosting">
           <a class="post-card-media" href="${url}" aria-label="Read: ${esc(post.title)}" tabindex="-1">
             <img src="${prefix}${esc(post.image)}" alt="${esc(post.alt)}" width="${post.imageWidth}" height="${post.imageHeight}" loading="lazy" decoding="async" itemprop="image">
@@ -775,7 +794,7 @@ function listingPage(listing, page) {
     {
       "@context": "https://schema.org",
       "@type": "Blog",
-      name: page === 1 ? `MOKA LITE Blog — ${listing.label}` : `MOKA LITE Blog — ${listing.label} — Page ${page}`,
+      name: page === 1 ? `MOKA LITE ${listing.label}` : `MOKA LITE ${listing.label} — Page ${page}`,
       url: canonical,
       description: listing.description,
       blogPost: items.map((p) => ({
@@ -784,7 +803,7 @@ function listingPage(listing, page) {
         description: p.excerpt,
         datePublished: p.date,
         image: `${SITE_URL}/${encodeURI(p.image)}`,
-        url: `${SITE_URL}/blog/${p.slug}/`,
+        url: `${SITE_URL}/${p.category}/${p.slug}/`,
         author: { "@type": "Organization", name: "MOKA LITE" },
       })),
     },
@@ -847,26 +866,27 @@ ${footer(prefix)}
 `;
 }
 
-/** blog.html — legacy entry point, redirects to the default (Projects) listing. */
-function blogRedirectPage() {
-  const target = `${SITE_URL}/${urlPathFor(CATEGORIES[0].slug, 1)}`;
+/** Legacy URL stub — redirects to a current page (meta refresh + JS). */
+function redirectPage(relPath, target) {
+  const prefix = prefixFor(relPath);
+  const href = `${prefix}${target}`;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog | MOKA LITE</title>
-<meta name="description" content="The MOKA LITE blog has moved — browse stage lighting projects and technical guides.">
+<title>Technical Guides have moved | MOKA LITE</title>
+<meta name="description" content="Technical guides are now part of the MOKA LITE blog.">
 <meta name="robots" content="noindex,follow">
-<link rel="canonical" href="${target}">
-<meta http-equiv="refresh" content="0; url=projects.html">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="canonical" href="${SITE_URL}/${target}">
+<meta http-equiv="refresh" content="0; url=${href}">
+<link rel="stylesheet" href="${prefix}assets/css/style.css">
 </head>
 <body>
 <main class="blog-redirect">
-  <p>The MOKA LITE blog lives here now: <a href="projects.html">Projects</a> &middot; <a href="technical-guides.html">Technical Guides</a></p>
+  <p>Technical guides live here now: <a href="${href}">Blog</a></p>
 </main>
-<script>location.replace("projects.html" + location.search + location.hash);</script>
+<script>location.replace("${href}" + location.search + location.hash);</script>
 </body>
 </html>
 `;
@@ -877,13 +897,36 @@ function blogRedirectPage() {
 function articlePage(post) {
   const category = categoryOf(post.category);
   const content = POST_CONTENT[post.slug];
-  const urlPath = `blog/${post.slug}/`;
+  const urlPath = `${post.category}/${post.slug}/`;
   const prefix = prefixFor(urlPath);
   const canonical = `${SITE_URL}/${urlPath}`;
   const crumbLabel = esc(post.title.split(":")[0]);
-  const body = content.body.replaceAll("@ROOT@/", prefix);
+  // Give every h2 an anchor id and build the table of contents from them.
+  const tocItems = [];
+  const slugSeen = {};
+  const bodyWithIds = content.body.replace(/<h2>(.*?)<\/h2>/g, (match, inner) => {
+    const plain = inner.replace(/<[^>]+>/g, "");
+    let id = plain.toLowerCase().replace(/&[a-z]+;/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "section";
+    slugSeen[id] = (slugSeen[id] || 0) + 1;
+    if (slugSeen[id] > 1) id = `${id}-${slugSeen[id]}`;
+    tocItems.push({ id, text: plain });
+    return `<h2 id="${id}">${inner}</h2>`;
+  });
+  const body = bodyWithIds.replaceAll("@ROOT@/", prefix);
+  const toc = tocItems.length
+    ? `<nav class="article-toc" aria-label="Table of contents">
+    <div class="article-toc-head">
+      <strong>Table of Contents</strong>
+      <button class="article-toc-toggle" type="button" aria-expanded="true" aria-controls="article-toc-list">[ hide ]</button>
+    </div>
+    <ol class="article-toc-list" id="article-toc-list">
+${tocItems.map((item) => `      <li><a href="#${item.id}">${item.text}</a></li>`).join("\n")}
+    </ol>
+  </nav>`
+    : "";
 
-  const categoryPosts = postsIn(post.category);
+  // Prev/next only consider posts that have a page (POST_CONTENT or custom).
+  const categoryPosts = postsIn(post.category).filter((p) => POST_CONTENT[p.slug] || p.custom);
   const prevPost = categoryPosts[categoryPosts.indexOf(post) + 1] || null; // older
   const nextPost = categoryPosts[categoryPosts.indexOf(post) - 1] || null; // newer
   const title = `${post.title} | MOKA LITE`;
@@ -949,6 +992,7 @@ ${header(prefix, post.category)}
   </section>
 
   <article class="article-body">
+  ${toc}
 ${body}
     <div class="article-cta">
       <div>
@@ -961,7 +1005,7 @@ ${body}
 
   <nav class="article-nav" aria-label="More articles">
     ${prevPost
-      ? `<a class="article-nav-card" href="${prefix}blog/${prevPost.slug}/" rel="prev">
+      ? `<a class="article-nav-card" href="${prefix}${prevPost.category}/${prevPost.slug}/" rel="prev">
       <span class="article-nav-label"><span aria-hidden="true">&larr;</span> Previous article</span>
       <span class="article-nav-title">${esc(prevPost.title)}</span>
     </a>`
@@ -970,7 +1014,7 @@ ${body}
       <span class="article-nav-title">${category.label}</span>
     </a>`}
     ${nextPost
-      ? `<a class="article-nav-card article-nav-card--next" href="${prefix}blog/${nextPost.slug}/" rel="next">
+      ? `<a class="article-nav-card article-nav-card--next" href="${prefix}${nextPost.category}/${nextPost.slug}/" rel="next">
       <span class="article-nav-label">Next article <span aria-hidden="true">&rarr;</span></span>
       <span class="article-nav-title">${esc(nextPost.title)}</span>
     </a>`
@@ -991,6 +1035,7 @@ ${footer(prefix)}
 <script src="${prefix}assets/js/core/smooth-scroll.js"></script>
 <script src="${prefix}assets/js/core/site.js"></script>
 <script src="${prefix}assets/js/forms/inquiry-form.js"></script>
+<script>(function(){var t=document.querySelector(".article-toc-toggle"),l=document.getElementById("article-toc-list");if(!t||!l)return;t.addEventListener("click",function(){var wasHidden=l.hidden;l.hidden=!wasHidden;t.setAttribute("aria-expanded",wasHidden?"true":"false");t.textContent=wasHidden?"[ hide ]":"[ show ]";});})();</script>
 </body>
 </html>
 `;
@@ -1013,14 +1058,16 @@ for (const listing of CATEGORIES) {
   }
 }
 
-// Article pages for posts with full content (POST_CONTENT).
+// Article pages for posts with full content (POST_CONTENT); custom posts
+// keep their hand-built page untouched.
 for (const post of POSTS) {
-  if (POST_CONTENT[post.slug]) {
-    emit(`blog/${post.slug}/index.html`, articlePage(post));
+  if (POST_CONTENT[post.slug] && !post.custom) {
+    emit(`${post.category}/${post.slug}/index.html`, articlePage(post));
   }
 }
 
-emit("blog.html", blogRedirectPage());
+emit("technical-guides.html", redirectPage("technical-guides.html", "blog.html"));
+emit(join("technical-guides", "page", "2", "index.html"), redirectPage("technical-guides/page/2/index.html", "blog/page/2/"));
 
 // Sitemap covering every paginated blog listing URL.
 const today = new Date().toISOString().slice(0, 10);
@@ -1031,8 +1078,8 @@ const sitemapUrls = [
       priority: i === 0 ? "0.8" : "0.6",
     }))
   ),
-  ...POSTS.filter((p) => POST_CONTENT[p.slug]).map((p) => ({
-    loc: `${SITE_URL}/blog/${p.slug}/`,
+  ...POSTS.filter((p) => POST_CONTENT[p.slug] || p.custom).map((p) => ({
+    loc: `${SITE_URL}/${p.category}/${p.slug}/`,
     priority: "0.7",
   })),
 ];

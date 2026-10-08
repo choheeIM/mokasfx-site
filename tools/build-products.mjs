@@ -325,11 +325,11 @@ ${catLinks}
       <div class="nav-item has-mega" data-mega="mega-solutions">
         <a class="nav-link" href="${prefix}solutions.html">Solutions <span class="caret" aria-hidden="true"></span></a>
         <div class="nav-sub">
-          <a href="${prefix}solutions/bar-nightclub/">Bar &amp; Nightclub</a>
-          <a href="${prefix}solutions/multipurpose-hall/">Multipurpose Hall</a>
-          <a href="${prefix}solutions/church-stage/">Church Stage</a>
+          <a href="${prefix}404.html">Bar &amp; Nightclub</a>
+          <a href="${prefix}404.html">Multipurpose Hall</a>
+          <a href="${prefix}404.html">Church Stage</a>
           <a href="${prefix}solution-detail.html">Indoor Stage</a>
-          <a href="${prefix}solutions/outdoor-stage/">Outdoor Stage</a>
+          <a href="${prefix}404.html">Outdoor Stage</a>
         </div>
       </div>
 
@@ -342,7 +342,7 @@ ${catLinks}
       </div>
 
       <div class="nav-item has-dropdown">
-        <a class="nav-link" href="${prefix}resources.html">Resources <span class="caret" aria-hidden="true"></span></a>
+        <a class="nav-link" href="${prefix}404.html">Resources <span class="caret" aria-hidden="true"></span></a>
         <div class="nav-dropdown">
           <a href="${prefix}about.html">About us</a>
           <a href="${prefix}privacy.html">Privacy Policy</a>
@@ -382,11 +382,11 @@ ${megaGroup("LED Panels")}
   <div class="mega" id="mega-solutions" role="region" aria-label="Solutions mega menu">
     <div class="container mega-inner">
       <ul class="mega-scenarios">
-        <li><a href="${prefix}solutions/bar-nightclub/">Bar &amp; Nightclub</a></li>
-        <li><a href="${prefix}solutions/multipurpose-hall/">Multipurpose Hall</a></li>
-        <li><a href="${prefix}solutions/church-stage/">Church Stage</a></li>
+        <li><a href="${prefix}404.html">Bar &amp; Nightclub</a></li>
+        <li><a href="${prefix}404.html">Multipurpose Hall</a></li>
+        <li><a href="${prefix}404.html">Church Stage</a></li>
         <li><a href="${prefix}solution-detail.html">Indoor Stage</a></li>
-        <li><a href="${prefix}solutions/outdoor-stage/">Outdoor Stage</a></li>
+        <li><a href="${prefix}404.html">Outdoor Stage</a></li>
       </ul>
       <div class="mega-feature">
         <div class="mega-feature-copy">
@@ -430,7 +430,7 @@ function footer(prefix) {
         <ul>
           <li><a href="${prefix}products.html">Products</a></li>
           <li><a href="${prefix}solutions.html">Solutions</a></li>
-          <li><a href="${prefix}cases.html">Projects</a></li>
+          <li><a href="${prefix}projects.html">Projects</a></li>
           <li><a href="${prefix}blog.html">Blogs</a></li>
         </ul>
       </nav>
@@ -442,7 +442,7 @@ function footer(prefix) {
           <li><a href="${prefix}contact.html#support">Terms of Service</a></li>
           <li><a href="${prefix}privacy.html">Privacy Policy</a></li>
           <li><a href="${prefix}contact.html">Warranty &amp; Return</a></li>
-          <li><a href="${prefix}cases.html">Watch More Videos</a></li>
+          <li><a href="${prefix}404.html">Watch More Videos</a></li>
         </ul>
       </nav>
     </div>

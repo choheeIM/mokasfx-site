@@ -473,7 +473,9 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
    ============================================================ */
 .hero-light-stage {
   position: relative;
-  height: calc(100vh + min(56vh, 480px));
+  /* Hero + lights-off travel + blackout hold. The last term is the blackout's
+     scroll distance — keep in sync with BLACKOUT_VH in light-effects.js. */
+  height: calc(100vh + min(56vh, 480px) + 30vh);
 }
 .hero-light-stage .hero {
   position: sticky;
@@ -794,6 +796,8 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   }
 }
 @media (max-width: 1100px) {
+  /* The light effect is desktop-only; skip its blackout scroll distance. */
+  .hero-light-stage { height: calc(100vh + min(56vh, 480px)); }
   .categories-light-stage { height: auto; }
   .categories-light-stage.light-stage-active { margin-top: 0; }
   .categories-light-stage #categories { position: static; }
@@ -894,10 +898,19 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 .card .body p { color: var(--c-text-mute); font-size: var(--fs-14); }
 .card .body .row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: var(--sp-4); }
 
-/* Solutions stack: five sticky full-viewport cards that slide up and cover
-   each other on scroll ("sticky stacking"). Pure CSS position:sticky — every
-   card is server-rendered, indexed and readable with JS disabled; the scroll
-   behavior degrades to plain stacked sections in very old browsers. */
+/* Solutions stack: five full-viewport cards. Base (no-JS / reduced motion):
+   sticky cards slide up and cover each other — every card is server-rendered,
+   indexed and readable with JS disabled. With JS the section upgrades to a
+   pinned stage (.is-live, driven by home.js): the section head holds while
+   card one rests beneath it, then each card slides up and parks under the
+   previous card's bookmark-style title tab. */
+.solution-featured {
+  --sol-tab-h: 56px;
+}
+.solution-track,
+.solution-stage {
+  position: relative;
+}
 .solution-stack {
   width: 100%;
   max-width: var(--container);
@@ -919,6 +932,17 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   background: var(--c-bg-3);
   box-shadow: 0 -1px 0 rgba(255,255,255,.12);
 }
+/* Depth dim: while the next card slides over this one, home.js raises
+   --sol-dim so covered cards recede behind their visible title tab. */
+.solution-stack-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: #050505;
+  opacity: var(--sol-dim, 0);
+  pointer-events: none;
+}
 .solution-stack-bg {
   position: absolute;
   inset: 0;
@@ -934,6 +958,43 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   z-index: 1;
   background: linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.16) 34%, rgba(0,0,0,.24) 62%, rgba(0,0,0,.58) 100%);
   pointer-events: none;
+}
+/* Bookmark tab: slim title bar at the top of each card. Only shown in the
+   JS-driven pinned stage, fading in once the card is pinned as a "bookmark"
+   beneath the next card (home.js drives --sol-tab-o and visibility). */
+.solution-stack-tab {
+  display: none;
+}
+.solution-stack-tab-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-width: 0;
+  color: #fff;
+  font-size: var(--fs-16);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 10px rgba(0,0,0,.5);
+  transition: color .2s var(--ease);
+}
+.solution-stack-tab-name {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.solution-stack-tab-title:hover {
+  color: var(--c-accent);
+}
+.solution-stack-tab-arrow {
+  flex-shrink: 0;
+  font-size: var(--fs-18);
+  line-height: 1;
+  transition: transform .2s var(--ease);
+}
+.solution-stack-tab-title:hover .solution-stack-tab-arrow {
+  transform: translate(2px, -2px);
 }
 .solution-stack-content {
   position: relative;
@@ -961,6 +1022,13 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   text-wrap: balance;
   text-shadow: 0 4px 44px rgba(0,0,0,.4);
 }
+.solution-stack-title a {
+  color: inherit;
+  transition: color .25s var(--ease);
+}
+.solution-stack-title a:hover {
+  color: var(--c-accent);
+}
 .solution-stack-desc {
   margin: 0;
   max-width: 54ch;
@@ -969,27 +1037,64 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   color: rgba(255,255,255,.84);
   text-shadow: 0 2px 18px rgba(0,0,0,.45);
 }
-.solution-stack-btn {
-  display: inline-flex;
+
+/* Pinned-stage mode (JS on, motion allowed). The track and stage get their
+   heights from home.js: the stage is at least one viewport tall, and taller
+   when needed so the last card keeps its 16:9 image ratio — once the stack
+   completes, the sticky stage releases and scrolls up to reveal the final
+   card in full. The section head stays pinned at the top of the stage and is
+   never covered. */
+.solution-featured.is-live .solution-stage {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  height: calc(100svh - var(--header-h));
+  overflow: hidden;
+}
+.solution-featured.is-live .solution-stage-head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding-top: var(--sp-8);
+}
+.solution-featured.is-live .solution-stage-head .sec-head {
+  margin-bottom: 0;
+}
+.solution-featured.is-live .solution-stack {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+.solution-featured.is-live .solution-stack-card {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--sp-6);
+  right: var(--sp-6);
+  height: auto;
+  min-height: 0;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+}
+.solution-featured.is-live .solution-stack-tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  margin-top: var(--sp-4);
-  border-radius: 50%;
-  background: #fff;
-  color: #111;
-  font-size: 26px;
-  line-height: 1;
-  transition: background .25s var(--ease), transform .25s var(--ease);
-}
-.solution-stack-btn:hover {
-  background: var(--c-accent);
-  transform: scale(1.07);
-}
-.solution-stack-btn:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 3px;
+  gap: var(--sp-4);
+  height: var(--sol-tab-h);
+  padding: 0 var(--sp-8);
+  border-bottom: 1px solid rgba(255,255,255,.14);
+  opacity: var(--sol-tab-o, 0);
+  visibility: hidden;
 }
 
 /* Progressive enhancement: the incoming card's backdrop settles from a slight
@@ -1020,10 +1125,16 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 }
 
 @media (max-width: 720px) {
+  .solution-featured { --sol-tab-h: 48px; }
   .solution-stack-card { min-height: 480px; border-radius: 16px 16px 0 0; }
+  .solution-featured.is-live .solution-stack-card { left: var(--sp-4); right: var(--sp-4); }
+  .solution-featured.is-live .solution-stack-tab { padding: 0 var(--sp-5); gap: var(--sp-3); }
+  .solution-stack-tab-title { font-size: var(--fs-14); }
+  .solution-stage-head .sec-head { flex-direction: column; align-items: flex-start; gap: var(--sp-4); }
+  /* Keep the pinned head compact so the last card still fits the stage. */
+  .solution-featured.is-live .solution-stage-head p { display: none; }
   .solution-stack-content { gap: var(--sp-5); }
   .solution-stack-desc { font-size: var(--fs-14); }
-  .solution-stack-btn { width: 60px; height: 60px; font-size: 22px; }
 }
 
 /* ============================================================
@@ -1771,8 +1882,10 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 
 /* Category filter bar (top of static catalog listings) */
 .products-filter-bar {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  justify-content: center;
+  justify-items: center;
   gap: var(--sp-2);
   margin-bottom: var(--sp-8);
 }
@@ -1782,7 +1895,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   gap: var(--sp-2);
   min-height: 40px;
   padding: 0 var(--sp-4);
-  color: var(--c-text-mute);
+  color: #fff;
   font-size: var(--fs-13);
   font-weight: 700;
   border: 1px solid var(--c-line);
@@ -1791,12 +1904,12 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   transition: color .18s var(--ease), border-color .18s var(--ease), background .18s var(--ease);
 }
 .products-filter-link span {
-  color: var(--c-text-dim);
+  color: #fff;
   font-size: var(--fs-12);
   font-weight: 600;
 }
 .products-filter-link:hover {
-  color: var(--c-text);
+  color: #fff;
   border-color: rgba(255,198,0,.44);
 }
 .products-filter-link.is-active {
@@ -1807,9 +1920,17 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 .products-filter-link.is-active span {
   color: rgba(17,17,17,.62);
 }
+@media (max-width: 1100px) {
+  .products-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
 @media (max-width: 720px) {
   .products-filter-bar {
     flex-wrap: nowrap;
+    justify-content: flex-start;
     overflow-x: auto;
     padding-bottom: var(--sp-2);
     scrollbar-width: none;
@@ -3847,8 +3968,8 @@ img.partner-card-media {
 .article-meta .dot { color: var(--c-accent); }
 .article-meta .cat { color: var(--c-accent); text-transform: uppercase; letter-spacing: .12em; font-size: var(--fs-12); }
 
-/* Article body: light reading surface, full 1300px container with a
-   readable ~780px measure for paragraphs and lists. */
+/* Article body: light reading surface, full 1300px container — paragraphs,
+   lists, TOC and tables all share the same width. */
 .article-main {
   background: #f7f7f5;
   border-top: 1px solid var(--c-line);
@@ -3859,8 +3980,7 @@ img.partner-card-media {
   padding: var(--sp-16) var(--sp-6) var(--sp-8);
 }
 .article-body > p {
-  max-width: 780px;
-  margin: 0 auto var(--sp-6);
+  margin: 0 0 var(--sp-6);
   color: #454545;
   font-size: var(--fs-16);
   line-height: 1.85;
@@ -3869,17 +3989,49 @@ img.partner-card-media {
   color: #1b1b1b;
   font-size: var(--fs-18);
 }
+/* Article table of contents — bare list, no box */
+.article-toc {
+  margin: 0 0 var(--sp-8);
+}
+.article-toc-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: #1b1b1b;
+  font-size: var(--fs-15);
+}
+.article-toc-toggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-accent-3);
+  font: inherit;
+  font-size: var(--fs-13);
+  cursor: pointer;
+}
+.article-toc-toggle:hover { text-decoration: underline; }
+.article-body .article-toc-list {
+  display: grid;
+  gap: 2px;
+  margin: var(--sp-5) 0 0;
+  padding-left: var(--sp-6);
+  line-height: 1.6;
+}
+.article-toc-list[hidden] { display: none; }
+.article-body .article-toc-list li { margin-bottom: 0; }
+.article-toc-list li::marker { color: var(--c-accent-3); }
+.article-toc-list a { color: var(--c-accent-3); }
+.article-toc-list a:hover { text-decoration: underline; }
 .article-body h2 {
-  max-width: 780px;
-  margin: var(--sp-12) auto var(--sp-5);
+  margin: var(--sp-12) 0 var(--sp-5);
   color: #1b1b1b;
   font-size: clamp(24px, 2.6vw, 32px);
   letter-spacing: -0.01em;
+  scroll-margin-top: calc(var(--header-h) + 18px);
 }
 .article-body ul,
 .article-body ol {
-  max-width: 780px;
-  margin: 0 auto var(--sp-6);
+  margin: 0 0 var(--sp-6);
   padding-left: 1.3em;
   color: #454545;
   font-size: var(--fs-15);
@@ -3920,8 +4072,7 @@ img.partner-card-media {
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-6);
-  max-width: 780px;
-  margin: var(--sp-12) auto var(--sp-6);
+  margin: var(--sp-12) 0 var(--sp-6);
   padding: var(--sp-8);
   border: 1px solid #e2e2de;
   border-radius: var(--radius-lg);
@@ -3987,4 +4138,297 @@ img.partner-card-media {
   .article-body th, .article-body td { padding: 10px 12px; }
   .article-nav { grid-template-columns: 1fr; }
   .article-nav-card--next { text-align: left; align-items: flex-start; }
+}
+
+/* ============================================================
+   SITE SEARCH — header trigger, modal, and search.html page
+   ============================================================ */
+/* The trigger is a plain link to search.html (SSR/SEO friendly); search.js
+   upgrades it to the modal when JS is available. On desktop it renders as a
+   search box right after the nav links; on mobile it collapses to an icon
+   button beside the hamburger. */
+.nav-list {
+  /* Group the nav links with the search box on the right side of the header */
+  margin-left: auto;
+}
+.nav-search {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 180px;
+  height: 38px;
+  padding: 0 var(--sp-4);
+  flex-shrink: 0;
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  color: var(--c-text-mute);
+  background: transparent;
+  transition: border-color .2s var(--ease), color .2s var(--ease);
+}
+.nav-search svg {
+  color: #fff;
+  flex-shrink: 0;
+}
+.nav-search-text {
+  font-size: var(--fs-14);
+}
+.nav-search:hover {
+  border-color: var(--c-accent);
+}
+.nav-search:hover .nav-search-text {
+  color: var(--c-accent);
+}
+@media (max-width: 1024px) {
+  .nav-search {
+    min-width: 0;
+    width: 38px;
+    padding: 0;
+    justify-content: center;
+    border-radius: var(--radius);
+    /* Pin the icon button directly beside the hamburger on the right */
+    margin-left: auto;
+  }
+  .nav-search-text {
+    display: none;
+  }
+}
+body.search-open {
+  overflow: hidden;
+}
+
+/* Modal */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  padding: 12vh var(--sp-6) var(--sp-8);
+  background: rgba(10, 10, 10, .72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  overflow-y: auto;
+}
+.search-overlay[hidden] {
+  display: none;
+}
+.search-modal {
+  max-width: 640px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--c-line-2);
+  border-radius: var(--radius-lg);
+  background: var(--c-bg-soft);
+  box-shadow: var(--shadow-2);
+}
+.search-modal-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 1px solid var(--c-line);
+}
+.search-modal-icon {
+  flex-shrink: 0;
+  color: var(--c-text-mute);
+}
+.search-modal-input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  border: 0;
+  background: transparent;
+  color: var(--c-text);
+  font: inherit;
+  font-size: var(--fs-16);
+}
+.search-modal-input:focus {
+  outline: 0;
+}
+.search-modal-input::placeholder {
+  color: var(--c-text-dim);
+}
+.search-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-text-mute);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .15s var(--ease), background .15s var(--ease);
+}
+.search-modal-close:hover {
+  color: var(--c-accent);
+  background: rgba(255,198,0,.08);
+}
+.search-modal-status {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-5) 0;
+  color: var(--c-text-dim);
+  font-size: var(--fs-12);
+}
+.search-modal-status:empty {
+  display: none;
+}
+.search-modal-results {
+  max-height: 56vh;
+  overflow-y: auto;
+  padding: var(--sp-3);
+}
+.search-modal-results:empty {
+  display: none;
+}
+
+/* Result groups + rows (shared by modal and search.html) */
+.search-group + .search-group {
+  margin-top: var(--sp-2);
+}
+.search-group-title {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-3);
+  color: var(--c-accent);
+  font-size: var(--fs-12);
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.search-result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius);
+  transition: background .15s var(--ease);
+}
+.search-result:hover,
+.search-result.is-active {
+  background: rgba(255,198,0,.07);
+}
+.search-result-title {
+  color: var(--c-text);
+  font-size: var(--fs-14);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.search-result-desc {
+  color: var(--c-text-mute);
+  font-size: var(--fs-13);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.search-result mark {
+  background: transparent;
+  color: var(--c-accent);
+  font-weight: 700;
+}
+.search-more {
+  display: block;
+  padding: var(--sp-3) var(--sp-4);
+  color: var(--c-accent);
+  font-size: var(--fs-13);
+  font-weight: 700;
+  border-radius: var(--radius);
+}
+.search-more:hover {
+  background: rgba(255,198,0,.07);
+}
+.search-empty {
+  margin: 0;
+  padding: var(--sp-6) var(--sp-4);
+  color: var(--c-text-mute);
+  font-size: var(--fs-14);
+  line-height: 1.6;
+}
+
+/* search.html standalone page */
+.search-page {
+  padding-top: calc(var(--header-h) + var(--sp-16));
+  min-height: 60vh;
+}
+.search-page-head {
+  margin-bottom: var(--sp-8);
+}
+.search-page-head h1 {
+  margin-top: var(--sp-4);
+  font-size: clamp(32px, 4vw, var(--fs-40));
+  letter-spacing: -0.02em;
+}
+.search-page-form {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  max-width: 640px;
+  padding: 0 var(--sp-5);
+  border: 1px solid var(--c-line-2);
+  border-radius: var(--radius);
+  background: var(--c-bg-soft);
+  transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
+}
+.search-page-form:focus-within {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(255,198,0,.13);
+}
+.search-page-form svg {
+  flex-shrink: 0;
+  color: var(--c-text-mute);
+}
+.search-page-input {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  border: 0;
+  background: transparent;
+  color: var(--c-text);
+  font: inherit;
+  font-size: var(--fs-16);
+}
+.search-page-input:focus {
+  outline: 0;
+}
+.search-page-status {
+  margin: var(--sp-4) 0 0;
+  color: var(--c-text-dim);
+  font-size: var(--fs-13);
+}
+.search-page-status:empty {
+  display: none;
+}
+.search-page-results {
+  max-width: 760px;
+  margin-top: var(--sp-6);
+}
+.search-page-noscript {
+  margin-top: var(--sp-8);
+  color: var(--c-text-mute);
+  font-size: var(--fs-14);
+  line-height: 1.7;
+}
+.search-page-noscript ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-5);
+  margin-top: var(--sp-3);
+  padding: 0;
+  list-style: none;
+}
+.search-page-noscript a {
+  color: var(--c-accent);
+}
+@media (max-width: 720px) {
+  .search-overlay {
+    padding-top: var(--sp-6);
+  }
+  .search-modal-results {
+    max-height: 62vh;
+  }
 }
