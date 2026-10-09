@@ -640,35 +640,9 @@ function inquirySection() {
         </div>
         <div class="field-control">
           <label for="blog-inquiry-country">Country <span class="required" aria-hidden="true">*</span></label>
-          <select id="blog-inquiry-country" name="country" autocomplete="country-name">
-            <option value="">Select country</option>
-            <option>United States</option>
-            <option>United Kingdom</option>
-            <option>Germany</option>
-            <option>France</option>
-            <option>Spain</option>
-            <option>Italy</option>
-            <option>United Arab Emirates</option>
-            <option>Saudi Arabia</option>
-            <option>India</option>
-            <option>Vietnam</option>
-            <option>Thailand</option>
-            <option>Malaysia</option>
-            <option>Philippines</option>
-            <option>Indonesia</option>
-            <option>Brazil</option>
-            <option>Mexico</option>
-            <option>Australia</option>
-            <option>Other</option>
-          </select>
+          <input id="blog-inquiry-country" name="country" type="text" autocomplete="country-name" placeholder="Enter your country / region">
           <p class="field-error" data-error-for="country"></p>
         </div>
-      </div>
-
-      <div class="inquiry-field other-country-field" data-other-country-field hidden>
-        <label for="blog-inquiry-country-other">Other Country <span class="required" aria-hidden="true">*</span></label>
-        <input id="blog-inquiry-country-other" name="countryOther" type="text" autocomplete="country-name" placeholder="Please enter your country." data-error-required="Please enter your country.">
-        <p class="field-error" data-error-for="countryOther"></p>
       </div>
 
       <div class="inquiry-field">

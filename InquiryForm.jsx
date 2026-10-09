@@ -1,33 +1,10 @@
 import { useState } from "react";
 
-const countries = [
-  "United States",
-  "United Kingdom",
-  "Germany",
-  "France",
-  "Spain",
-  "Italy",
-  "United Arab Emirates",
-  "Saudi Arabia",
-  "India",
-  "Vietnam",
-  "Thailand",
-  "Malaysia",
-  "Philippines",
-  "Indonesia",
-  "Brazil",
-  "Mexico",
-  "Australia",
-  "China",
-  "Other",
-];
-
 const initialValues = {
   name: "",
   email: "",
   phone: "",
   country: "",
-  countryOther: "",
   projectDetails: "",
 };
 
@@ -56,9 +33,6 @@ export default function InquiryForm({ onSubmit }) {
     }
     if (!nextValues.projectDetails.trim()) {
       nextErrors.projectDetails = "Please describe your project details.";
-    }
-    if (nextValues.country === "Other" && !nextValues.countryOther.trim()) {
-      nextErrors.countryOther = "Please enter your country or region.";
     }
 
     return nextErrors;
@@ -132,29 +106,16 @@ export default function InquiryForm({ onSubmit }) {
       <div className="inquiry-field row-2">
         <div className="field-control">
           <label htmlFor="inquiry-phone">Phone <span className="required" aria-hidden="true">*</span></label>
-          <input id="inquiry-phone" name="phone" type="tel" value={values.phone} onChange={handleChange} placeholder="+1 312 847 1928" autoComplete="tel" aria-invalid={Boolean(errors.phone)} required />
+          <input id="inquiry-phone" name="phone" type="tel" value={values.phone} onChange={handleChange} placeholder="(+xx)" autoComplete="tel" aria-invalid={Boolean(errors.phone)} required />
           <p className="field-error">{errors.phone}</p>
         </div>
 
         <div className="field-control">
           <label htmlFor="inquiry-country">Country / Region</label>
-          <select id="inquiry-country" name="country" value={values.country} onChange={handleChange} autoComplete="country-name">
-            <option value="">Select country / region</option>
-            {countries.map((country) => (
-              <option key={country} value={country}>{country}</option>
-            ))}
-          </select>
+          <input id="inquiry-country" name="country" type="text" value={values.country} onChange={handleChange} placeholder="Enter your country / region" autoComplete="country-name" aria-invalid={Boolean(errors.country)} />
           <p className="field-error">{errors.country}</p>
         </div>
       </div>
-
-      {values.country === "Other" ? (
-        <div className="inquiry-field other-country-field">
-          <label htmlFor="inquiry-country-other">Other Country / Region <span className="required" aria-hidden="true">*</span></label>
-          <input id="inquiry-country-other" name="countryOther" value={values.countryOther} onChange={handleChange} placeholder="Please enter your country or region" autoComplete="country-name" aria-invalid={Boolean(errors.countryOther)} required />
-          <p className="field-error">{errors.countryOther}</p>
-        </div>
-      ) : null}
 
       <div className="inquiry-field">
         <label htmlFor="inquiry-details">Project Details <span className="required" aria-hidden="true">*</span></label>

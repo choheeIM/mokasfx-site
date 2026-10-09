@@ -46,7 +46,7 @@
       <div class="nav-item"><a class="nav-link is-active" href="#inquiry">Contact us</a></div>
     </nav>
 
-    <a class="nav-search" href="search.html" aria-label="Search the site" data-search-trigger>
+    <a class="nav-search" href="search.html" aria-label="Search the site">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <span class="nav-search-text">Search</span>
     </a>
@@ -98,40 +98,14 @@
         <div class="inquiry-field row-2">
           <div class="field-control">
             <label for="contact-inquiry-phone">Phone <span class="required" aria-hidden="true">*</span></label>
-            <input id="contact-inquiry-phone" name="phone" type="tel" autocomplete="tel" placeholder="+1 312 847 1928" required data-error-required="Please enter your phone number." data-error-format="Use an international phone format, for example +86 189 9881 8260.">
+            <input id="contact-inquiry-phone" name="phone" type="tel" autocomplete="tel" placeholder="(+xx)" required data-error-required="Please enter your phone number." data-error-format="Use an international phone format, for example +86 189 9881 8260.">
             <p class="field-error" data-error-for="phone"></p>
           </div>
           <div class="field-control">
             <label for="contact-inquiry-country">Country / Region</label>
-            <select id="contact-inquiry-country" name="country" autocomplete="country-name">
-              <option value="">Select country / region</option>
-              <option>United States</option>
-              <option>United Kingdom</option>
-              <option>Germany</option>
-              <option>France</option>
-              <option>Spain</option>
-              <option>Italy</option>
-              <option>United Arab Emirates</option>
-              <option>Saudi Arabia</option>
-              <option>India</option>
-              <option>Vietnam</option>
-              <option>Thailand</option>
-              <option>Malaysia</option>
-              <option>Philippines</option>
-              <option>Indonesia</option>
-              <option>Brazil</option>
-              <option>Mexico</option>
-              <option>Australia</option>
-              <option>Other</option>
-            </select>
+            <input id="contact-inquiry-country" name="country" type="text" autocomplete="country-name" placeholder="Enter your country / region">
             <p class="field-error" data-error-for="country"></p>
           </div>
-        </div>
-
-        <div class="inquiry-field other-country-field" data-other-country-field hidden>
-          <label for="contact-inquiry-country-other">Other Country <span class="required" aria-hidden="true">*</span></label>
-          <input id="contact-inquiry-country-other" name="countryOther" type="text" autocomplete="country-name" placeholder="Please enter your country." data-error-required="Please enter your country.">
-          <p class="field-error" data-error-for="countryOther"></p>
         </div>
 
         <div class="inquiry-field">
@@ -240,7 +214,5 @@
 <script src="assets/js/core/smooth-scroll.js"></script>
 <script src="assets/js/core/site.js"></script>
 <script src="assets/js/forms/inquiry-form.js"></script>
-<script src="assets/js/vendor/fuse.min.js"></script>
-<script src="assets/js/components/search.js"></script>
 </body>
 </html>

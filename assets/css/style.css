@@ -196,9 +196,13 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 }
 .site-header.is-scrolled {
   background: rgba(27,27,27,.88);
+  border-bottom-color: var(--c-line);
+}
+/* backdrop-filter makes the header a containing block for fixed descendants,
+   which would collapse the fixed-position mobile menu; keep it off while the menu is open */
+.site-header.is-scrolled:not(.menu-open) {
   backdrop-filter: saturate(140%) blur(14px);
   -webkit-backdrop-filter: saturate(140%) blur(14px);
-  border-bottom-color: var(--c-line);
 }
 .nav { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: var(--sp-8); }
 .brand { display: inline-flex; align-items: center; gap: var(--sp-3); flex: 0 0 auto; }
@@ -1124,17 +1128,47 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 720px) {
-  .solution-featured { --sol-tab-h: 48px; }
-  .solution-stack-card { min-height: 480px; border-radius: 16px 16px 0 0; }
-  .solution-featured.is-live .solution-stack-card { left: var(--sp-4); right: var(--sp-4); }
-  .solution-featured.is-live .solution-stack-tab { padding: 0 var(--sp-5); gap: var(--sp-3); }
-  .solution-stack-tab-title { font-size: var(--fs-14); }
-  .solution-stage-head .sec-head { flex-direction: column; align-items: flex-start; gap: var(--sp-4); }
-  /* Keep the pinned head compact so the last card still fits the stage. */
+/* Tablet (721–1024px): keep the pinned stacking, but compact — slim head
+   (kicker + title only, no lead paragraph) and shorter bookmark tabs so the
+   whole stack area fits one viewport (home.js caps the ratio height). */
+@media (min-width: 721px) and (max-width: 1024px) {
+  .solution-featured { --sol-tab-h: 44px; }
+  .solution-featured.is-live .solution-stage-head { padding-top: var(--sp-5); }
   .solution-featured.is-live .solution-stage-head p { display: none; }
+  .solution-featured .solution-stage-head h2 { font-size: clamp(24px, 3.6vw, 34px); }
+  .solution-featured.is-live .solution-stack-tab { padding: 0 var(--sp-6); }
+  .solution-featured.is-live .solution-stack-card { left: var(--sp-4); right: var(--sp-4); }
   .solution-stack-content { gap: var(--sp-5); }
-  .solution-stack-desc { font-size: var(--fs-14); }
+  .solution-stack-title { font-size: clamp(28px, 5vw, 56px); }
+  .solution-stack-desc { font-size: var(--fs-15); }
+}
+
+/* Phone portrait (<=720px): no pinning — natural-scrolling vertical cards,
+   each a 16:9 panel. home.js leaves .is-live off at this width, so these
+   styles also cover the no-JS fallback. */
+@media (max-width: 720px) {
+  .solution-stage-head .sec-head { flex-direction: column; align-items: flex-start; gap: var(--sp-4); }
+  .solution-stack { display: grid; gap: var(--sp-5); padding: 0 var(--sp-4); }
+  .solution-stack-card {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    box-shadow: none;
+  }
+  .solution-stack-content { gap: var(--sp-2); padding: var(--sp-3) var(--sp-4); }
+  .solution-stack-eyebrow { font-size: 10px; letter-spacing: .22em; }
+  .solution-stack-title { font-size: clamp(17px, 5vw, 22px); line-height: 1.15; }
+  .solution-stack-desc {
+    font-size: var(--fs-12);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 /* ============================================================
@@ -4141,12 +4175,10 @@ img.partner-card-media {
 }
 
 /* ============================================================
-   SITE SEARCH — header trigger, modal, and search.html page
+   SITE SEARCH — header trigger and search.html page.
+   Pure HTML/CSS (no JS): the header box links to search.html; after the
+   WordPress migration, swap it for get_search_form() and point it at /?s=.
    ============================================================ */
-/* The trigger is a plain link to search.html (SSR/SEO friendly); search.js
-   upgrades it to the modal when JS is available. On desktop it renders as a
-   search box right after the nav links; on mobile it collapses to an icon
-   button beside the hamburger. */
 .nav-list {
   /* Group the nav links with the search box on the right side of the header */
   margin-left: auto;
@@ -4191,163 +4223,6 @@ img.partner-card-media {
   .nav-search-text {
     display: none;
   }
-}
-body.search-open {
-  overflow: hidden;
-}
-
-/* Modal */
-.search-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  padding: 12vh var(--sp-6) var(--sp-8);
-  background: rgba(10, 10, 10, .72);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  overflow-y: auto;
-}
-.search-overlay[hidden] {
-  display: none;
-}
-.search-modal {
-  max-width: 640px;
-  margin: 0 auto;
-  overflow: hidden;
-  border: 1px solid var(--c-line-2);
-  border-radius: var(--radius-lg);
-  background: var(--c-bg-soft);
-  box-shadow: var(--shadow-2);
-}
-.search-modal-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  padding: var(--sp-2) var(--sp-4);
-  border-bottom: 1px solid var(--c-line);
-}
-.search-modal-icon {
-  flex-shrink: 0;
-  color: var(--c-text-mute);
-}
-.search-modal-input {
-  flex: 1;
-  min-width: 0;
-  height: 48px;
-  border: 0;
-  background: transparent;
-  color: var(--c-text);
-  font: inherit;
-  font-size: var(--fs-16);
-}
-.search-modal-input:focus {
-  outline: 0;
-}
-.search-modal-input::placeholder {
-  color: var(--c-text-dim);
-}
-.search-modal-close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--c-text-mute);
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
-  transition: color .15s var(--ease), background .15s var(--ease);
-}
-.search-modal-close:hover {
-  color: var(--c-accent);
-  background: rgba(255,198,0,.08);
-}
-.search-modal-status {
-  margin: 0;
-  padding: var(--sp-2) var(--sp-5) 0;
-  color: var(--c-text-dim);
-  font-size: var(--fs-12);
-}
-.search-modal-status:empty {
-  display: none;
-}
-.search-modal-results {
-  max-height: 56vh;
-  overflow-y: auto;
-  padding: var(--sp-3);
-}
-.search-modal-results:empty {
-  display: none;
-}
-
-/* Result groups + rows (shared by modal and search.html) */
-.search-group + .search-group {
-  margin-top: var(--sp-2);
-}
-.search-group-title {
-  margin: 0;
-  padding: var(--sp-2) var(--sp-3);
-  color: var(--c-accent);
-  font-size: var(--fs-12);
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.search-result {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  padding: var(--sp-3) var(--sp-4);
-  border-radius: var(--radius);
-  transition: background .15s var(--ease);
-}
-.search-result:hover,
-.search-result.is-active {
-  background: rgba(255,198,0,.07);
-}
-.search-result-title {
-  color: var(--c-text);
-  font-size: var(--fs-14);
-  font-weight: 600;
-  line-height: 1.4;
-}
-.search-result-desc {
-  color: var(--c-text-mute);
-  font-size: var(--fs-13);
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.search-result mark {
-  background: transparent;
-  color: var(--c-accent);
-  font-weight: 700;
-}
-.search-more {
-  display: block;
-  padding: var(--sp-3) var(--sp-4);
-  color: var(--c-accent);
-  font-size: var(--fs-13);
-  font-weight: 700;
-  border-radius: var(--radius);
-}
-.search-more:hover {
-  background: rgba(255,198,0,.07);
-}
-.search-empty {
-  margin: 0;
-  padding: var(--sp-6) var(--sp-4);
-  color: var(--c-text-mute);
-  font-size: var(--fs-14);
-  line-height: 1.6;
 }
 
 /* search.html standalone page */
@@ -4395,25 +4270,13 @@ body.search-open {
 .search-page-input:focus {
   outline: 0;
 }
-.search-page-status {
-  margin: var(--sp-4) 0 0;
-  color: var(--c-text-dim);
-  font-size: var(--fs-13);
-}
-.search-page-status:empty {
-  display: none;
-}
-.search-page-results {
-  max-width: 760px;
-  margin-top: var(--sp-6);
-}
-.search-page-noscript {
-  margin-top: var(--sp-8);
+.search-page-links {
+  margin-top: var(--sp-10);
   color: var(--c-text-mute);
   font-size: var(--fs-14);
   line-height: 1.7;
 }
-.search-page-noscript ul {
+.search-page-links ul {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-2) var(--sp-5);
@@ -4421,14 +4284,6 @@ body.search-open {
   padding: 0;
   list-style: none;
 }
-.search-page-noscript a {
+.search-page-links a {
   color: var(--c-accent);
-}
-@media (max-width: 720px) {
-  .search-overlay {
-    padding-top: var(--sp-6);
-  }
-  .search-modal-results {
-    max-height: 62vh;
-  }
 }

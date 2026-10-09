@@ -65,7 +65,7 @@
       <div class="nav-item"><a class="nav-link" href="contact.html#inquiry">Contact us</a></div>
     </nav>
 
-    <a class="nav-search" href="search.html" aria-label="Search the site" data-search-trigger>
+    <a class="nav-search" href="search.html" aria-label="Search the site">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <span class="nav-search-text">Search</span>
     </a>
@@ -1249,35 +1249,9 @@
           </div>
           <div class="field-control">
             <label for="sd-inquiry-country">Country <span class="required" aria-hidden="true">*</span></label>
-            <select id="sd-inquiry-country" name="country" autocomplete="country-name">
-              <option value="">Select country</option>
-              <option>United States</option>
-              <option>United Kingdom</option>
-              <option>Germany</option>
-              <option>France</option>
-              <option>Spain</option>
-              <option>Italy</option>
-              <option>United Arab Emirates</option>
-              <option>Saudi Arabia</option>
-              <option>India</option>
-              <option>Vietnam</option>
-              <option>Thailand</option>
-              <option>Malaysia</option>
-              <option>Philippines</option>
-              <option>Indonesia</option>
-              <option>Brazil</option>
-              <option>Mexico</option>
-              <option>Australia</option>
-              <option>Other</option>
-            </select>
+            <input id="sd-inquiry-country" name="country" type="text" autocomplete="country-name" placeholder="Enter your country / region">
             <p class="field-error" data-error-for="country"></p>
           </div>
-        </div>
-
-        <div class="inquiry-field other-country-field" data-other-country-field hidden>
-          <label for="sd-inquiry-country-other">Other Country <span class="required" aria-hidden="true">*</span></label>
-          <input id="sd-inquiry-country-other" name="countryOther" type="text" autocomplete="country-name" placeholder="Please enter your country." data-error-required="Please enter your country.">
-          <p class="field-error" data-error-for="countryOther"></p>
         </div>
 
         <div class="inquiry-field">
@@ -1353,7 +1327,5 @@
 <script src="assets/js/core/site.js"></script>
 <script src="assets/js/forms/inquiry-form.js"></script>
 <script src="assets/js/solution-detail.js"></script>
-<script src="assets/js/vendor/fuse.min.js"></script>
-<script src="assets/js/components/search.js"></script>
 </body>
 </html>

@@ -81,7 +81,9 @@
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (track && stage && head && cards.length && !reduceMotion) {
-        solutionSection.classList.add('is-live');
+        // Pinned stacking runs on tablet and desktop only; phones (<=720px)
+        // get natural-scrolling 16:9 cards from CSS instead.
+        const stackedLayout = window.matchMedia('(min-width: 721px)');
 
         const lastIndex = cards.length - 1;
         const tabs = cards.map((card) => card.querySelector('.solution-stack-tab'));
@@ -104,6 +106,7 @@
 
         const update = () => {
           ticking = false;
+          if (!solutionSection.classList.contains('is-live')) return;
           const scrollRange = Math.max(1, track.offsetHeight - stageH);
           const p = clamp01(-track.getBoundingClientRect().top / scrollRange);
           cards.forEach((card, i) => {
@@ -139,8 +142,15 @@
           // always fits); the stage grows past one viewport when needed so the
           // final card's area below the parked tabs fits that ratio — the
           // overflow is revealed by release scrolling once the stack settles.
+          // On tablet the ratio height is capped so the whole stack area stays
+          // within one viewport (300px floor so the copy never gets squeezed).
           const lastCard = cards[lastIndex];
-          const ratioH = Math.max(380, Math.round(lastCard.offsetWidth * 9 / 16));
+          const tabletLayout = window.matchMedia('(max-width: 1024px)').matches;
+          let ratioH = Math.max(tabletLayout ? 300 : 380, Math.round(lastCard.offsetWidth * 9 / 16));
+          if (tabletLayout) {
+            const available = viewH - (headH + HEAD_GAP + lastIndex * tabH);
+            ratioH = Math.max(300, Math.min(ratioH, available));
+          }
           stageH = Math.max(viewH, headH + HEAD_GAP + lastIndex * tabH + ratioH);
           const lastH = stageH - parkedY(lastIndex);
           stage.style.height = `${stageH}px`;
@@ -166,10 +176,45 @@
           }
         };
 
+        // Strip every inline style the pinned mode set so the CSS-driven
+        // phone layout renders cleanly after a breakpoint crossing.
+        const teardown = () => {
+          solutionSection.classList.remove('is-live');
+          track.style.height = '';
+          stage.style.height = '';
+          cards.forEach((card, i) => {
+            card.style.transform = '';
+            card.style.paddingBottom = '';
+            card.style.height = '';
+            card.style.bottom = '';
+            card.style.removeProperty('--sol-dim');
+            const tab = tabs[i];
+            if (tab) {
+              tab.style.removeProperty('--sol-tab-o');
+              tab.style.visibility = '';
+            }
+          });
+        };
+
+        const sync = () => {
+          if (stackedLayout.matches) {
+            if (!solutionSection.classList.contains('is-live')) {
+              solutionSection.classList.add('is-live');
+            }
+            layout();
+          } else if (solutionSection.classList.contains('is-live')) {
+            teardown();
+          }
+        };
+
         window.addEventListener('scroll', requestUpdate, { passive: true });
-        window.addEventListener('resize', () => window.requestAnimationFrame(layout), { passive: true });
-        window.addEventListener('load', layout);
-        layout();
+        window.addEventListener('resize', () => window.requestAnimationFrame(sync), { passive: true });
+        // Breakpoint crossings re-sync directly (not via rAF) so the layout
+        // flips even when rAF is throttled, e.g. device rotation in a
+        // background tab.
+        stackedLayout.addEventListener('change', sync);
+        window.addEventListener('load', sync);
+        sync();
       }
     }
   });

@@ -54,21 +54,8 @@
 
         inquiryForms.forEach((form) => {
           const fields = Array.from(form.querySelectorAll('input, select, textarea'));
-          const countrySelect = form.querySelector('select[name="country"]');
-          const otherCountryField = form.querySelector('[data-other-country-field]');
-          const otherCountryInput = form.querySelector('input[name="countryOther"]');
           const submitButton = form.querySelector('button[type="submit"]');
           const submitLabel = submitButton ? (submitButton.dataset.submitLabel || submitButton.textContent) : '';
-          const updateOtherCountry = () => {
-            if (!countrySelect || !otherCountryField || !otherCountryInput) return;
-            const showOther = countrySelect.value === 'Other';
-            otherCountryField.hidden = !showOther;
-            otherCountryInput.required = showOther;
-            if (!showOther) {
-              otherCountryInput.value = '';
-              setFieldError(otherCountryInput, '');
-            }
-          };
 
           fields.forEach((field) => {
             field.addEventListener('input', () => {
@@ -77,17 +64,9 @@
             });
             field.addEventListener('blur', () => validateField(field));
           });
-          if (countrySelect) {
-            countrySelect.addEventListener('change', () => {
-              updateOtherCountry();
-              clearFeedback(form);
-            });
-            updateOtherCountry();
-          }
 
           form.addEventListener('submit', (event) => {
             event.preventDefault();
-            updateOtherCountry();
             const validFields = fields.map(validateField);
             const isValid = validFields.every(Boolean);
             const firstInvalid = fields.find((field) => field.classList.contains('is-invalid'));
@@ -111,7 +90,6 @@
                 submitButton.textContent = submitLabel;
               }
               form.reset();
-              updateOtherCountry();
               fields.forEach((field) => setFieldError(field, ''));
             }, 500);
           });

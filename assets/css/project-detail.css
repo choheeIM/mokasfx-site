@@ -252,6 +252,32 @@
   line-height: 1.7;
 }
 
+/* ---------- MOKA scope: fixed photo background, dark overlay (desktop only) ---------- */
+.pjd-section--scope {
+  position: relative;
+  background: url("../img/projects/wedding-hall.webp") center / cover no-repeat fixed;
+}
+.pjd-section--scope::before {
+  /* dark veil keeps white text readable while the photo stays visible */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 12, 16, 0.78) 0%, rgba(12, 12, 16, 0.62) 100%);
+  pointer-events: none;
+}
+.pjd-section--scope > .container { position: relative; z-index: 1; }
+.pjd-section--scope .eyebrow { color: var(--c-accent); }
+.pjd-section--scope .eyebrow::before,
+.pjd-section--scope .eyebrow::after { background: var(--c-accent); }
+.pjd-section--scope .pjd-section-head h2 { color: #ffffff; }
+.pjd-section--scope .pjd-scope-list li { border-bottom-color: rgba(255, 255, 255, 0.22); }
+.pjd-section--scope .pjd-scope-list strong { color: #ffffff; }
+.pjd-section--scope .pjd-scope-list p { color: rgba(255, 255, 255, 0.78); }
+@media (max-width: 1024px) {
+  /* background-attachment: fixed is unreliable on mobile/touch browsers */
+  .pjd-section--scope { background-attachment: scroll; }
+}
+
 /* ---------- equipment configuration ---------- */
 .pjd-equip-grid {
   display: grid;
