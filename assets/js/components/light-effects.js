@@ -23,7 +23,7 @@
       // timers — so fast scrolling fast-forwards the effect instead of
       // trapping the user in the dark while the page moves on behind the mask.
       // Keep in sync with .hero-light-stage height in style.css.
-      const BLACKOUT_VH = 0.3;
+      const BLACKOUT_VH = 0.45;
       const factoryText = categoriesStage.querySelector(".factory-intro-text");
       const scrollLightMask = document.createElement("div");
       scrollLightMask.className = "scroll-light-mask";
@@ -66,7 +66,7 @@
           }
 
           const viewportH = window.innerHeight || document.documentElement.clientHeight || 1;
-          const closeLen = Math.min(viewportH * 0.56, 480);
+          const closeLen = Math.min(viewportH * 0.9, 720);
           const blackoutLen = viewportH * BLACKOUT_VH;
           const stageRect = heroStage.getBoundingClientRect();
           const catRect = categoriesStage.getBoundingClientRect();

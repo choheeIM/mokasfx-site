@@ -479,7 +479,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   position: relative;
   /* Hero + lights-off travel + blackout hold. The last term is the blackout's
      scroll distance — keep in sync with BLACKOUT_VH in light-effects.js. */
-  height: calc(100vh + min(56vh, 480px) + 30vh);
+  height: calc(100vh + min(90vh, 720px) + 45vh);
 }
 .hero-light-stage .hero {
   position: sticky;

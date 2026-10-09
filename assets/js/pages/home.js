@@ -87,7 +87,9 @@
 
         const lastIndex = cards.length - 1;
         const tabs = cards.map((card) => card.querySelector('.solution-stack-tab'));
-        const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+        // Sine in-out: peak mid-slide velocity is ~1.6x the average, versus
+        // 3x for cubic — the card handoff reads calmer at the same length.
+        const easeInOut = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
         const clamp01 = (t) => Math.min(1, Math.max(0, t));
         const HEAD_GAP = 20;
         // Slide windows per card (progress along the pinned range). Card one
@@ -164,8 +166,9 @@
             card.style.paddingBottom = i === lastIndex ? '0px' : `${Math.round(tailPad + parkedY(i))}px`;
           });
 
-          // Pinned scroll range: roughly one viewport per arriving card.
-          track.style.height = `${Math.round(stageH + viewH * 4.2)}px`;
+          // Pinned scroll range: ~1.2 viewports per arriving card (was ~0.9)
+          // so each slide gets a heavier, more deliberate feel.
+          track.style.height = `${Math.round(stageH + viewH * 5.6)}px`;
           update();
         };
 
