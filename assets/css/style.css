@@ -1578,7 +1578,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 }
 .products-overview-text { min-width: 0; }
 .products-overview-text h2 {
-  font-size: clamp(32px, 3.4vw, var(--fs-48));
+  font-size: clamp(32px, 3.4vw, 48px);
   letter-spacing: -0.02em;
   margin-bottom: var(--sp-8);
 }
@@ -1646,6 +1646,134 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 @media (max-width: 1100px) {
   .products-overview { grid-template-columns: 1fr; gap: var(--sp-10); }
   .products-overview-visual { max-width: 620px; }
+}
+
+/* Inquiry stage CTA: frontal view of a stage — five footlights stand on the
+   skirt's top edge and throw converging beams up at the copy. Pure CSS. */
+.inquiry-stage { padding: var(--sp-8) 0 var(--sp-20); }
+.inquiry-stage-card {
+  --skirt-h: 54px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  border-radius: var(--radius-lg);
+  background: #070707;
+  overflow: hidden;
+  isolation: isolate;
+}
+.inquiry-stage-card::before {
+  /* warm halo where the beams converge, behind the copy */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse 42% 58% at 50% 42%, rgba(255, 198, 0, .24), transparent 70%);
+  pointer-events: none;
+}
+.inquiry-stage-beams {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  mix-blend-mode: screen;
+  opacity: .85;
+  transition: opacity .3s var(--ease);
+}
+.inquiry-stage-card:hover .inquiry-stage-beams { opacity: 1; }
+.inquiry-stage-beam {
+  position: absolute;
+  bottom: var(--skirt-h);
+  width: 260px;
+  height: 112%;
+  transform-origin: 50% 100%;
+  /* footlight cone: narrow source at the floor edge, fanning upward */
+  clip-path: polygon(47% 100%, 53% 100%, 100% 0, 0 0);
+  background: linear-gradient(to top, rgba(255, 198, 0, .5) 0%, rgba(255, 198, 0, .18) 46%, transparent 84%);
+  filter: blur(14px);
+}
+.inquiry-stage-beam--l2 { left: 18%; transform: translateX(-50%) rotate(26deg); }
+.inquiry-stage-beam--l1 { left: 34%; transform: translateX(-50%) rotate(11deg); }
+.inquiry-stage-beam--center { left: 50%; transform: translateX(-50%); }
+.inquiry-stage-beam--r1 { left: 66%; transform: translateX(-50%) rotate(-11deg); }
+.inquiry-stage-beam--r2 { left: 82%; transform: translateX(-50%) rotate(-26deg); }
+.inquiry-stage-floor {
+  position: absolute;
+  left: 0; right: 0; bottom: var(--skirt-h);
+  height: 40%;
+  z-index: 0;
+  background: radial-gradient(ellipse 58% 100% at 50% 100%, rgba(255, 198, 0, .26), transparent 72%);
+}
+/* Stage front skirt: dark pleated drape with a warm-lit top edge */
+.inquiry-stage-skirt {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: var(--skirt-h);
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(255, 198, 0, .1), transparent 34%),
+    repeating-linear-gradient(90deg, #17141a 0 5px, #0b090c 5px 11px, #141117 11px 16px);
+  box-shadow: inset 0 -18px 30px rgba(0, 0, 0, .55);
+}
+.inquiry-stage-skirt::before {
+  /* stage floor lip catching the footlights */
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 198, 0, .32) 22%, rgba(255, 220, 120, .6) 50%, rgba(255, 198, 0, .32) 78%, transparent);
+}
+.inquiry-stage-lights {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+.inquiry-stage-lights span {
+  position: absolute;
+  bottom: calc(var(--skirt-h) - 4px);
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffd94d;
+  box-shadow: 0 0 12px 4px rgba(255, 198, 0, .75);
+}
+.inquiry-stage-lights span:nth-child(1) { left: 18%; }
+.inquiry-stage-lights span:nth-child(2) { left: 34%; }
+.inquiry-stage-lights span:nth-child(3) { left: 50%; }
+.inquiry-stage-lights span:nth-child(4) { left: 66%; }
+.inquiry-stage-lights span:nth-child(5) { left: 82%; }
+.inquiry-stage-copy {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding-bottom: var(--skirt-h); /* optically centered above the skirt */
+  color: #fff;
+}
+.inquiry-stage-title {
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .6);
+}
+.inquiry-stage-arrow {
+  color: var(--c-accent);
+  font-size: 1.2em;
+  font-weight: 600;
+  animation: inquiry-arrow-drift 1.6s ease-in-out infinite;
+}
+@keyframes inquiry-arrow-drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(10px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inquiry-stage-arrow { animation: none; }
+}
+@media (max-width: 720px) {
+  .inquiry-stage-card { --skirt-h: 42px; height: 240px; }
+  .inquiry-stage-beam { width: 170px; }
 }
 
 /* Products collection page */
@@ -3389,6 +3517,9 @@ img.partner-card-media {
   }
   .why-choose > .container {
     height: auto;
+    /* the desktop pinned layout strips the gutters; restore them on mobile
+       so the copy keeps the standard page margins */
+    padding: 0 var(--sp-6);
   }
   .why-choose-sticky {
     position: relative;
