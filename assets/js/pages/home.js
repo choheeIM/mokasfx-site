@@ -22,7 +22,10 @@
     });
 
     // ----- Products overview accordion -----
+    // Opening a category also cross-fades the visual to that category's
+    // product image (matched by data-category on both sides).
     const accItems = document.querySelectorAll('.products-accordion-item');
+    const overviewImgs = document.querySelectorAll('.products-overview-img');
     accItems.forEach((item) => {
       const trigger = item.querySelector('.products-accordion-trigger');
       if (!trigger) return;
@@ -36,6 +39,9 @@
         if (willOpen) {
           item.classList.add('is-open');
           trigger.setAttribute('aria-expanded', 'true');
+          overviewImgs.forEach((img) => {
+            img.classList.toggle('is-active', img.dataset.category === item.dataset.category);
+          });
         }
       });
     });
@@ -63,24 +69,26 @@
       });
     }
 
-    // ----- Solutions stack: pinned stage with bookmark-style card tabs -----
-    // Progressive enhancement over the CSS sticky-stack fallback. The section
-    // head stays pinned and is never covered: card one rests beneath it, then
-    // each following card slides up and parks under the previous card's title
-    // tab, so all five stack as bookmarks. A card's tab fades in only once the
-    // card is pinned. The stage is sized so the last card keeps the image's
-    // 16:9 ratio — taller than the viewport when needed — and once the stack
-    // completes, the sticky stage releases and scrolls up so the final card is
-    // revealed in full. Skipped for reduced motion.
+    // ----- Solutions stack: pinned stage, full-image bookmark stacking -----
+    // Progressive enhancement over the CSS sticky-stack fallback. Card one
+    // scrolls in naturally and rests fully visible beneath the section head
+    // by the time the stage pins. Each following card then slides up while
+    // the whole stage shifts up to make room (the head scrolls away under the
+    // site header), so the arriving card is always shown in full and the
+    // covered cards park as a row of bookmark tabs above the active card.
+    // All cards keep the image's 16:9 ratio and are sized so the tallest
+    // moment — the full tab row plus one complete card — still fits the
+    // viewport, so no image is ever cropped. Skipped for reduced motion.
     const solutionSection = document.querySelector('.solution-featured');
     if (solutionSection) {
       const track = solutionSection.querySelector('[data-solution-track]');
       const stage = solutionSection.querySelector('[data-solution-stage]');
       const head = solutionSection.querySelector('[data-solution-head]');
+      const stack = solutionSection.querySelector('.solution-stack');
       const cards = Array.from(solutionSection.querySelectorAll('.solution-stack-card'));
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (track && stage && head && cards.length && !reduceMotion) {
+      if (track && stage && head && stack && cards.length && !reduceMotion) {
         // Pinned stacking runs on tablet and desktop only; phones (<=720px)
         // get natural-scrolling 16:9 cards from CSS instead.
         const stackedLayout = window.matchMedia('(min-width: 721px)');
@@ -92,35 +100,51 @@
         const easeInOut = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
         const clamp01 = (t) => Math.min(1, Math.max(0, t));
         const HEAD_GAP = 20;
+
         // Slide windows per card (progress along the pinned range). Card one
-        // never moves — it rests below the head from the start; the rest each
-        // slide up with a slight overlap so the handoff never stalls.
+        // never slides — it rests below the head from the start; each
+        // following card rises inside its own segment, with dwell on both
+        // sides so every card gets a moment fully visible.
+        const seg = 1 / Math.max(1, lastIndex);
         const windows = cards.map((_, i) =>
-          i === 0 ? null : [0.05 + (i - 1) * 0.2, 0.05 + (i - 1) * 0.2 + 0.21]
+          i === 0 ? null : [(i - 1) * seg + seg * 0.1, i * seg - seg * 0.1]
         );
 
+        let headerH = 76;
+        let viewH = 0;
         let stageH = 0;
         let headH = 0;
         let tabH = 56;
+        let parked = []; // parked Y per card, in stage coordinates
+        let shifts = []; // stage's upward shift once each card is active
         let ticking = false;
-
-        const parkedY = (i) => headH + HEAD_GAP + i * tabH;
 
         const update = () => {
           ticking = false;
           if (!solutionSection.classList.contains('is-live')) return;
           const scrollRange = Math.max(1, track.offsetHeight - stageH);
           const p = clamp01(-track.getBoundingClientRect().top / scrollRange);
+
+          // Card one's rise (the stage shifting up) and card two's slide-in
+          // run together over the same window; later windows only slide,
+          // since the stage stays put once the head has scrolled away.
+          const slideTs = cards.map((_, i) => {
+            const w = windows[i];
+            return w ? easeInOut(clamp01((p - w[0]) / (w[1] - w[0]))) : 0;
+          });
+
+          let shift = shifts[0];
           cards.forEach((card, i) => {
             const w = windows[i];
-            const t = w ? easeInOut(clamp01((p - w[0]) / (w[1] - w[0]))) : 0;
-            const y = i === 0 ? parkedY(0) : stageH + (parkedY(i) - stageH) * t;
-            card.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+            const slideT = slideTs[i];
+            const y = i === 0 ? parked[0] : stageH + (parked[i] - stageH) * slideT;
+            card.style.transform = `translate3d(-50%, ${y.toFixed(1)}px, 0)`;
+
+            if (w && slideT > 0) shift = shifts[i - 1] + (shifts[i] - shifts[i - 1]) * slideT;
 
             // The tab appears once the card is pinned: for covered cards as
             // the next card slides over them, for the last card as it parks.
-            const tabSource = i === lastIndex ? t
-              : easeInOut(clamp01((p - windows[i + 1][0]) / (windows[i + 1][1] - windows[i + 1][0])));
+            const tabSource = i === lastIndex ? slideT : slideTs[i + 1];
             const tab = tabs[i];
             if (tab) {
               tab.style.setProperty('--sol-tab-o', tabSource.toFixed(3));
@@ -131,44 +155,55 @@
             const dim = i < lastIndex ? tabSource * 0.45 : 0;
             card.style.setProperty('--sol-dim', dim.toFixed(3));
           });
+          stage.style.top = `${(headerH - shift).toFixed(1)}px`;
         };
 
         const layout = () => {
-          const headerH = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 76;
-          const viewH = window.innerHeight - headerH;
+          headerH = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 76;
+          viewH = window.innerHeight - headerH;
           headH = head.offsetHeight;
           const cssTab = parseFloat(window.getComputedStyle(solutionSection).getPropertyValue('--sol-tab-h'));
           tabH = Number.isFinite(cssTab) ? cssTab : 56;
 
-          // The last card keeps the image's 16:9 ratio (min 380px so its copy
-          // always fits); the stage grows past one viewport when needed so the
-          // final card's area below the parked tabs fits that ratio — the
-          // overflow is revealed by release scrolling once the stack settles.
-          // On tablet the ratio height is capped so the whole stack area stays
-          // within one viewport (300px floor so the copy never gets squeezed).
-          const lastCard = cards[lastIndex];
-          const tabletLayout = window.matchMedia('(max-width: 1024px)').matches;
-          let ratioH = Math.max(tabletLayout ? 300 : 380, Math.round(lastCard.offsetWidth * 9 / 16));
-          if (tabletLayout) {
-            const available = viewH - (headH + HEAD_GAP + lastIndex * tabH);
-            ratioH = Math.max(300, Math.min(ratioH, available));
-          }
-          stageH = Math.max(viewH, headH + HEAD_GAP + lastIndex * tabH + ratioH);
-          const lastH = stageH - parkedY(lastIndex);
-          stage.style.height = `${stageH}px`;
-          lastCard.style.bottom = 'auto';
-          lastCard.style.height = `${lastH}px`;
+          // Cards keep the image's 16:9 ratio so the picture is never
+          // cropped: the width is capped so the full bookmark tab row plus
+          // one complete card still fits the viewport. The side inset comes
+          // from the stylesheet (it shrinks on tablet), so measure it with
+          // inline sizing cleared.
+          const probe = cards[0];
+          const prev = { left: probe.style.left, right: probe.style.right, width: probe.style.width };
+          probe.style.left = '';
+          probe.style.right = '';
+          probe.style.width = '';
+          const inset = parseFloat(window.getComputedStyle(probe).left) || 0;
+          probe.style.left = prev.left;
+          probe.style.right = prev.right;
+          probe.style.width = prev.width;
 
-          // Center each covered card's content within the window left visible
-          // below the head and the parked tabs while it is the active card.
-          const tailPad = Math.max(0, stageH - viewH);
-          cards.forEach((card, i) => {
-            card.style.paddingBottom = i === lastIndex ? '0px' : `${Math.round(tailPad + parkedY(i))}px`;
+          const maxW = stack.clientWidth - inset * 2;
+          const cardW = Math.max(320, Math.round(Math.min(maxW, ((viewH - lastIndex * tabH - HEAD_GAP) * 16) / 9)));
+          const cardH = Math.round((cardW * 9) / 16);
+
+          parked = cards.map((_, i) => headH + HEAD_GAP + i * tabH);
+          // Once card one has been shown in full, the stage shifts up by the
+          // head height in one go: the head scrolls away and card one rises
+          // to just below the site header. The shift then stays put — the
+          // cards are sized so every active card fits fully below the parked
+          // bookmark tabs from here on.
+          shifts = cards.map((_, i) => (i === 0 ? 0 : headH + HEAD_GAP));
+          stageH = parked[lastIndex] + cardH + HEAD_GAP;
+
+          stage.style.height = `${stageH}px`;
+          cards.forEach((card) => {
+            card.style.left = '50%';
+            card.style.right = 'auto';
+            card.style.width = `${cardW}px`;
+            card.style.height = `${cardH}px`;
           });
 
-          // Pinned scroll range: ~1.2 viewports per arriving card (was ~0.9)
-          // so each slide gets a heavier, more deliberate feel.
-          track.style.height = `${Math.round(stageH + viewH * 5.6)}px`;
+          // Pinned scroll range: ~1.2 viewports per arriving card so each
+          // slide gets a heavier, more deliberate feel.
+          track.style.height = `${Math.round(stageH + viewH * 1.2 * lastIndex)}px`;
           update();
         };
 
@@ -185,11 +220,13 @@
           solutionSection.classList.remove('is-live');
           track.style.height = '';
           stage.style.height = '';
+          stage.style.top = '';
           cards.forEach((card, i) => {
             card.style.transform = '';
-            card.style.paddingBottom = '';
+            card.style.left = '';
+            card.style.right = '';
+            card.style.width = '';
             card.style.height = '';
-            card.style.bottom = '';
             card.style.removeProperty('--sol-dim');
             const tab = tabs[i];
             if (tab) {

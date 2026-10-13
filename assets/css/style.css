@@ -905,9 +905,10 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 /* Solutions stack: five full-viewport cards. Base (no-JS / reduced motion):
    sticky cards slide up and cover each other — every card is server-rendered,
    indexed and readable with JS disabled. With JS the section upgrades to a
-   pinned stage (.is-live, driven by home.js): the section head holds while
-   card one rests beneath it, then each card slides up and parks under the
-   previous card's bookmark-style title tab. */
+   pinned stage (.is-live, driven by home.js): card one rests fully visible
+   beneath the section head, then each following card slides up while the
+   whole stage shifts up to make room, so the active card is always shown in
+   full and the covered cards park as bookmark tabs above it. */
 .solution-featured {
   --sol-tab-h: 56px;
 }
@@ -937,7 +938,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   box-shadow: 0 -1px 0 rgba(255,255,255,.12);
 }
 /* Depth dim: while the next card slides over this one, home.js raises
-   --sol-dim so covered cards recede behind their visible title tab. */
+   --sol-dim so the covered card recedes behind the parked bookmark tabs. */
 .solution-stack-card::before {
   content: "";
   position: absolute;
@@ -1043,11 +1044,11 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 }
 
 /* Pinned-stage mode (JS on, motion allowed). The track and stage get their
-   heights from home.js: the stage is at least one viewport tall, and taller
-   when needed so the last card keeps its 16:9 image ratio — once the stack
-   completes, the sticky stage releases and scrolls up to reveal the final
-   card in full. The section head stays pinned at the top of the stage and is
-   never covered. */
+   heights from home.js: the stage is taller than one viewport — section head
+   + bookmark tab row + one full 16:9 card — and home.js shifts its sticky
+   `top` upward as each card arrives, so the head scrolls away, the covered
+   cards park as bookmark tabs under the header, and the active card is
+   always revealed in full. */
 .solution-featured.is-live .solution-stage {
   position: sticky;
   top: var(--header-h);
@@ -1077,11 +1078,11 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 .solution-featured.is-live .solution-stack-card {
   position: absolute;
   top: 0;
-  bottom: 0;
   left: var(--sp-6);
   right: var(--sp-6);
   height: auto;
   min-height: 0;
+  border-radius: 24px;
   transform: translate3d(0, 100%, 0);
   will-change: transform;
 }
@@ -1130,7 +1131,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 
 /* Tablet (721–1024px): keep the pinned stacking, but compact — slim head
    (kicker + title only, no lead paragraph) and shorter bookmark tabs so the
-   whole stack area fits one viewport (home.js caps the ratio height). */
+   active card keeps as much room as possible (home.js sizes the cards). */
 @media (min-width: 721px) and (max-width: 1024px) {
   .solution-featured { --sol-tab-h: 44px; }
   .solution-featured.is-live .solution-stage-head { padding-top: var(--sp-5); }
@@ -1517,64 +1518,23 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   background: radial-gradient(circle, rgba(255,198,0,.45) 0%, transparent 60%);
   filter: blur(20px);
 }
-.products-overview-fixture {
+/* Category imagery: one cutout per accordion category, cross-faded by
+   home.js as items open. */
+.products-overview-img {
   position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  width: 46%; aspect-ratio: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--sp-8);
+  opacity: 0;
+  transform: scale(.96);
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+  pointer-events: none;
 }
-.products-overview-yoke {
-  position: absolute;
-  left: 50%; top: 0;
-  transform: translateX(-50%);
-  width: 76%; height: 12%;
-  background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
-  border-radius: 4px;
-}
-.products-overview-yoke::after {
-  content: "";
-  position: absolute;
-  left: 50%; top: -16%;
-  transform: translateX(-50%);
-  width: 60%; height: 18%;
-  background: linear-gradient(180deg, #1a1a1a, #0a0a0a);
-  border-radius: 4px;
-}
-.products-overview-head {
-  position: absolute;
-  left: 50%; top: 18%;
-  transform: translateX(-50%);
-  width: 58%; aspect-ratio: 1;
-  background: radial-gradient(circle at 30% 30%, #4a4a4a, #1a1a1a 70%);
-  border-radius: 50%;
-  box-shadow: 0 30px 50px rgba(0,0,0,.55);
-}
-.products-overview-lens {
-  position: absolute;
-  left: 50%; top: 38%;
-  transform: translateX(-50%);
-  width: 30%; aspect-ratio: 1;
-  background: radial-gradient(circle at 40% 40%, #fff8d6 0%, var(--c-accent) 45%, #2b2000 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 50px 10px rgba(255,198,0,.5);
-}
-.products-overview-pedestal {
-  position: absolute;
-  left: 50%; bottom: 8%;
-  transform: translateX(-50%);
-  width: 38%; height: 6%;
-  background: linear-gradient(90deg, transparent, #2a2a2a 20%, #2a2a2a 80%, transparent);
-  border-radius: 2px;
-}
-.products-overview-caption {
-  position: absolute;
-  left: 20px; bottom: 16px;
-  z-index: 2;
-  font-size: var(--fs-12);
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--c-text);
-  text-shadow: 0 1px 6px rgba(0,0,0,.7);
+.products-overview-img.is-active {
+  opacity: 1;
+  transform: none;
 }
 .products-overview-text { min-width: 0; }
 .products-overview-text h2 {
@@ -1646,134 +1606,6 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 @media (max-width: 1100px) {
   .products-overview { grid-template-columns: 1fr; gap: var(--sp-10); }
   .products-overview-visual { max-width: 620px; }
-}
-
-/* Inquiry stage CTA: frontal view of a stage — five footlights stand on the
-   skirt's top edge and throw converging beams up at the copy. Pure CSS. */
-.inquiry-stage { padding: var(--sp-8) 0 var(--sp-20); }
-.inquiry-stage-card {
-  --skirt-h: 54px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  border-radius: var(--radius-lg);
-  background: #070707;
-  overflow: hidden;
-  isolation: isolate;
-}
-.inquiry-stage-card::before {
-  /* warm halo where the beams converge, behind the copy */
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: radial-gradient(ellipse 42% 58% at 50% 42%, rgba(255, 198, 0, .24), transparent 70%);
-  pointer-events: none;
-}
-.inquiry-stage-beams {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  mix-blend-mode: screen;
-  opacity: .85;
-  transition: opacity .3s var(--ease);
-}
-.inquiry-stage-card:hover .inquiry-stage-beams { opacity: 1; }
-.inquiry-stage-beam {
-  position: absolute;
-  bottom: var(--skirt-h);
-  width: 260px;
-  height: 112%;
-  transform-origin: 50% 100%;
-  /* footlight cone: narrow source at the floor edge, fanning upward */
-  clip-path: polygon(47% 100%, 53% 100%, 100% 0, 0 0);
-  background: linear-gradient(to top, rgba(255, 198, 0, .5) 0%, rgba(255, 198, 0, .18) 46%, transparent 84%);
-  filter: blur(14px);
-}
-.inquiry-stage-beam--l2 { left: 18%; transform: translateX(-50%) rotate(26deg); }
-.inquiry-stage-beam--l1 { left: 34%; transform: translateX(-50%) rotate(11deg); }
-.inquiry-stage-beam--center { left: 50%; transform: translateX(-50%); }
-.inquiry-stage-beam--r1 { left: 66%; transform: translateX(-50%) rotate(-11deg); }
-.inquiry-stage-beam--r2 { left: 82%; transform: translateX(-50%) rotate(-26deg); }
-.inquiry-stage-floor {
-  position: absolute;
-  left: 0; right: 0; bottom: var(--skirt-h);
-  height: 40%;
-  z-index: 0;
-  background: radial-gradient(ellipse 58% 100% at 50% 100%, rgba(255, 198, 0, .26), transparent 72%);
-}
-/* Stage front skirt: dark pleated drape with a warm-lit top edge */
-.inquiry-stage-skirt {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: var(--skirt-h);
-  z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(255, 198, 0, .1), transparent 34%),
-    repeating-linear-gradient(90deg, #17141a 0 5px, #0b090c 5px 11px, #141117 11px 16px);
-  box-shadow: inset 0 -18px 30px rgba(0, 0, 0, .55);
-}
-.inquiry-stage-skirt::before {
-  /* stage floor lip catching the footlights */
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 198, 0, .32) 22%, rgba(255, 220, 120, .6) 50%, rgba(255, 198, 0, .32) 78%, transparent);
-}
-.inquiry-stage-lights {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-}
-.inquiry-stage-lights span {
-  position: absolute;
-  bottom: calc(var(--skirt-h) - 4px);
-  transform: translateX(-50%);
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #ffd94d;
-  box-shadow: 0 0 12px 4px rgba(255, 198, 0, .75);
-}
-.inquiry-stage-lights span:nth-child(1) { left: 18%; }
-.inquiry-stage-lights span:nth-child(2) { left: 34%; }
-.inquiry-stage-lights span:nth-child(3) { left: 50%; }
-.inquiry-stage-lights span:nth-child(4) { left: 66%; }
-.inquiry-stage-lights span:nth-child(5) { left: 82%; }
-.inquiry-stage-copy {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-3);
-  padding-bottom: var(--skirt-h); /* optically centered above the skirt */
-  color: #fff;
-}
-.inquiry-stage-title {
-  font-size: clamp(22px, 2.6vw, 30px);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, .6);
-}
-.inquiry-stage-arrow {
-  color: var(--c-accent);
-  font-size: 1.2em;
-  font-weight: 600;
-  animation: inquiry-arrow-drift 1.6s ease-in-out infinite;
-}
-@keyframes inquiry-arrow-drift {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(10px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .inquiry-stage-arrow { animation: none; }
-}
-@media (max-width: 720px) {
-  .inquiry-stage-card { --skirt-h: 42px; height: 240px; }
-  .inquiry-stage-beam { width: 170px; }
 }
 
 /* Products collection page */
@@ -2908,66 +2740,13 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   height: 100%;
   overflow: hidden;
   border-radius: var(--radius-lg) 0 0 var(--radius-lg);
-  background:
-    radial-gradient(circle at 70% 28%, rgba(255,198,0,.34), transparent 18%),
-    linear-gradient(135deg, rgba(255,255,255,.16), transparent 34%),
-    linear-gradient(150deg, #485056 0%, #161a1d 48%, #050505 100%);
+  background: #0a0a0a;
 }
-/* Photo variant: portrait fills the media column, faces kept near the top. */
+/* Portraits fill the media column, faces kept near the top. */
 img.partner-card-media {
   width: 100%;
   object-fit: cover;
   object-position: center 22%;
-}
-.partner-card-media::before,
-.partner-card-media::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-}.partner-card-media::before {
-  left: 0;
-  bottom: 0;
-  width: 56%;
-  height: 82%;
-  background:
-    radial-gradient(circle at 50% 15%, #f6f6f6 0 12%, transparent 13%),
-    linear-gradient(180deg, #5b5f62 0%, #242628 64%, #0b0b0b 100%);
-  border-radius: 999px 999px 0 0;
-}
-.partner-card-media::after {
-  right: -2%;
-  top: 8%;
-  width: 58%;
-  height: 78%;
-  background:
-    linear-gradient(120deg, transparent 0 46%, rgba(255,198,0,.5) 47% 49%, transparent 50% 100%),
-    radial-gradient(circle at 58% 46%, rgba(255,198,0,.3), transparent 34%);
-  opacity: .9;
-}
-.partner-card-media-2 {
-  background:
-    radial-gradient(circle at 72% 28%, rgba(255,198,0,.34), transparent 20%),
-    linear-gradient(145deg, #2d3337, #060606);
-}
-.partner-card-media-3 {
-  background:
-    radial-gradient(circle at 44% 38%, rgba(255,198,0,.3), transparent 22%),
-    linear-gradient(135deg, #3a3424, #070707);
-}
-.partner-card-media-4 {
-  background:
-    radial-gradient(circle at 70% 70%, rgba(255,198,0,.26), transparent 24%),
-    linear-gradient(150deg, #232323, #050505);
-}
-.partner-media-mark {
-  position: absolute;
-  left: 18px;
-  bottom: 16px;
-  z-index: 2;
-  color: #fff;
-  font-size: var(--fs-12);
-  font-weight: 800;
-  letter-spacing: .18em;
 }
 .partner-card-copy {
   min-width: 0;
