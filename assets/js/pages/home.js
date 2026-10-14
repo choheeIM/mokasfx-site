@@ -268,6 +268,9 @@
     // visitor ever scrolls there. Defer the src until the banner is visible.
     const stageBanner = document.querySelector('.stage-banner-frame');
     if (stageBanner) {
+      // Armed: hide the HTML copy until playback starts so it rises in sync
+      // with the curtains; without JS the copy simply renders statically.
+      stageBanner.classList.add('is-armed');
       const stageImg = stageBanner.querySelector('.stage-banner-img[data-src]');
       const playStageBanner = () => {
         if (stageImg && !stageImg.src) stageImg.src = stageImg.dataset.src;
@@ -286,6 +289,25 @@
       } else {
         playStageBanner();
       }
+    }
+
+    // ----- Video facade -----
+    // No iframe exists until the visitor clicks play: wheel scrolling passes
+    // over the frame freely (an embedded iframe swallows wheel events and
+    // stalls Lenis), and YouTube's player JS only downloads on intent.
+    const videoGate = document.querySelector('[data-video-gate]');
+    if (videoGate) {
+      videoGate.addEventListener('click', () => {
+        const src = videoGate.dataset.videoSrc;
+        if (!src) return;
+        const iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.title = 'MOKA SFX LIGHT video';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+        videoGate.replaceWith(iframe);
+      });
     }
   });
 })();

@@ -1500,14 +1500,17 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: var(--sp-16);
-  align-items: center;
+  /* text column stretches to the image height: head at the top, CTA at the bottom */
+  align-items: stretch;
 }
 .products-overview-visual {
   position: relative;
-  aspect-ratio: 1 / 1;
   max-width: 660px;
   width: 100%;
   margin: 0 auto;
+  /* fill the (taller) text column's height so the CTA lands flush with the
+     image bottom; images are contain-fit so the stretch never distorts */
+  align-self: stretch;
   border-radius: var(--radius-lg);
   background: radial-gradient(circle at 50% 65%, rgba(255,198,0,.18) 0%, transparent 55%), #0a0a0a;
   overflow: hidden;
@@ -1540,7 +1543,11 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   opacity: 1;
   transform: none;
 }
-.products-overview-text { min-width: 0; }
+.products-overview-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
 .products-overview-text h2 {
   font-size: clamp(32px, 3.4vw, 48px);
   letter-spacing: -0.02em;
@@ -1548,7 +1555,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 }
 .products-accordion {
   list-style: none;
-  margin: 0;
+  margin: 0 0 var(--sp-8); /* minimum gap above the bottom-pinned CTA */
   padding: 0;
 }
 .products-accordion-item {
@@ -1605,21 +1612,23 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 .products-accordion-link:hover { color: var(--c-accent); border-color: var(--c-accent); }
 .products-overview-cta {
   display: inline-flex;
-  margin-top: var(--sp-8);
+  /* pin to the bottom of the stretched text column, flush with the image */
+  margin-top: auto;
+  align-self: flex-start;
 }
 @media (max-width: 1100px) {
   .products-overview { grid-template-columns: 1fr; gap: var(--sp-10); }
-  .products-overview-visual { max-width: 620px; }
+  /* single column: nothing to stretch against — keep the square shape */
+  .products-overview-visual { max-width: 620px; aspect-ratio: 1 / 1; }
 }
 
-/* Stage banner: the animated curtain SVG under Product Overview. The whole
-   frame is the inquiry link. The arrow is positioned in % of the frame, so
-   it keeps its place next to the SVG headline at any width (the SVG scales
-   proportionally). */
+/* Stage banner: SVG is the pure visual layer (curtains open on scroll-into-
+   view); the headline and CTA are real HTML overlaid at stage center.
+   Copy timing mirrors the SVG: curtains open 0.25s–2.6s, title lands ~1.45s
+   after playback starts. */
 .stage-banner { padding: 0 0 var(--sp-20); }
 .stage-banner-frame {
   position: relative;
-  display: block;
   aspect-ratio: 1400 / 300; /* reserve space before the deferred SVG loads */
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -1632,35 +1641,58 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   width: 100%;
   height: 100%;
 }
-.stage-banner-arrow {
+/* Copy overlay: centered on the stage frame */
+.stage-banner-copy {
   position: absolute;
-  left: 72.5%; /* headline "discuss your project" ends near 70% of the SVG width */
-  top: 48%;
-  transform: translateY(-50%);
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+/* The headline IS the CTA: an <a> wrapping the h2 and the drifting arrow */
+.stage-banner-cta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+.stage-banner-title {
+  color: #f9f7f3;
+  font-size: clamp(22px, 3.9vw, 50px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 3px 7px rgba(0, 0, 0, .85);
+  transition: color .25s var(--ease);
+}
+.stage-banner-cta:hover .stage-banner-title { color: var(--c-accent); }
+.stage-banner-arrow {
+  display: inline-block;
   color: var(--c-accent);
-  font-size: clamp(18px, 2.6vw, 32px);
+  font-size: clamp(18px, 2.4vw, 30px);
   font-weight: 600;
-  line-height: 1;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, .6);
-  opacity: 0;
-  pointer-events: none;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .6);
 }
-/* Animations only start once home.js marks the banner as playing (when it
-   scrolls into view), keeping the arrow in sync with the SVG's own reveal. */
+/* With JS, the CTA hides until playback starts, then rises in behind the
+   opening curtains; without JS it renders statically. */
+.stage-banner-frame.is-armed .stage-banner-cta { opacity: 0; }
+.stage-banner-frame.is-playing .stage-banner-cta {
+  animation: stage-banner-rise 1s ease-out 1.45s both;
+}
 .stage-banner-frame.is-playing .stage-banner-arrow {
-  animation: stage-banner-arrow-in .6s ease-out 1.7s both,
-             stage-banner-arrow-drift 1.6s ease-in-out 2.4s infinite;
+  animation: stage-banner-arrow-drift 1.6s ease-in-out 2.6s infinite;
 }
-@keyframes stage-banner-arrow-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes stage-banner-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
 }
 @keyframes stage-banner-arrow-drift {
-  0%, 100% { transform: translate(0, -50%); }
-  50% { transform: translate(10px, -50%); }
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(10px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .stage-banner-frame.is-playing .stage-banner-arrow { animation: none; opacity: 1; }
+  .stage-banner-frame.is-playing .stage-banner-cta { animation: none; opacity: 1; }
+  .stage-banner-frame.is-playing .stage-banner-arrow { animation: none; }
 }
 
 /* Products collection page */
@@ -2821,11 +2853,13 @@ img.partner-card-media {
   text-transform: uppercase;
 }
 .partner-card-copy p {
-  max-width: 11ch;
+  /* full sentences now — read as body text so the card keeps its original
+     footprint (the big display size was for 3-4 word quotes) */
+  max-width: none;
   margin-top: var(--sp-4);
   color: #fff;
-  font-size: clamp(34px, 4.2vw, 56px);
-  line-height: 1.18;
+  font-size: clamp(16px, 1.5vw, 20px);
+  line-height: 1.55;
   letter-spacing: 0;
 }
 
@@ -2839,7 +2873,7 @@ img.partner-card-media {
     min-height: 230px;
   }
   .partner-card-copy p {
-    font-size: clamp(30px, 6.5vw, 42px);
+    font-size: 16px;
   }
 }
 
@@ -2864,8 +2898,8 @@ img.partner-card-media {
     letter-spacing: .12em;
   }
   .partner-card-copy p {
-    max-width: 9ch;
-    font-size: clamp(26px, 8vw, 34px);
+    font-size: 14px;
+    line-height: 1.5;
   }
 }
 
@@ -3485,6 +3519,22 @@ img.partner-card-media {
   height: 100%;
   border: 0;
 }
+/* Facade button: the frame holds only this until the first click injects the
+   iframe — wheel scrolling passes over it, no player JS loads beforehand. */
+.video-frame-gate {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: radial-gradient(ellipse 52% 62% at 50% 56%, rgba(255, 198, 0, .07), transparent 70%);
+  border: 0;
+  cursor: pointer;
+}
+.video-frame-gate svg { transition: transform .2s var(--ease); }
+.video-frame-gate:hover svg { transform: scale(1.08); }
 @media (max-width: 720px) {
   .video-frame { border-radius: var(--radius); }
 }

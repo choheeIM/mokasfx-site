@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1400" height="300" viewBox="0 0 1400 300" role="img" aria-labelledby="stageTitle stageDesc">
-  <title id="stageTitle">discuss your project</title>
-  <desc id="stageDesc">An animated theatrical stage: burgundy curtains open to both sides to reveal the words discuss your project.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1400" height="300" viewBox="0 0 1400 300" aria-hidden="true">
+  <!-- Decorative stage visual only: curtains, beams, floor. The headline and
+       CTA live in real HTML (index.html .stage-banner-copy) overlaying this. -->
   <defs>
     <radialGradient id="backdrop" cx="50%" cy="48%" r="73%">
       <stop offset="0%" stop-color="#283047"/>
@@ -67,9 +67,6 @@
     <filter id="softGlow" x="-40%" y="-100%" width="180%" height="300%">
       <feGaussianBlur stdDeviation="13"/>
     </filter>
-    <filter id="wordShadow" x="-15%" y="-85%" width="130%" height="270%">
-      <feDropShadow dx="0" dy="3" stdDeviation="7" flood-color="#000000" flood-opacity=".85"/>
-    </filter>
     <clipPath id="stageBounds"><rect width="1400" height="300"/></clipPath>
     <g id="curtainPanel">
       <path d="M -8 33 C 140 37 340 37 512 35 C 603 34 678 37 718 39 L 716 248
@@ -122,16 +119,10 @@
     /* Edit these if you need a different curtain opening speed/width. */
     .curtain-left { transform-box: view-box; transform-origin: 0px 0px; animation: revealLeft 2.35s cubic-bezier(.64,.03,.13,1) .25s both; }
     .curtain-right { transform-box: view-box; transform-origin: 1400px 0px; animation: revealRight 2.35s cubic-bezier(.64,.03,.13,1) .25s both; }
-    .headline { opacity: 0; animation: revealType 1.0s ease-out 1.45s both; }
-    .rule { opacity: 0; animation: revealRule .9s ease-out 1.75s both; }
     @keyframes revealLeft { 0% { transform: scaleX(1); } 100% { transform: scaleX(.265); } }
     @keyframes revealRight { 0% { transform: scaleX(1); } 100% { transform: scaleX(.265); } }
-    @keyframes revealType { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
-    @keyframes revealRule { 0% { opacity: 0; } 100% { opacity: 1; } }
     @media (prefers-reduced-motion: reduce) {
-      .curtain-left, .curtain-right, .headline, .rule { animation: none !important; }
-      .curtain-left, .curtain-right { transform: scaleX(.265) !important; }
-      .headline, .rule { opacity: 1 !important; }
+      .curtain-left, .curtain-right { animation: none !important; transform: scaleX(.265) !important; }
     }
   ]]></style>
 
@@ -147,16 +138,6 @@
       <path d="M 1107 22 L 760 251 L 1021 251 Z" fill="url(#spotWarm)"/>
       <path d="M 698 28 L 520 250 L 868 250 Z" fill="url(#spotCool)" opacity=".8"/>
       <ellipse cx="700" cy="244" rx="345" ry="34" fill="url(#floorLight)" filter="url(#softGlow)"/>
-    </g>
-    <!-- The central line of copy is real, selectable SVG text. -->
-    <g class="headline" filter="url(#wordShadow)">
-      <text x="700" y="166" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
-            font-size="56" font-weight="700" letter-spacing="-1.6" fill="#f9f7f3">discuss your project</text>
-    </g>
-    <g class="rule" stroke="#d5a96d" stroke-width="1.6" opacity="0">
-      <line x1="536" x2="630" y1="192" y2="192" stroke-opacity=".65"/>
-      <circle cx="700" cy="192" r="3" fill="#d5a96d" stroke="none"/>
-      <line x1="770" x2="864" y1="192" y2="192" stroke-opacity=".65"/>
     </g>
     <rect y="251" width="1400" height="49" fill="url(#floorFill)"/>
     <line x1="0" y1="250.7" x2="1400" y2="250.7" stroke="#c3a276" stroke-opacity=".34" stroke-width="2"/>
