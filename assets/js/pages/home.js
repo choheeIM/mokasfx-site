@@ -73,22 +73,24 @@
     // Progressive enhancement over the CSS sticky-stack fallback. Card one
     // scrolls in naturally and rests fully visible beneath the section head
     // by the time the stage pins. Each following card then slides up while
-    // the whole stage shifts up to make room (the head scrolls away under the
-    // site header), so the arriving card is always shown in full and the
-    // covered cards park as a row of bookmark tabs above the active card.
-    // All cards keep the image's 16:9 ratio and are sized so the tallest
-    // moment — the full tab row plus one complete card — still fits the
-    // viewport, so no image is ever cropped. Skipped for reduced motion.
+    // an inner slider (head + tab row + cards) shifts up by transform to make
+    // room — the head scrolls away under the site header, the arriving card
+    // is always shown in full, and the covered cards park as a row of
+    // bookmark tabs above the active card. All cards keep the image's 16:9
+    // ratio and are sized so the tallest moment — the full tab row plus one
+    // complete card — still fits the viewport, so no image is ever cropped.
+    // Skipped for reduced motion.
     const solutionSection = document.querySelector('.solution-featured');
     if (solutionSection) {
       const track = solutionSection.querySelector('[data-solution-track]');
       const stage = solutionSection.querySelector('[data-solution-stage]');
+      const inner = solutionSection.querySelector('[data-solution-inner]');
       const head = solutionSection.querySelector('[data-solution-head]');
       const stack = solutionSection.querySelector('.solution-stack');
       const cards = Array.from(solutionSection.querySelectorAll('.solution-stack-card'));
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (track && stage && head && stack && cards.length && !reduceMotion) {
+      if (track && stage && inner && head && stack && cards.length && !reduceMotion) {
         // Pinned stacking runs on tablet and desktop only; phones (<=720px)
         // get natural-scrolling 16:9 cards from CSS instead.
         const stackedLayout = window.matchMedia('(min-width: 721px)');
@@ -122,7 +124,7 @@
         const update = () => {
           ticking = false;
           if (!solutionSection.classList.contains('is-live')) return;
-          const scrollRange = Math.max(1, track.offsetHeight - stageH);
+          const scrollRange = Math.max(1, track.offsetHeight - stage.offsetHeight);
           const p = clamp01(-track.getBoundingClientRect().top / scrollRange);
 
           // Card one's rise (the stage shifting up) and card two's slide-in
@@ -155,7 +157,9 @@
             const dim = i < lastIndex ? tabSource * 0.45 : 0;
             card.style.setProperty('--sol-dim', dim.toFixed(3));
           });
-          stage.style.top = `${(headerH - shift).toFixed(1)}px`;
+          // The whole inner slider (head + tab row + cards) shifts up by a
+          // transform — compositor-only, no layout work per scroll frame.
+          inner.style.transform = `translate3d(0, ${(-shift).toFixed(1)}px, 0)`;
         };
 
         const layout = () => {
@@ -193,7 +197,7 @@
           shifts = cards.map((_, i) => (i === 0 ? 0 : headH + HEAD_GAP));
           stageH = parked[lastIndex] + cardH + HEAD_GAP;
 
-          stage.style.height = `${stageH}px`;
+          inner.style.height = `${stageH}px`;
           cards.forEach((card) => {
             card.style.left = '50%';
             card.style.right = 'auto';
@@ -203,7 +207,7 @@
 
           // Pinned scroll range: ~1.2 viewports per arriving card so each
           // slide gets a heavier, more deliberate feel.
-          track.style.height = `${Math.round(stageH + viewH * 1.2 * lastIndex)}px`;
+          track.style.height = `${Math.round(stage.offsetHeight + viewH * 1.2 * lastIndex)}px`;
           update();
         };
 
@@ -219,8 +223,8 @@
         const teardown = () => {
           solutionSection.classList.remove('is-live');
           track.style.height = '';
-          stage.style.height = '';
-          stage.style.top = '';
+          inner.style.height = '';
+          inner.style.transform = '';
           cards.forEach((card, i) => {
             card.style.transform = '';
             card.style.left = '';
@@ -255,6 +259,32 @@
         stackedLayout.addEventListener('change', sync);
         window.addEventListener('load', sync);
         sync();
+      }
+    }
+
+    // ----- Stage banner: start the curtain reveal when it scrolls into view -----
+    // The SVG's internal timeline runs from the moment the file is decoded,
+    // so loading it eagerly would leave the animation finished before the
+    // visitor ever scrolls there. Defer the src until the banner is visible.
+    const stageBanner = document.querySelector('.stage-banner-frame');
+    if (stageBanner) {
+      const stageImg = stageBanner.querySelector('.stage-banner-img[data-src]');
+      const playStageBanner = () => {
+        if (stageImg && !stageImg.src) stageImg.src = stageImg.dataset.src;
+        stageBanner.classList.add('is-playing');
+      };
+      if (stageImg && 'IntersectionObserver' in window) {
+        const stageObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              playStageBanner();
+              stageObserver.disconnect();
+            }
+          });
+        }, { threshold: 0.25 });
+        stageObserver.observe(stageBanner);
+      } else {
+        playStageBanner();
       }
     }
   });

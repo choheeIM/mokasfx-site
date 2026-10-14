@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MOKA LITE — Professional Stage Lighting</title>
 <meta name="description" content="MOKA LITE designs and manufactures professional moving heads, beam lights, lasers, strobes, fog and confetti machines for concerts, clubs and live events.">
-<link rel="stylesheet" href="assets/css/style.css?v=8">
+<link rel="stylesheet" href="assets/css/style.css?v=10">
 <script>/* The homepage opens at the top: the hero light-show transition only makes sense when scrolled through organically, and a restored mid-page position would land inside it. */if ("scrollRestoration" in history) history.scrollRestoration = "manual";</script>
 <noscript><style>.blog-overview-panel[hidden]{display:block;margin-top:var(--sp-10)}</style></noscript>
 </head>
@@ -204,6 +204,7 @@
        fully readable. -->
   <div class="solution-track" data-solution-track>
     <div class="solution-stage" data-solution-stage>
+      <div class="solution-stage-inner" data-solution-inner>
       <div class="container solution-stage-head" data-solution-head>
         <div class="sec-head">
           <div>
@@ -270,6 +271,7 @@
             <h3 class="solution-stack-title"><a href="404.html">Outdoor Stage Lighting Solution</a></h3>
             <p class="solution-stack-desc">Waterproof lighting for outdoor event stages, festivals and shows.</p>          </div>
         </article>
+      </div>
       </div>
     </div>
   </div>
@@ -356,6 +358,20 @@
         <a class="btn btn-ghost products-overview-cta" href="products.html">View All Products</a>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============================ STAGE BANNER ============================ -->
+<section class="stage-banner" aria-label="Discuss your project">
+  <div class="container">
+    <a class="stage-banner-frame" href="contact.html#inquiry" aria-label="Discuss your project — send an inquiry">
+      <!-- data-src + home.js: the SVG (and its curtain animation) only starts
+           loading when the banner scrolls into view, so the reveal plays in
+           front of the visitor instead of finishing off-screen -->
+      <img class="stage-banner-img" data-src="assets/img/discuss-your-project-stage.svg" alt="A theatre stage with burgundy curtains opening to reveal the words discuss your project" width="1400" height="300" decoding="async">
+      <noscript><img class="stage-banner-img" src="assets/img/discuss-your-project-stage.svg" alt="A theatre stage with burgundy curtains opening to reveal the words discuss your project" width="1400" height="300" loading="lazy" decoding="async"></noscript>
+      <span class="stage-banner-arrow" aria-hidden="true">&rarr;</span>
+    </a>
   </div>
 </section>
 
@@ -680,7 +696,7 @@
 <script src="assets/js/core/site.js"></script>
 <script src="assets/js/components/light-effects.js?v=2"></script>
 <script src="assets/js/components/marquee.js"></script>
-<script src="assets/js/pages/home.js?v=9"></script>
+<script src="assets/js/pages/home.js?v=11"></script>
 <script src="assets/js/forms/inquiry-form.js"></script>
 </body>
 </html>

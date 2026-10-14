@@ -20,7 +20,7 @@
 
   onReady(() => {
     const lenis = new window.Lenis({
-      lerp: 0.08, // smaller = heavier, slower glide
+      lerp: 0.06, // smaller = heavier, slower glide
       smoothWheel: true,
     });
 
