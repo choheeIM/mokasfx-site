@@ -172,9 +172,10 @@ ${catLinks}
       </div>
 
       <div class="nav-item has-dropdown">
-        <a class="nav-link" href="${prefix}404.html">Resources <span class="caret" aria-hidden="true"></span></a>
+        <span class="nav-link" tabindex="0">Resources <span class="caret" aria-hidden="true"></span></span>
         <div class="nav-dropdown">
           <a href="${prefix}about.html">About us</a>
+          <a href="${prefix}certificates.html">Certificates</a>
           <a href="${prefix}privacy.html">Privacy Policy</a>
         </div>
       </div>
@@ -274,10 +275,9 @@ function footer(prefix) {
         <h5>Support</h5>
         <ul>
           <li><a href="${prefix}about.html">About MOKA LITE</a></li>
+          <li><a href="${prefix}certificates.html">Certificates</a></li>
           <li><a href="${prefix}contact.html#support">Terms of Service</a></li>
           <li><a href="${prefix}privacy.html">Privacy Policy</a></li>
-          <li><a href="${prefix}contact.html">Warranty &amp; Return</a></li>
-          <li><a href="${prefix}404.html">Watch More Videos</a></li>
         </ul>
       </nav>
     </div>
