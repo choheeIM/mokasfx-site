@@ -827,7 +827,7 @@ ${inquirySection()}
 <!-- ============================ FOOTER ============================ -->
 ${footer(prefix)}
 <script src="${prefix}assets/js/core/utils.js"></script>
-<script src="${prefix}assets/js/vendor/lenis.min.js"></script>
+<script src="${prefix}assets/js/vendor/lenis.1.3.11.min.js?v=2"></script>
 <script src="${prefix}assets/js/core/smooth-scroll.js"></script>
 <script src="${prefix}assets/js/core/site.js"></script>
 <script src="${prefix}assets/js/forms/inquiry-form.js"></script>
@@ -1001,7 +1001,7 @@ ${inquirySection()}
 <!-- ============================ FOOTER ============================ -->
 ${footer(prefix)}
 <script src="${prefix}assets/js/core/utils.js"></script>
-<script src="${prefix}assets/js/vendor/lenis.min.js"></script>
+<script src="${prefix}assets/js/vendor/lenis.1.3.11.min.js?v=2"></script>
 <script src="${prefix}assets/js/core/smooth-scroll.js"></script>
 <script src="${prefix}assets/js/core/site.js"></script>
 <script src="${prefix}assets/js/forms/inquiry-form.js"></script>
