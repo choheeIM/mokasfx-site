@@ -443,7 +443,7 @@ function header(prefix, activeSlug) {
           <a href="${prefix}404.html">Bar &amp; Nightclub</a>
           <a href="${prefix}404.html">Multipurpose Hall</a>
           <a href="${prefix}404.html">Church Stage</a>
-          <a href="${prefix}solution-detail.html">Indoor Stage</a>
+          <a href="${prefix}indoor-stage.html">Indoor Stage</a>
           <a href="${prefix}404.html">Outdoor Stage</a>
         </div>
       </div>
@@ -476,7 +476,7 @@ ${CATEGORIES.map((c) => blogLink(c.slug, c.label)).join("\n")}
     <div class="container mega-inner">
       <div class="products-menu-panels">
         <section class="products-menu-panel">
-          <h4 class="products-menu-panel-title">Stage Lights</h4>
+          <p class="products-menu-panel-title">Stage Lights</p>
           <ul class="products-menu-panel-list">
             <li><a href="${prefix}products/waterproof-light/">Waterproof Light</a></li>
             <li><a href="${prefix}products/beam-light/">Beam Light</a></li>
@@ -489,7 +489,7 @@ ${CATEGORIES.map((c) => blogLink(c.slug, c.label)).join("\n")}
         </section>
 
         <section class="products-menu-panel">
-          <h4 class="products-menu-panel-title">Led Panels</h4>
+          <p class="products-menu-panel-title">Led Panels</p>
           <ul class="products-menu-panel-list">
             <li><a href="${prefix}products/led-dance-floor/">LED Dance Floor</a></li>
             <li><a href="${prefix}products/led-screen/">LED Screen</a></li>
@@ -506,12 +506,12 @@ ${CATEGORIES.map((c) => blogLink(c.slug, c.label)).join("\n")}
         <li><a href="${prefix}404.html">Bar &amp; Nightclub</a></li>
         <li><a href="${prefix}404.html">Multipurpose Hall</a></li>
         <li><a href="${prefix}404.html">Church Stage</a></li>
-        <li><a href="${prefix}solution-detail.html">Indoor Stage</a></li>
+        <li><a href="${prefix}indoor-stage.html">Indoor Stage</a></li>
         <li><a href="${prefix}404.html">Outdoor Stage</a></li>
       </ul>
       <div class="mega-feature">
         <div class="mega-feature-copy">
-          <h3>Have Any Questions?</h3>
+          <p class="mega-feature-title">Have Any Questions?</p>
           <p>Experts in modern stage lighting &mdash; tell us about your venue.</p>
           <a class="feature-cta" href="${prefix}contact.html#inquiry">Get Free Quote <span aria-hidden="true">&rarr;</span></a>
         </div>
@@ -607,13 +607,9 @@ function inquirySection() {
   <div class="container inquiry-layout">
     <div class="inquiry-copy">
       <span class="eyebrow">B2B Inquiry</span>
-      <h2 id="b2b-inquiry-title">Tell us what your project needs</h2>
-      <p>Share the event type, venue scale and target delivery date. A sales engineer will review the details and reply with a suitable lighting plan.</p>
-      <ul class="inquiry-points" aria-label="Inquiry support">
-        <li>Custom stage lighting project support</li>
-        <li>Touring, club, theater and event solutions</li>
-        <li>Quotation, shipping and one-year after-sales support</li>
-      </ul>
+      <h2 id="b2b-inquiry-title">Tell Us About Your Lighting Project</h2>
+      <p>Whether you need a complete stage lighting solution or complete set lighting equipment, send us your requirements and our team will help evaluate the right approach.</p>
+      <p>Project Type ·  Venue Size · Required Effects · Schedule · Budget</p>
     </div>
 
     <form class="inquiry-form" data-inquiry-form novalidate>
@@ -626,9 +622,9 @@ function inquirySection() {
           <p class="field-error" data-error-for="name"></p>
         </div>
         <div class="field-control">
-          <label for="blog-inquiry-email">Email <span class="required" aria-hidden="true">*</span></label>
-          <input id="blog-inquiry-email" name="email" type="email" autocomplete="email" placeholder="name@company.com" required data-error-required="Please enter your email." data-error-format="Please enter a valid email address.">
-          <p class="field-error" data-error-for="email"></p>
+          <label for="blog-inquiry-country">Country <span class="required" aria-hidden="true">*</span></label>
+          <input id="blog-inquiry-country" name="country" type="text" autocomplete="country-name" placeholder="Enter your country / region">
+          <p class="field-error" data-error-for="country"></p>
         </div>
       </div>
 
@@ -639,9 +635,9 @@ function inquirySection() {
           <p class="field-error" data-error-for="phone"></p>
         </div>
         <div class="field-control">
-          <label for="blog-inquiry-country">Country <span class="required" aria-hidden="true">*</span></label>
-          <input id="blog-inquiry-country" name="country" type="text" autocomplete="country-name" placeholder="Enter your country / region">
-          <p class="field-error" data-error-for="country"></p>
+          <label for="blog-inquiry-email">Email <span class="required" aria-hidden="true">*</span></label>
+          <input id="blog-inquiry-email" name="email" type="email" autocomplete="email" placeholder="name@company.com" required data-error-required="Please enter your email." data-error-format="Please enter a valid email address.">
+          <p class="field-error" data-error-for="email"></p>
         </div>
       </div>
 

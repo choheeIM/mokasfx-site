@@ -1,0 +1,143 @@
+{
+  "_comment": "Single source of truth for the product catalog. Category pages, pagination, counts, JSON-LD, sitemap-products.xml and the WP-import CSV are all generated from this file by tools/build-products.mjs — never edit site/products*.html by hand. A product belongs to multiple categories by listing them in `categories` (first entry = primary, used for ordering and the card's main label). status: \"real\" ships to WordPress later; \"placeholder\" is local test data only and must NOT be imported.",
+
+  "categories": [
+    {
+      "slug": "waterproof-light",
+      "label": "Waterproof Light",
+      "group": "Stage Lights",
+      "blurb": "IP-rated housings, sealed optics and touring-ready output for outdoor stages.",
+      "title": "Waterproof Stage Lights — IP65 Outdoor Lighting Fixtures | MOKA LITE",
+      "description": "IP65 waterproof moving heads, beams and washes for outdoor concerts, festivals and open-air installations. Sealed optics, die-cast housings and tour-ready rigging from MOKA LITE."
+    },
+    {
+      "slug": "beam-light",
+      "label": "Beam Light",
+      "group": "Stage Lights",
+      "blurb": "Tight aerial beams with fast movement, sharp gobos and high-impact stage presence.",
+      "title": "Beam Lights — Moving Head Beam Fixtures for Stage & Tour | MOKA LITE",
+      "description": "High-intensity beam moving head lights with narrow angles, fast pan/tilt and crisp gobos for concerts, clubs and touring rigs. Explore MOKA LITE beam fixtures."
+    },
+    {
+      "slug": "wash-light",
+      "label": "Wash Light",
+      "group": "Stage Lights",
+      "blurb": "Smooth color mixing and even field coverage for clubs, theaters and event venues.",
+      "title": "Wash Lights — LED Moving Head Wash & Zoom Fixtures | MOKA LITE",
+      "description": "LED wash moving heads with smooth RGBW/CMY color mixing, wide zoom ranges and even field coverage for stages, theaters, churches and live events."
+    },
+    {
+      "slug": "laser-light",
+      "label": "Laser Light",
+      "group": "Stage Lights",
+      "blurb": "Precise laser effects for programmed shows, DJ sets and immersive installations.",
+      "title": "Laser Lights — RGB Animation Lasers for Shows & Clubs | MOKA LITE",
+      "description": "Professional RGB animation laser lights with ILDA/DMX control for concerts, nightclubs, DJ shows and immersive installations. Precision scanners from MOKA LITE."
+    },
+    {
+      "slug": "kinetic-light",
+      "label": "Kinetic Light",
+      "group": "Stage Lights",
+      "blurb": "Motion-driven fixtures for dynamic ceiling rigs and synchronized show moments.",
+      "title": "Kinetic Lights — Moving LED Winch & Lifting Ball Systems | MOKA LITE",
+      "description": "Kinetic lighting systems — DMX winches, lifting LED balls and motion-driven fixtures for dynamic ceilings, stage shows and architectural installations."
+    },
+    {
+      "slug": "effect-light",
+      "label": "Effect Light",
+      "group": "Stage Lights",
+      "blurb": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes.",
+      "title": "Effect Lights — Strobes, Blinders & Special FX Fixtures | MOKA LITE",
+      "description": "Stage effect lights including strobes, blinders and atmospheric FX fixtures that add texture and impact to concerts, clubs and live productions."
+    },
+    {
+      "slug": "par-light",
+      "label": "Par Light",
+      "group": "Stage Lights",
+      "blurb": "Compact PAR fixtures for reliable uplighting, truss washes and stage fills.",
+      "title": "LED Par Lights — Uplighting & Stage Wash PAR Cans | MOKA LITE",
+      "description": "Compact LED PAR lights for uplighting, truss washes and stage fills — indoor and IP65 outdoor versions for weddings, events and permanent installs."
+    },
+    {
+      "slug": "led-dance-floor",
+      "label": "LED Dance Floor",
+      "group": "LED Panels",
+      "blurb": "Modular LED dance floor systems with durable panels and event-ready visuals.",
+      "title": "LED Dance Floors — Modular Interactive Floor Panels | MOKA LITE",
+      "description": "Modular LED dance floor panels with durable tempered-glass surfaces and pixel-mapped visuals for weddings, clubs, exhibitions and event rentals."
+    },
+    {
+      "slug": "led-screen",
+      "label": "LED Screen",
+      "group": "LED Panels",
+      "blurb": "Rental-ready LED screen modules for stage backdrops and branded content.",
+      "title": "LED Screens — Rental LED Video Wall Panels for Stages | MOKA LITE",
+      "description": "Indoor and outdoor rental LED screen panels for stage backdrops, concerts and branded events. Fine-pitch, quick-lock cabinets from MOKA LITE."
+    }
+  ],
+
+  "products": [
+    {
+      "id": "moka-pulse-1818-x6",
+      "name": "PULSE 1818 X6",
+      "status": "real",
+      "categories": ["par-light"],
+      "image": "assets/img/product-detail/pulse-1.webp",
+      "description": "18×18W 6-in-1 flat LED PAR light for uplighting, truss washes and stage fills."
+    },
+
+    { "id": "moka-beam-demo-x230", "name": "BEAM DEMO X230", "status": "placeholder", "categories": ["beam-light"], "image": "assets/img/light/1.jpg", "description": "Tight aerial beams with fast movement, sharp gobos and high-impact stage presence." },
+    { "id": "moka-beam-demo-x300", "name": "BEAM DEMO X300", "status": "placeholder", "categories": ["beam-light"], "image": "assets/img/light/02.jpg", "description": "Tight aerial beams with fast movement, sharp gobos and high-impact stage presence." },
+    { "id": "moka-beam-demo-x380", "name": "BEAM DEMO X380", "status": "placeholder", "categories": ["beam-light"], "image": "assets/img/light/5.jpg", "description": "Tight aerial beams with fast movement, sharp gobos and high-impact stage presence." },
+    { "id": "moka-beam-demo-x295", "name": "BEAM DEMO X295", "status": "placeholder", "categories": ["beam-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Tight aerial beams with fast movement, sharp gobos and high-impact stage presence." },
+    { "id": "moka-beam-demo-x7r", "name": "BEAM DEMO X7R", "status": "placeholder", "categories": ["beam-light"], "image": "assets/img/light/1.jpg", "description": "Tight aerial beams with fast movement, sharp gobos and high-impact stage presence." },
+    { "id": "moka-beam-demo-x380-wp", "name": "BEAM DEMO X380 WP", "status": "placeholder", "categories": ["beam-light", "waterproof-light"], "image": "assets/img/light/02.jpg", "description": "IP65-rated beam moving head for outdoor stages — listed under both Beam Light and Waterproof Light." },
+    { "id": "moka-beam-demo-x295-wp", "name": "BEAM DEMO X295 WP", "status": "placeholder", "categories": ["beam-light", "waterproof-light"], "image": "assets/img/light/5.jpg", "description": "IP65-rated beam moving head for outdoor stages — listed under both Beam Light and Waterproof Light." },
+    { "id": "moka-hybrid-demo-bsw-600-wp", "name": "HYBRID DEMO BSW 600 WP", "status": "placeholder", "categories": ["beam-light", "wash-light", "waterproof-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Beam/spot/wash hybrid in an IP65 housing — listed under Beam, Wash and Waterproof Light." },
+
+    { "id": "moka-wash-demo-z740", "name": "WASH DEMO Z740", "status": "placeholder", "categories": ["wash-light"], "image": "assets/img/light/02.jpg", "description": "Smooth color mixing and even field coverage for clubs, theaters and event venues." },
+    { "id": "moka-wash-demo-z1940", "name": "WASH DEMO Z1940", "status": "placeholder", "categories": ["wash-light"], "image": "assets/img/light/1.jpg", "description": "Smooth color mixing and even field coverage for clubs, theaters and event venues." },
+    { "id": "moka-wash-demo-b1915", "name": "WASH DEMO B1915", "status": "placeholder", "categories": ["wash-light"], "image": "assets/img/light/5.jpg", "description": "Smooth color mixing and even field coverage for clubs, theaters and event venues." },
+    { "id": "moka-wash-demo-z3740", "name": "WASH DEMO Z3740", "status": "placeholder", "categories": ["wash-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Smooth color mixing and even field coverage for clubs, theaters and event venues." },
+    { "id": "moka-wash-demo-z1940-wp", "name": "WASH DEMO Z1940 WP", "status": "placeholder", "categories": ["wash-light", "waterproof-light"], "image": "assets/img/light/02.jpg", "description": "IP65-rated wash moving head — listed under both Wash Light and Waterproof Light." },
+
+    { "id": "moka-par-demo-618-air", "name": "PAR DEMO 618 AIR", "status": "placeholder", "categories": ["par-light"], "image": "assets/img/light/1.jpg", "description": "Compact PAR fixtures for reliable uplighting, truss washes and stage fills." },
+    { "id": "moka-par-demo-1818", "name": "PAR DEMO 1818", "status": "placeholder", "categories": ["par-light"], "image": "assets/img/light/5.jpg", "description": "Compact PAR fixtures for reliable uplighting, truss washes and stage fills." },
+    { "id": "moka-par-demo-740", "name": "PAR DEMO 740", "status": "placeholder", "categories": ["par-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Compact PAR fixtures for reliable uplighting, truss washes and stage fills." },
+    { "id": "moka-par-demo-1218", "name": "PAR DEMO 1218", "status": "placeholder", "categories": ["par-light"], "image": "assets/img/light/02.jpg", "description": "Compact PAR fixtures for reliable uplighting, truss washes and stage fills." },
+    { "id": "moka-par-demo-c200-x4", "name": "PAR DEMO C200 X4", "status": "placeholder", "categories": ["par-light"], "image": "assets/img/light/1.jpg", "description": "Compact PAR fixtures for reliable uplighting, truss washes and stage fills." },
+    { "id": "moka-par-demo-1218-wp", "name": "PAR DEMO 1218 WP", "status": "placeholder", "categories": ["par-light", "waterproof-light"], "image": "assets/img/light/5.jpg", "description": "IP65-rated LED PAR — listed under both Par Light and Waterproof Light." },
+
+    { "id": "moka-laser-demo-rgb10", "name": "LASER DEMO RGB10", "status": "placeholder", "categories": ["laser-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Precise laser effects for programmed shows, DJ sets and immersive installations." },
+    { "id": "moka-laser-demo-rgb60", "name": "LASER DEMO RGB60", "status": "placeholder", "categories": ["laser-light"], "image": "assets/img/light/02.jpg", "description": "Precise laser effects for programmed shows, DJ sets and immersive installations." },
+    { "id": "moka-laser-demo-g3000", "name": "LASER DEMO G3000", "status": "placeholder", "categories": ["laser-light"], "image": "assets/img/light/1.jpg", "description": "Precise laser effects for programmed shows, DJ sets and immersive installations." },
+    { "id": "moka-laser-demo-rgb30", "name": "LASER DEMO RGB30", "status": "placeholder", "categories": ["laser-light", "effect-light"], "image": "assets/img/light/5.jpg", "description": "Animation laser with built-in effect macros — listed under both Laser Light and Effect Light." },
+
+    { "id": "moka-strobe-demo-3000", "name": "STROBE DEMO 3000", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/02.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-strobe-demo-1200-move", "name": "STROBE DEMO 1200 MOVE", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/1.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-motion-demo-bar-1818", "name": "MOTION DEMO BAR 1818", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/5.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-motion-demo-pixel-640", "name": "MOTION DEMO PIXEL 640", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-motion-demo-flex-5120", "name": "MOTION DEMO FLEX 5120", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/02.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-vintage-demo-6-vertical", "name": "VINTAGE DEMO 6 VERTICAL 3IN1", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/1.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-matrix-demo-36x15w", "name": "MATRIX DEMO 36X15W", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/5.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-blinder-demo-2100", "name": "BLINDER DEMO 2100", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-blinder-demo-4100", "name": "BLINDER DEMO 4100", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/02.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-strobe-demo-3000-rgb", "name": "STROBE DEMO 3000 RGB", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/1.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-motion-demo-bar-1830", "name": "MOTION DEMO BAR 1830", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/5.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-vintage-demo-7-round", "name": "VINTAGE DEMO 7 ROUND", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-strobe-demo-600-atomic", "name": "STROBE DEMO 600 ATOMIC", "status": "placeholder", "categories": ["effect-light"], "image": "assets/img/light/02.jpg", "description": "Special effect fixtures that add texture, sparkle and atmosphere to live scenes." },
+    { "id": "moka-strobe-demo-1080-wp", "name": "STROBE DEMO 1080 WP", "status": "placeholder", "categories": ["effect-light", "waterproof-light"], "image": "assets/img/light/1.jpg", "description": "IP65-rated pixel strobe — listed under both Effect Light and Waterproof Light." },
+    { "id": "moka-blinder-demo-4100-wp", "name": "BLINDER DEMO 4100 WP", "status": "placeholder", "categories": ["effect-light", "waterproof-light"], "image": "assets/img/light/5.jpg", "description": "IP65-rated audience blinder — listed under both Effect Light and Waterproof Light." },
+
+    { "id": "moka-kinetic-demo-ball-15", "name": "KINETIC DEMO BALL 15", "status": "placeholder", "categories": ["kinetic-light"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Motion-driven fixtures for dynamic ceiling rigs and synchronized show moments." },
+    { "id": "moka-kinetic-demo-winch-dmx", "name": "KINETIC DEMO WINCH DMX", "status": "placeholder", "categories": ["kinetic-light"], "image": "assets/img/light/02.jpg", "description": "Motion-driven fixtures for dynamic ceiling rigs and synchronized show moments." },
+
+    { "id": "moka-floor-demo-p39", "name": "FLOOR DEMO P3.9", "status": "placeholder", "categories": ["led-dance-floor"], "image": "assets/img/light/1.jpg", "description": "Modular LED dance floor systems with durable panels and event-ready visuals." },
+    { "id": "moka-floor-demo-magnetic-50", "name": "FLOOR DEMO MAGNETIC 50X50", "status": "placeholder", "categories": ["led-dance-floor"], "image": "assets/img/light/5.jpg", "description": "Modular LED dance floor systems with durable panels and event-ready visuals." },
+
+    { "id": "moka-screen-demo-p26-indoor", "name": "SCREEN DEMO P2.6 INDOOR", "status": "placeholder", "categories": ["led-screen"], "image": "assets/img/light/100w LED摇头灯 白底图 (1).jpg", "description": "Rental-ready LED screen modules for stage backdrops and branded content." },
+    { "id": "moka-screen-demo-p39-outdoor", "name": "SCREEN DEMO P3.9 OUTDOOR", "status": "placeholder", "categories": ["led-screen"], "image": "assets/img/light/02.jpg", "description": "Rental-ready LED screen modules for stage backdrops and branded content." },
+
+    { "id": "moka-city-demo-3230-wp", "name": "CITY DEMO 3230 WP", "status": "placeholder", "categories": ["waterproof-light"], "image": "assets/img/light/1.jpg", "description": "IP-rated housings, sealed optics and touring-ready output for outdoor stages." }
+  ]
+}

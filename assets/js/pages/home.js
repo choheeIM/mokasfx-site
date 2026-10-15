@@ -309,5 +309,21 @@
         videoGate.replaceWith(iframe);
       });
     }
+
+    // ----- FAQ: reveal on scroll (same pattern as solution-detail.js) -----
+    const revealEls = document.querySelectorAll('.home-reveal');
+    if ('IntersectionObserver' in window) {
+      const revealIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealEls.forEach((el) => revealIO.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add('is-visible'));
+    }
   });
 })();

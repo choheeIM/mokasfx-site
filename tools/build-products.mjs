@@ -1,23 +1,38 @@
 /**
  * Static product-page generator (no dependencies).
  *
- * Compiles the product catalog below into fully pre-rendered HTML:
+ * Reads the catalog from tools/products.json and compiles it into fully
+ * pre-rendered HTML:
  *   site/products.html                          -> "All products" listing, page 1
  *   site/products/page/<n>/index.html           -> "All products" listing, page n
  *   site/products/<slug>/index.html             -> category listing, page 1
  *   site/products/<slug>/page/<n>/index.html    -> category listing, page n
  *
+ * Many-to-many mapping: a product lists every category it belongs to in its
+ * `categories` array (first = primary). Category pages, filter-bar counts,
+ * pagination and JSON-LD all derive from that, so a waterproof beam appears
+ * on both /products/beam-light/ and /products/waterproof-light/ from one entry.
+ *
  * Every URL carries its own title, meta description, canonical link,
  * rel="prev"/rel="next", breadcrumbs and JSON-LD, and all product cards
  * live in the HTML source, so the catalog is fully indexable without JS.
  *
+ * Detail links point at the single flat-par-light-p-12-pulse-1818-x6.html template (P-12
+ * PULSE 1818 X6). Only that one real product has a detail page by design;
+ * per-product static detail pages arrive with the WordPress theme.
+ *
  * It also exports tools/products-catalog.csv — the same catalog in a flat
- * format that can later feed a WooCommerce/Elementor import.
+ * format for the later WordPress import (category_slugs is pipe-separated;
+ * import only rows with status "real").
+ *
+ * WARNING: site/products/ and site/products.html are build output. The
+ * directory is deleted and recreated on every run — do not keep hand-edited
+ * files there.
  *
  * Run from the site directory:  node tools/build-products.mjs
  */
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -31,225 +46,40 @@ const TOOLS_DIR = dirname(fileURLToPath(import.meta.url));
  */
 const SITE_URL = "";
 
-/** Products per listing page (3 columns x 10 rows). */
-const PAGE_SIZE = 30;
+/** Products per listing page. Small on purpose while the catalog is test
+ *  data, so pagination is exercised; raise once the real lineup lands. */
+const PAGE_SIZE = 12;
 
-const IMAGE_POOL = [
-  "assets/img/light/02.jpg",
-  "assets/img/light/1.jpg",
-  "assets/img/light/100w LED摇头灯 白底图 (1).jpg",
-  "assets/img/light/5.jpg",
-];
+const catalog = JSON.parse(readFileSync(join(TOOLS_DIR, "products.json"), "utf8"));
+const CATEGORIES = catalog.categories;
 
-const CATEGORIES = [
-  {
-    slug: "waterproof-light",
-    label: "Waterproof Light",
-    group: "Stage Lights",
-    type: "Outdoor Beam",
-    blurb: "IP-rated housings, sealed optics and touring-ready output for outdoor stages.",
-    title: "Waterproof Stage Lights — IP65 Outdoor Lighting Fixtures | MOKA LITE",
-    description:
-      "IP65 waterproof moving heads, beams and washes for outdoor concerts, festivals and open-air installations. Sealed optics, die-cast housings, factory-direct from MOKA LITE.",
-  },
-  {
-    slug: "beam-light",
-    label: "Beam Light",
-    group: "Stage Lights",
-    type: "Beam Moving Head",
-    blurb: "Tight aerial beams with fast movement, sharp gobos and high-impact stage presence.",
-    title: "Beam Lights — Moving Head Beam Fixtures for Stage & Tour | MOKA LITE",
-    description:
-      "High-intensity beam moving head lights with narrow angles, fast pan/tilt and crisp gobos for concerts, clubs and touring rigs. Explore MOKA LITE beam fixtures.",
-  },
-  {
-    slug: "wash-light",
-    label: "Wash Light",
-    group: "Stage Lights",
-    type: "Wash Moving Head",
-    blurb: "Smooth color mixing and even field coverage for clubs, theaters and event venues.",
-    title: "Wash Lights — LED Moving Head Wash & Zoom Fixtures | MOKA LITE",
-    description:
-      "LED wash moving heads with smooth RGBW/CMY color mixing, wide zoom ranges and even field coverage for stages, theaters, churches and live events.",
-  },
-  {
-    slug: "laser-light",
-    label: "Laser Light",
-    group: "Stage Lights",
-    type: "Laser Fixture",
-    blurb: "Precise laser effects for programmed shows, DJ sets and immersive installations.",
-    title: "Laser Lights — RGB Animation Lasers for Shows & Clubs | MOKA LITE",
-    description:
-      "Professional RGB animation laser lights with ILDA/DMX control for concerts, nightclubs, DJ shows and immersive installations. Precision scanners from MOKA LITE.",
-  },
-  {
-    slug: "kinetic-light",
-    label: "Kinetic Light",
-    group: "Stage Lights",
-    type: "Kinetic Light",
-    blurb: "Motion-driven fixtures for dynamic ceiling rigs and synchronized show moments.",
-    title: "Kinetic Lights — Moving LED Winch & Lifting Ball Systems | MOKA LITE",
-    description:
-      "Kinetic lighting systems — DMX winches, lifting LED balls and motion-driven fixtures for dynamic ceilings, stage shows and architectural installations.",
-  },
-  {
-    slug: "effect-light",
-    label: "Effect Light",
-    group: "Stage Lights",
-    type: "Effect Fixture",
-    blurb: "Special effect fixtures that add texture, sparkle and atmosphere to live scenes.",
-    title: "Effect Lights — Strobes, Blinders & Special FX Fixtures | MOKA LITE",
-    description:
-      "Stage effect lights including strobes, blinders and atmospheric FX fixtures that add texture and impact to concerts, clubs and live productions.",
-  },
-  {
-    slug: "par-light",
-    label: "Par Light",
-    group: "Stage Lights",
-    type: "LED PAR",
-    blurb: "Compact PAR fixtures for reliable uplighting, truss washes and stage fills.",
-    title: "LED Par Lights — Uplighting & Stage Wash PAR Cans | MOKA LITE",
-    description:
-      "Compact LED PAR lights for uplighting, truss washes and stage fills — indoor and IP65 outdoor versions for weddings, events and permanent installs.",
-  },
-  {
-    slug: "led-dance-floor",
-    label: "LED Dance Floor",
-    group: "LED Panels",
-    type: "Dance Floor Panel",
-    blurb: "Modular LED dance floor systems with durable panels and event-ready visuals.",
-    title: "LED Dance Floors — Modular Interactive Floor Panels | MOKA LITE",
-    description:
-      "Modular LED dance floor panels with durable tempered-glass surfaces and pixel-mapped visuals for weddings, clubs, exhibitions and event rentals.",
-  },
-  {
-    slug: "led-screen",
-    label: "LED Screen",
-    group: "LED Panels",
-    type: "LED Screen Panel",
-    blurb: "Rental-ready LED screen modules for stage backdrops and branded content.",
-    title: "LED Screens — Rental LED Video Wall Panels for Stages | MOKA LITE",
-    description:
-      "Indoor and outdoor rental LED screen panels for stage backdrops, concerts and branded events. Fine-pitch, quick-lock cabinets from MOKA LITE.",
-  },
-];
+const categoryOf = (slug) => CATEGORIES.find((c) => c.slug === slug);
 
-/**
- * The catalog. To add a product: append an entry here (and drop its image
- * into assets/img/light/), then re-run the generator — listings, category
- * pages, pagination, counts, sitemap and the CSV export all update.
- */
-const TONES = ["Pro", "Tour", "Studio", "Venue", "Matrix"];
-
-/** Confirmed model names per category (spreadsheet order). Categories not
- *  listed keep generated placeholder names until their lineup is confirmed. */
-const REAL_NAMES = {
-  "beam-light": [
-    "BEAM X300",
-    "BEAM X500",
-    "BEAM X295",
-    "BEAM X382",
-    "FUSION 250",
-    "FUSION 380",
-    "FUSION 400 CMY",
-    "FUSION 500 CMY",
-    "PROFILE X600",
-    "PROFILE X800",
-    "FUSION 380 WP",
-    "FUSION 600 WP",
-    "FUSION 380 WP Pro",
-  ],
-  "wash-light": ["AURA B1915", "AURA B740", "AURA Z1940", "AURA Z3740", "AURA Z1915", "AURA Z740", "AURA Z1940 WP"],
-  "par-light": [
-    "PULSE 618 AIR",
-    "PULSE 1818 X6",
-    "PULSE 1218 WP",
-    "PULSE 1818 WP",
-    "PULSE 740 WP",
-    "BLINDER C200 X4",
-    "BLINDER 2100 FX",
-    "BLINDER 4100 RGB LINK",
-    "BLINDER 2100 WP",
-    "BLINDER 4100 WP",
-    "BLINDER 2300 WP",
-  ],
-  "waterproof-light": [
-    "Mini 381 waterproof moving beam",
-    "Waterproof 600W BSW",
-    "380 Beam Wash Spot beam 4in1",
-    "AURA Z1940 WP",
-    "MOTION BAR 1818 WP",
-    "MOTION STROBE 600 WP",
-    "CITY 3230 WP",
-    "CITY 6010 WP",
-    "CITY 8020 WP",
-    "STROBE 1200 MOVE WP",
-    "STROBE 3000 RGB WP",
-    "STROBE 1080 PIXEL WP",
-    "PULSE 1218 WP",
-    "PULSE 1818 WP",
-    "PULSE 740 WP",
-    "BLINDER 2100 WP",
-    "BLINDER 4100 WP",
-    "BLINDER 2300 WP",
-  ],
-  "laser-light": ["LASER RGB10", "LASER RGB30 WP", "LASER RGB60 WP"],
-  /* Cleared pending real lineups — empty array = no placeholder products. */
-  "kinetic-light": [],
-  "led-dance-floor": [],
-  "led-screen": [],
-  "effect-light": [
-    "STROBE 3000",
-    "STROBE 3000 RGB",
-    "STROBE 1200 MOVE WP",
-    "STROBE 3000 RGB WP",
-    "STROBE 1080 PIXEL WP",
-    "CITY 3230 WP",
-    "CITY 6010 WP",
-    "CITY 8020 WP",
-    "MOTION BAR 1818",
-    "MOTION BAR 1830",
-    "MOTION PIXEL 640",
-    "MOTION PIXEL 1260",
-    "MOTION FLEX 5120",
-    "MOTION FLEX 1240",
-    "MOTION FLEX 1060",
-    "MOTION BAR 1818 WP",
-    "MOTION STROBE 600 WP",
-    "VINTAGE-6 VERTICAL 3IN1",
-    "VINTAGE-7 ROUND 3IN1",
-    "MINI VINTAGE-7 ROUND",
-    "36 x15W matrices",
-    "LED Matrix Blinder Light",
-  ],
-};
-
-const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
-/* Per-category lineups interleaved round-robin, so the all-products page
-   mixes categories the same way the old generated catalog did. */
-const lineups = CATEGORIES.map((category, ci) => {
-  const real = REAL_NAMES[category.slug];
-  const names = real || Array.from({ length: 5 }, (_, i) => `MOKA ${TONES[(ci + i) % TONES.length]} ${category.type} ${String(i + 1).padStart(2, "0")}`);
-  return names.map((name, i) => ({
-    id: `moka-${real ? slugify(name) : `${category.slug}-${String(i + 1).padStart(2, "0")}`}`,
-    name,
-    category: category.slug,
-    image: IMAGE_POOL[(ci + i) % IMAGE_POOL.length],
-    description: category.blurb,
-  }));
-});
-const PRODUCTS = [];
-for (let i = 0; ; i += 1) {
-  let added = false;
-  for (const lineup of lineups) {
-    if (lineup[i]) {
-      PRODUCTS.push(lineup[i]);
-      added = true;
-    }
+for (const p of catalog.products) {
+  if (!p.categories?.length) throw new Error(`${p.id}: needs at least one category`);
+  for (const slug of p.categories) {
+    if (!categoryOf(slug)) throw new Error(`${p.id}: unknown category "${slug}"`);
   }
-  if (!added) break;
 }
+
+/* All-products order: round-robin across primary categories so the grid
+   mixes fixture types instead of grouping them. Category pages keep the
+   JSON declaration order. */
+function interleaveByPrimaryCategory(products) {
+  const buckets = CATEGORIES.map((c) => products.filter((p) => p.categories[0] === c.slug));
+  const out = [];
+  for (let i = 0; ; i += 1) {
+    let added = false;
+    for (const bucket of buckets) {
+      if (bucket[i]) {
+        out.push(bucket[i]);
+        added = true;
+      }
+    }
+    if (!added) return out;
+  }
+}
+const PRODUCTS = interleaveByPrimaryCategory(catalog.products);
 
 const ALL_LISTING = {
   slug: "all",
@@ -265,8 +95,8 @@ const ALL_LISTING = {
     "Browse MOKA LITE professional stage lighting products including beam lights, wash lights, lasers, waterproof fixtures, LED dance floors and LED screens.",
 };
 
-const productsIn = (slug) => PRODUCTS.filter((p) => p.category === slug);
-const categoryOf = (slug) => CATEGORIES.find((c) => c.slug === slug);
+const productsIn = (slug) => PRODUCTS.filter((p) => p.categories.includes(slug));
+const categoryLabels = (p) => p.categories.map((slug) => categoryOf(slug).label);
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 /* --------------------------- listing helpers --------------------------- */
@@ -328,16 +158,16 @@ ${catLinks}
           <a href="${prefix}404.html">Bar &amp; Nightclub</a>
           <a href="${prefix}404.html">Multipurpose Hall</a>
           <a href="${prefix}404.html">Church Stage</a>
-          <a href="${prefix}solution-detail.html">Indoor Stage</a>
+          <a href="${prefix}indoor-stage.html">Indoor Stage</a>
           <a href="${prefix}404.html">Outdoor Stage</a>
         </div>
       </div>
 
       <div class="nav-item has-dropdown">
-        <a class="nav-link" href="${prefix}blog.html">Blog <span class="caret" aria-hidden="true"></span></a>
+        <a class="nav-link" href="${prefix}projects.html">News <span class="caret" aria-hidden="true"></span></a>
         <div class="nav-dropdown">
           <a href="${prefix}projects.html">Projects</a>
-          <a href="${prefix}technical-guides.html">Technical Guides</a>
+          <a href="${prefix}blog.html">Blog</a>
         </div>
       </div>
 
@@ -352,6 +182,11 @@ ${catLinks}
       <div class="nav-item"><a class="nav-link" href="${prefix}contact.html#inquiry">Contact us</a></div>
     </nav>
 
+    <a class="nav-search" href="${prefix}search.html" aria-label="Search the site">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span class="nav-search-text">Search</span>
+    </a>
+
     <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
@@ -362,14 +197,14 @@ ${catLinks}
     <div class="container mega-inner">
       <div class="products-menu-panels">
         <section class="products-menu-panel">
-          <h4 class="products-menu-panel-title">Stage Lights</h4>
+          <p class="products-menu-panel-title">Stage Lights</p>
           <ul class="products-menu-panel-list">
 ${megaGroup("Stage Lights")}
           </ul>
         </section>
 
         <section class="products-menu-panel">
-          <h4 class="products-menu-panel-title">Led Panels</h4>
+          <p class="products-menu-panel-title">Led Panels</p>
           <ul class="products-menu-panel-list">
 ${megaGroup("LED Panels")}
           </ul>
@@ -385,12 +220,12 @@ ${megaGroup("LED Panels")}
         <li><a href="${prefix}404.html">Bar &amp; Nightclub</a></li>
         <li><a href="${prefix}404.html">Multipurpose Hall</a></li>
         <li><a href="${prefix}404.html">Church Stage</a></li>
-        <li><a href="${prefix}solution-detail.html">Indoor Stage</a></li>
+        <li><a href="${prefix}indoor-stage.html">Indoor Stage</a></li>
         <li><a href="${prefix}404.html">Outdoor Stage</a></li>
       </ul>
       <div class="mega-feature">
         <div class="mega-feature-copy">
-          <h3>Have Any Questions?</h3>
+          <p class="mega-feature-title">Have Any Questions?</p>
           <p>Experts in modern stage lighting &mdash; tell us about your venue.</p>
           <a class="feature-cta" href="${prefix}contact.html#inquiry">Get Free Quote <span aria-hidden="true">&rarr;</span></a>
         </div>
@@ -466,14 +301,15 @@ ${CATEGORIES.map((c) => link(c.slug, c.label, productsIn(c.slug).length)).join("
     </nav>`;
 }
 
-function productCard(prefix, product, category) {
-  const detail = `${prefix}product-detail.html?id=${encodeURIComponent(product.id)}`;
+function productCard(prefix, product) {
+  const detail = `${prefix}flat-par-light-p-12-pulse-1818-x6.html`;
+  const labels = categoryLabels(product).join(" · ");
   return `<article class="product-card" itemscope itemtype="https://schema.org/Product">
             <a class="product-card-media" href="${detail}" aria-label="View ${esc(product.name)}">
-              <img src="${prefix}${esc(product.image)}" alt="${esc(product.name)} — ${category.label} by MOKA LITE" loading="lazy" itemprop="image">
+              <img src="${prefix}${esc(product.image)}" alt="${esc(product.name)} — ${esc(labels)} by MOKA LITE" loading="lazy" itemprop="image">
             </a>
             <div class="product-card-body">
-              <span class="product-card-category">${category.label}</span>
+              <span class="product-card-category">${labels}</span>
               <h3 itemprop="name">${product.name}</h3>
               <a class="product-card-link" href="${detail}">View Details <span aria-hidden="true">&rarr;</span></a>
             </div>
@@ -584,7 +420,7 @@ function listingPage(listing, page) {
     page < totalPages ? `<link rel="next" href="${SITE_URL}/${urlPathFor(slug, page + 1)}">` : "",
   ].filter(Boolean).join("\n");
 
-  const cards = items.map((p) => productCard(prefix, p, categoryOf(p.category))).join("\n          ");
+  const cards = items.map((p) => productCard(prefix, p)).join("\n          ");
   const gridContent = items.length
     ? cards
     : `<p class="products-empty">This category is being updated — <a href="${prefix}contact.html#inquiry">ask us for the current lineup</a>.</p>`;
@@ -617,9 +453,9 @@ function listingPage(listing, page) {
             name: p.name,
             description: p.description,
             image: `${SITE_URL}/${encodeURI(p.image)}`,
-            url: `${SITE_URL}/product-detail.html?id=${encodeURIComponent(p.id)}`,
+            url: `${SITE_URL}/flat-par-light-p-12-pulse-1818-x6.html`,
             brand: { "@type": "Brand", name: "MOKA LITE" },
-            category: categoryOf(p.category).label,
+            category: categoryLabels(p),
           },
         })),
       },
@@ -685,7 +521,7 @@ ${header(prefix, slug)}
 <!-- ============================ FOOTER ============================ -->
 ${footer(prefix)}
 <script src="${prefix}assets/js/core/utils.js"></script>
-<script src="${prefix}assets/js/vendor/lenis.min.js"></script>
+<script src="${prefix}assets/js/vendor/lenis.1.3.11.min.js?v=2"></script>
 <script src="${prefix}assets/js/core/smooth-scroll.js"></script>
 <script src="${prefix}assets/js/core/site.js"></script>
 </body>
@@ -694,6 +530,11 @@ ${footer(prefix)}
 }
 
 /* -------------------------------- build -------------------------------- */
+
+// Everything under products/ plus products.html is generated output — wipe
+// first so removed products/categories never leave stale pages behind.
+rmSync(join(SITE_DIR, "products"), { recursive: true, force: true });
+unlinkSync(join(SITE_DIR, "products.html"));
 
 const written = [];
 function emit(relPath, content) {
@@ -736,14 +577,25 @@ ${sitemapUrls
 `;
 emit("sitemap-products.xml", sitemap);
 
-// Flat catalog export — the data source for a future WooCommerce/Elementor
-// import. Kept out of the public web root on purpose.
+// Flat catalog export — the data source for the later WordPress import
+// (category_slugs maps to product_category terms; import only status=real).
+// Kept out of the public web root on purpose.
 const csvEscape = (value) => (/[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value);
 const csvRows = [
-  ["id", "name", "category_slug", "category_label", "group", "image", "description"],
+  ["id", "name", "status", "primary_category_slug", "category_slugs", "category_labels", "group", "image", "description"],
   ...PRODUCTS.map((p) => {
-    const c = categoryOf(p.category);
-    return [p.id, p.name, c.slug, c.label, c.group, p.image, p.description];
+    const primary = categoryOf(p.categories[0]);
+    return [
+      p.id,
+      p.name,
+      p.status,
+      primary.slug,
+      p.categories.join("|"),
+      categoryLabels(p).join("|"),
+      primary.group,
+      p.image,
+      p.description,
+    ];
   }),
 ];
 writeFileSync(join(TOOLS_DIR, "products-catalog.csv"), csvRows.map((row) => row.map(csvEscape).join(",")).join("\n") + "\n", "utf8");

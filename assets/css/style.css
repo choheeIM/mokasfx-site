@@ -383,7 +383,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   filter: blur(10px); pointer-events: none;
 }
 .mega-feature .mega-feature-img { display: block; width: 100%; height: 140px; object-fit: cover; border-radius: var(--radius); margin-top: var(--sp-6); }
-.mega-feature h3 { font-size: var(--fs-24); margin-top: var(--sp-3); max-width: 22ch; }
+.mega-feature .mega-feature-title { color: var(--c-text); font-size: var(--fs-24); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; margin-top: var(--sp-3); max-width: 22ch; }
 .mega-feature p { color: var(--c-text-mute); margin-top: var(--sp-3); font-size: var(--fs-13); max-width: 30ch; }
 .mega-feature .feature-cta {
   margin-top: var(--sp-6);
@@ -2900,6 +2900,81 @@ img.partner-card-media {
   .partner-card-copy p {
     font-size: 14px;
     line-height: 1.5;
+  }
+}
+
+/* Home FAQ — mirrors the solution-detail FAQ (.sd-faq) styling, renamed to
+   avoid colliding with solution-detail.css which loads alongside this file. */
+.home-faq-head {
+  margin-bottom: var(--sp-10);
+}
+.home-faq-head h2 {
+  max-width: 22ch;
+  margin-top: var(--sp-4);
+  font-size: clamp(30px, 3.5vw, 48px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+.home-faq {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 48px;
+}
+.home-faq-item {
+  padding: 20px 0 22px;
+  border-top: 1px solid var(--c-line);
+  transform-origin: left top;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
+}
+.home-faq-item:hover {
+  transform: scale(1.02);
+  border-top-color: var(--c-accent);
+}
+.home-faq-item h3 {
+  position: relative;
+  margin: 0 0 10px;
+  padding-left: 30px;
+  font-size: 17.5px;
+  line-height: 1.45;
+  color: var(--c-text);
+  transition: color 0.3s;
+}
+.home-faq-item:hover h3 { color: var(--c-accent); }
+.home-faq-item h3::before {
+  content: "Q";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 800;
+  color: var(--c-accent);
+}
+.home-faq-item p {
+  margin: 0;
+  padding-left: 30px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--c-text-mute);
+}
+.home-faq-item p strong { color: var(--c-accent); font-weight: 600; }
+
+.home-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s ease calc(var(--i, 0) * 80ms),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 80ms);
+}
+.home-reveal.is-visible { opacity: 1; transform: none; }
+
+@media (max-width: 860px) {
+  .home-faq { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 
