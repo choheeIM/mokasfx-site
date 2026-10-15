@@ -9,7 +9,9 @@
     if (partnersTrack) {
       const marquee = partnersTrack.closest('.partners-marquee');
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!reducedMotion && marquee) {
+      // Static vertical stack on mobile — no marquee transform at all.
+      const mobileStatic = window.matchMedia('(max-width: 720px)').matches;
+      if (!reducedMotion && !mobileStatic && marquee) {
         let offset = 0;
         let lastTime = performance.now();
         let paused = false;

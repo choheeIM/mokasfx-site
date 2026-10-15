@@ -570,6 +570,15 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 .hero-spacer { min-height: 1px; }
 @media (max-width: 720px) {
   .hero-video { object-position: 60% center; }
+  /* Static poster hero: keep text readable over the busy frame */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(0,0,0,.52) 0%, rgba(0,0,0,.38) 42%, rgba(0,0,0,.66) 100%);
+    pointer-events: none;
+  }
   .hero { min-height: 100svh; }
 }
 .hero h1 { font-size: clamp(40px, 5.4vw, var(--fs-72)); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; margin-top: var(--sp-5); }
@@ -2901,6 +2910,20 @@ img.partner-card-media {
     font-size: 14px;
     line-height: 1.5;
   }
+}
+
+@media (max-width: 720px) {
+  /* Partners: static vertical stack on mobile, marquee is desktop-only */
+  .partners-marquee { overflow: visible; }
+  .partners-track {
+    display: grid;
+    width: auto;
+    gap: var(--sp-5);
+    padding: 0 var(--sp-6);
+    transform: none !important;
+    will-change: auto;
+  }
+  .partner-card { flex-basis: auto; width: 100%; }
 }
 
 /* Home FAQ — mirrors the solution-detail FAQ (.sd-faq) styling, renamed to

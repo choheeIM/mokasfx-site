@@ -4,6 +4,27 @@
 
   const { onReady } = window.MokaLightUtils;
   onReady(() => {
+    // ----- Hero video is desktop-only -----
+    // The <source> carries data-src, so mobile never downloads the mp4 and the
+    // poster frame (assets/img/hero-poster.webp) stays as the static hero image.
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+      const mobileHero = window.matchMedia('(max-width: 720px)').matches;
+      const saveData = Boolean(navigator.connection && navigator.connection.saveData);
+      if (mobileHero || saveData) {
+        heroVideo.removeAttribute('autoplay');
+        heroVideo.pause();
+      } else {
+        const src = heroVideo.querySelector('source[data-src]');
+        if (src) {
+          src.src = src.dataset.src;
+          heroVideo.load();
+          const playAttempt = heroVideo.play();
+          if (playAttempt) playAttempt.catch(() => {});
+        }
+      }
+    }
+
     document.querySelectorAll("[data-filter-group]").forEach((group) => {
       const chips = group.querySelectorAll(".chip");
       chips.forEach((chip) => {
