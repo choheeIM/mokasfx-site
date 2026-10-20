@@ -7,7 +7,7 @@
      scrollspy active state
    - system architecture: hover/tap a node -> caption + zoom
    - zone plan: map <-> accordion sync (hover + click/tap)
-   - zone recommended fixtures: swipe on mobile, grid + expand on desktop
+   - arrow pagers: zone fixtures (2 per view), show photos (1 per view)
    ============================================================ */
 (function () {
   "use strict";
@@ -210,58 +210,30 @@
     });
   }
 
-  /* ---------- zone recommended fixtures: swipe on mobile, grid + expand on desktop ---------- */
-  var zoneGridMq = window.matchMedia("(min-width: 769px)");
-  document.querySelectorAll(".sd-zone-reco").forEach(function (reco) {
-    var track = reco.querySelector(".sd-zone-track");
-    var prev = reco.querySelector(".sd-zone-prev");
-    var next = reco.querySelector(".sd-zone-next");
-    var more = reco.querySelector(".sd-zone-more");
-    if (!track) return;
-    var count = track.children.length;
-
-    var updateNav = function () {
-      if (!prev || !next) return;
-      var overflow = !zoneGridMq.matches && track.scrollWidth - track.clientWidth > 4;
-      prev.hidden = next.hidden = !overflow;
-      prev.disabled = track.scrollLeft <= 4;
-      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
+  /* ---------- arrow pagers: zone fixtures (2 per view), show photos (1 per view) ---------- */
+  var pagers = [];
+  var initPager = function (root, track, perView) {
+    var prev = root.querySelector(".sd-zone-prev");
+    var next = root.querySelector(".sd-zone-next");
+    if (!track || !prev || !next) return;
+    var pages = Math.max(1, Math.ceil(track.children.length / perView));
+    var page = 0;
+    var go = function (p) {
+      page = ((p % pages) + pages) % pages;
+      track.style.transform = "translateX(" + (-track.children[page * perView].offsetLeft) + "px)";
     };
-    if (prev && next) {
-      prev.addEventListener("click", function () {
-        track.scrollBy({ left: -track.clientWidth, behavior: "smooth" });
-      });
-      next.addEventListener("click", function () {
-        track.scrollBy({ left: track.clientWidth, behavior: "smooth" });
-      });
-      track.addEventListener("scroll", updateNav, { passive: true });
-    }
-
-    var setMoreLabel = function () {
-      var expanded = reco.classList.contains("is-expanded");
-      more.textContent = expanded ? "Show fewer fixtures" : "Show all " + count + " fixtures";
-      more.setAttribute("aria-expanded", expanded ? "true" : "false");
-    };
-    var applyMode = function () {
-      var gridMode = zoneGridMq.matches && count > 2;
-      reco.classList.toggle("is-grid", gridMode);
-      if (!gridMode) reco.classList.remove("is-expanded");
-      if (more) {
-        more.hidden = !gridMode;
-        if (gridMode) setMoreLabel();
-      }
-      updateNav();
-    };
-    if (more) {
-      more.addEventListener("click", function () {
-        reco.classList.toggle("is-expanded");
-        setMoreLabel();
-      });
-    }
-    window.addEventListener("resize", applyMode);
-    if (typeof ResizeObserver === "function") {
-      new ResizeObserver(updateNav).observe(track);
-    }
-    applyMode();
+    prev.addEventListener("click", function () { go(page - 1); });
+    next.addEventListener("click", function () { go(page + 1); });
+    pagers.push(function () { go(page); });
+  };
+  document.querySelectorAll(".sd-zone-slider").forEach(function (s) {
+    initPager(s, s.querySelector(".sd-zone-track"), 2);
   });
+  document.querySelectorAll(".sd-slideshow").forEach(function (s) {
+    initPager(s, s.querySelector(".sd-slides"), 1);
+  });
+  if (pagers.length) {
+    window.addEventListener("resize", function () { pagers.forEach(function (p) { p(); }); });
+  }
+
 })();
