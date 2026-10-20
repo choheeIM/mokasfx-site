@@ -119,7 +119,9 @@
 .cert-request p { margin: 0; color: #55534e; max-width: 56ch; }
 
 @media (max-width: 980px) {
-  .cert-product { grid-template-columns: 1fr; gap: 24px; }
+  /* minmax(0, 1fr): cap the track at the container — the swipeable doc
+     carousel's min-content would otherwise blow the column past the viewport */
+  .cert-product { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .cert-product-media { position: static; max-width: 420px; }
 }
 @media (max-width: 720px) {

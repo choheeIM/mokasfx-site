@@ -2,7 +2,16 @@
 (function () {
   "use strict";
 
-  const { onReady } = window.MokaLightUtils;
+  const { onReady } = window.MokaLightUtils || {
+    // fallback so a failed utils.js request can't take down every component
+    onReady: (cb) => {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", cb, { once: true });
+      } else {
+        cb();
+      }
+    },
+  };
   onReady(() => {
     // ----- Hero blackout / categories pinned flashlight reveal -----
     const hero = document.querySelector(".hero");
@@ -157,6 +166,8 @@
       }
 
       if (texts.length && !reducedMotion && !mobileWhyLayout.matches) {
+        // desktop orbit mode: absolute positioning + scroll-driven opacity
+        scrollSection.classList.add('js-orbit');
         let ticking = false;
 
         const update = () => {
@@ -204,6 +215,9 @@
         window.addEventListener('scroll', requestUpdate, { passive: true });
         window.addEventListener('resize', requestUpdate, { passive: true });
         update();
+      } else if (texts.length && !reducedMotion) {
+        // mobile fade-in mode: CSS hides the copy under .js-fade until is-lit
+        scrollSection.classList.add('js-fade');
       }
     }
   });

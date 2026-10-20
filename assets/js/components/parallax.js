@@ -2,7 +2,32 @@
 (function () {
   "use strict";
 
-  const { onReady, clamp, createRafScheduler } = window.MokaLightUtils;
+  const { onReady, clamp, createRafScheduler } = window.MokaLightUtils || {
+    // fallback so a failed utils.js request can't take down every component
+    onReady: (cb) => {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", cb, { once: true });
+      } else {
+        cb();
+      }
+    },
+    clamp: (value, min = 0, max = 1) => Math.min(max, Math.max(min, value)),
+    createRafScheduler: (callback) => {
+      let frame = 0;
+      const request = () => {
+        if (frame) return;
+        frame = window.requestAnimationFrame(() => {
+          frame = 0;
+          callback();
+        });
+      };
+      request.cancel = () => {
+        if (frame) window.cancelAnimationFrame(frame);
+        frame = 0;
+      };
+      return request;
+    },
+  };
   let requestMotion = () => {};
   window.MokaLightParallax = { request: () => requestMotion() };
 

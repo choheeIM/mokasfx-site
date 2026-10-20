@@ -136,8 +136,6 @@
     <li><a href="#system-design">System Design</a></li>
     <li><a href="#zone-plan">Zone Plan</a></li>
     <li><a href="#deliverables">Deliverables</a></li>
-    <li><a href="#process">Process</a></li>
-    <li><a href="#fixtures">Fixtures</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ol>
@@ -249,7 +247,7 @@
       <div class="sd-risk-grid">
         <article class="sd-risk-card sd-reveal" data-index="01" style="--i:0">
           <div class="sd-risk-icon" aria-hidden="true">
-            <svg viewBox="0 0 120 96" fill="none" stroke="#9d9d9d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 120 96" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M40 44 Q60 26 80 42" stroke="currentColor" stroke-dasharray="5 5"/>
               <path d="M72 36 L81 42 L71 47" stroke="currentColor"/>
               <path d="M14 84 V62 H44 V84"/>
@@ -267,7 +265,7 @@
 
         <article class="sd-risk-card sd-reveal" data-index="02" style="--i:1">
           <div class="sd-risk-icon" aria-hidden="true">
-            <svg viewBox="0 0 120 96" fill="none" stroke="#9d9d9d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 120 96" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="88" cy="32" r="16" stroke="currentColor"/>
               <path d="M88 32 V21" stroke="currentColor"/>
               <path d="M88 32 L94 27" stroke="currentColor"/>
@@ -286,7 +284,7 @@
 
         <article class="sd-risk-card sd-reveal" data-index="03" style="--i:2">
           <div class="sd-risk-icon" aria-hidden="true">
-            <svg viewBox="0 0 120 96" fill="none" stroke="#9d9d9d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 120 96" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M50 10 H70" stroke="currentColor"/>
               <path d="M60 10 V16" stroke="currentColor"/>
               <path d="M53 16 H67 L70 27 H50 Z" stroke="currentColor"/>
@@ -310,7 +308,7 @@
 
         <article class="sd-risk-card sd-reveal" data-index="04" style="--i:3">
           <div class="sd-risk-icon" aria-hidden="true">
-            <svg viewBox="0 0 120 96" fill="none" stroke="#9d9d9d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 120 96" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 18 H108 M12 30 H108 M12 18 V30 M108 18 V30"/>
               <path d="M12 30 L18 18 L24 30 L30 18 L36 30 L42 18 L48 30 L54 18 L60 30 L66 18 L72 30 L78 18 L84 30 L90 18 L96 30 L102 18 L108 30" stroke-width="2"/>
               <path d="M60 30 V42" stroke="currentColor"/>
@@ -782,15 +780,31 @@
               </button>
             </h3>
             <div class="sd-zone-detail">
+              <div class="sd-zone-reco">
+                <span class="sd-zone-reco-label">Recommended fixtures</span>
+                <div class="sd-zone-slider">
+                  <ul class="sd-zone-track" tabindex="0" role="region" aria-label="Recommended fixtures for zone A">
+                    <li><a class="sd-zone-product" href="products/wash-light/">
+                      <img src="assets/img/light/02.jpg" alt="WASH DEMO Z740 — Wash Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">WASH DEMO Z740</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/wash-light/">
+                      <img src="assets/img/light/1.jpg" alt="WASH DEMO Z1940 — Wash Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">WASH DEMO Z1940</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/wash-light/">
+                      <img src="assets/img/light/100w LED摇头灯 白底图 (1).jpg" alt="WASH DEMO Z3740 — Wash Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">WASH DEMO Z3740</span>
+                    </a></li>
+                  </ul>
+                  <button class="sd-zone-nav sd-zone-prev" type="button" aria-label="Scroll recommended fixtures back" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  <button class="sd-zone-nav sd-zone-next" type="button" aria-label="Scroll recommended fixtures forward" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                </div>
+                <button class="sd-zone-more" type="button" aria-expanded="false" hidden></button>
+              </div>
               <dl>
-                <div><dt>Purpose</dt><dd>Clear performer visibility for the audience and cameras &mdash; the layer every other zone builds on.</dd></div>
-                <div><dt>Typical position</dt><dd>Front truss, FOH side positions or venue lighting bridges.</dd></div>
-                <div><dt>Design considerations</dt><dd>Overlapping coverage across the full stage width; no dark gaps at the center mic position.</dd></div>
-                <div><dt>Recommended fixtures</dt><dd>Wash moving heads and LED profile fixtures.</dd></div>
-                <div><dt>Selection criteria</dt><dd>Throw distance, zoom range, CRI and skin-tone reproduction, camera-friendly dimming.</dd></div>
                 <div><dt>Example quantity</dt><dd>6&ndash;10 fixtures for the configuration shown.</dd></div>
               </dl>
-              <a class="sd-fixture-link" href="products/wash-light/">Related products <span aria-hidden="true">&rarr;</span></a>
             </div>
           </article>
 
@@ -806,15 +820,31 @@
               </button>
             </h3>
             <div class="sd-zone-detail">
+              <div class="sd-zone-reco">
+                <span class="sd-zone-reco-label">Recommended fixtures</span>
+                <div class="sd-zone-slider">
+                  <ul class="sd-zone-track" tabindex="0" role="region" aria-label="Recommended fixtures for zone B">
+                    <li><a class="sd-zone-product" href="products/beam-light/">
+                      <img src="assets/img/light/1.jpg" alt="BEAM DEMO X230 — Beam Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">BEAM DEMO X230</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/beam-light/">
+                      <img src="assets/img/light/02.jpg" alt="BEAM DEMO X300 — Beam Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">BEAM DEMO X300</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/beam-light/">
+                      <img src="assets/img/light/5.jpg" alt="BEAM DEMO X380 — Beam Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">BEAM DEMO X380</span>
+                    </a></li>
+                  </ul>
+                  <button class="sd-zone-nav sd-zone-prev" type="button" aria-label="Scroll recommended fixtures back" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  <button class="sd-zone-nav sd-zone-next" type="button" aria-label="Scroll recommended fixtures forward" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                </div>
+                <button class="sd-zone-more" type="button" aria-expanded="false" hidden></button>
+              </div>
               <dl>
-                <div><dt>Purpose</dt><dd>Aerial beams, crowd sweeps and the signature concert &ldquo;beam ceiling&rdquo; above the performers.</dd></div>
-                <div><dt>Typical position</dt><dd>Overhead truss or mother grid, typically 8&ndash;10 m trim.</dd></div>
-                <div><dt>Design considerations</dt><dd>Point-load limits per truss span; haze level determines how visible the beams read.</dd></div>
-                <div><dt>Recommended fixtures</dt><dd>Beam moving heads and beam/spot hybrid fixtures.</dd></div>
-                <div><dt>Selection criteria</dt><dd>Source intensity, pan/tilt speed, gobo and prism package, weight per rigging point.</dd></div>
                 <div><dt>Example quantity</dt><dd>12&ndash;18 fixtures for the configuration shown.</dd></div>
               </dl>
-              <a class="sd-fixture-link" href="products/beam-light/">Related products <span aria-hidden="true">&rarr;</span></a>
             </div>
           </article>
 
@@ -830,15 +860,31 @@
               </button>
             </h3>
             <div class="sd-zone-detail">
+              <div class="sd-zone-reco">
+                <span class="sd-zone-reco-label">Recommended fixtures</span>
+                <div class="sd-zone-slider">
+                  <ul class="sd-zone-track" tabindex="0" role="region" aria-label="Recommended fixtures for zone C">
+                    <li><a class="sd-zone-product" href="products/wash-light/">
+                      <img src="assets/img/light/5.jpg" alt="WASH DEMO B1915 — Wash Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">WASH DEMO B1915</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/par-light/">
+                      <img src="assets/img/light/1.jpg" alt="PAR DEMO 618 AIR — Par Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">PAR DEMO 618 AIR</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="flat-par-light-p-12-pulse-1818-x6.html">
+                      <img src="assets/img/product-detail/pulse-1.webp" alt="PULSE 1818 X6 — Par Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">PULSE 1818 X6</span>
+                    </a></li>
+                  </ul>
+                  <button class="sd-zone-nav sd-zone-prev" type="button" aria-label="Scroll recommended fixtures back" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  <button class="sd-zone-nav sd-zone-next" type="button" aria-label="Scroll recommended fixtures forward" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                </div>
+                <button class="sd-zone-more" type="button" aria-expanded="false" hidden></button>
+              </div>
               <dl>
-                <div><dt>Purpose</dt><dd>Sculpts performers with color and motion &mdash; the depth that flat front light cannot deliver.</dd></div>
-                <div><dt>Typical position</dt><dd>Side booms or vertical towers at stage left and right.</dd></div>
-                <div><dt>Design considerations</dt><dd>Camera sightlines from IMAG positions; tower footprint on narrow stages.</dd></div>
-                <div><dt>Recommended fixtures</dt><dd>Wash moving heads and LED PAR fixtures.</dd></div>
-                <div><dt>Selection criteria</dt><dd>Color-mixing quality, fan noise near microphones, IP rating for outdoor stops.</dd></div>
                 <div><dt>Example quantity</dt><dd>8&ndash;12 fixtures for the configuration shown.</dd></div>
               </dl>
-              <a class="sd-fixture-link" href="products/par-light/">Related products <span aria-hidden="true">&rarr;</span></a>
             </div>
           </article>
 
@@ -854,15 +900,31 @@
               </button>
             </h3>
             <div class="sd-zone-detail">
+              <div class="sd-zone-reco">
+                <span class="sd-zone-reco-label">Recommended fixtures</span>
+                <div class="sd-zone-slider">
+                  <ul class="sd-zone-track" tabindex="0" role="region" aria-label="Recommended fixtures for zone D">
+                    <li><a class="sd-zone-product" href="products/effect-light/">
+                      <img src="assets/img/light/02.jpg" alt="STROBE DEMO 3000 — Effect Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">STROBE DEMO 3000</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/effect-light/">
+                      <img src="assets/img/light/5.jpg" alt="MOTION DEMO BAR 1818 — Effect Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">MOTION DEMO BAR 1818</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/effect-light/">
+                      <img src="assets/img/light/100w LED摇头灯 白底图 (1).jpg" alt="BLINDER DEMO 2100 — Effect Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">BLINDER DEMO 2100</span>
+                    </a></li>
+                  </ul>
+                  <button class="sd-zone-nav sd-zone-prev" type="button" aria-label="Scroll recommended fixtures back" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  <button class="sd-zone-nav sd-zone-next" type="button" aria-label="Scroll recommended fixtures forward" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                </div>
+                <button class="sd-zone-more" type="button" aria-expanded="false" hidden></button>
+              </div>
               <dl>
-                <div><dt>Purpose</dt><dd>Frames the LED wall, delivers high-energy hits and finale moments; haze from this zone keeps overhead beams visible.</dd></div>
-                <div><dt>Typical position</dt><dd>Upstage truss or floor positions behind the performers.</dd></div>
-                <div><dt>Design considerations</dt><dd>Strobe intensity balanced against LED wall brightness; safe distance to backdrop materials.</dd></div>
-                <div><dt>Recommended fixtures</dt><dd>LED strobe bars and audience blinder fixtures.</dd></div>
-                <div><dt>Selection criteria</dt><dd>Pixel-mapping resolution, strobe rate, camera-friendly dimming behavior.</dd></div>
                 <div><dt>Example quantity</dt><dd>8&ndash;14 fixtures for the configuration shown.</dd></div>
               </dl>
-              <a class="sd-fixture-link" href="products/effect-light/">Related products <span aria-hidden="true">&rarr;</span></a>
             </div>
           </article>
 
@@ -878,15 +940,31 @@
               </button>
             </h3>
             <div class="sd-zone-detail">
+              <div class="sd-zone-reco">
+                <span class="sd-zone-reco-label">Recommended fixtures</span>
+                <div class="sd-zone-slider">
+                  <ul class="sd-zone-track" tabindex="0" role="region" aria-label="Recommended fixtures for zone E">
+                    <li><a class="sd-zone-product" href="products/wash-light/">
+                      <img src="assets/img/light/02.jpg" alt="WASH DEMO Z740 — Wash Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">WASH DEMO Z740</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/effect-light/">
+                      <img src="assets/img/light/100w LED摇头灯 白底图 (1).jpg" alt="MOTION DEMO PIXEL 640 — Effect Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">MOTION DEMO PIXEL 640</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/effect-light/">
+                      <img src="assets/img/light/5.jpg" alt="MOTION DEMO BAR 1830 — Effect Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">MOTION DEMO BAR 1830</span>
+                    </a></li>
+                  </ul>
+                  <button class="sd-zone-nav sd-zone-prev" type="button" aria-label="Scroll recommended fixtures back" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  <button class="sd-zone-nav sd-zone-next" type="button" aria-label="Scroll recommended fixtures forward" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                </div>
+                <button class="sd-zone-more" type="button" aria-expanded="false" hidden></button>
+              </div>
               <dl>
-                <div><dt>Purpose</dt><dd>Rhythm-driven, close-range energy around the riser or DJ booth &mdash; the visual center of electronic sets.</dd></div>
-                <div><dt>Typical position</dt><dd>Riser edges, booth surround or a dedicated riser truss.</dd></div>
-                <div><dt>Design considerations</dt><dd>Heat and cable management in tight spaces; sightlines from the pit cameras.</dd></div>
-                <div><dt>Recommended fixtures</dt><dd>Bee-eye wash fixtures and compact effect lights.</dd></div>
-                <div><dt>Selection criteria</dt><dd>Compact housing, pixel effects, fast movement at short throw.</dd></div>
                 <div><dt>Example quantity</dt><dd>4&ndash;6 fixtures for the configuration shown.</dd></div>
               </dl>
-              <a class="sd-fixture-link" href="products/wash-light/">Related products <span aria-hidden="true">&rarr;</span></a>
             </div>
           </article>
 
@@ -902,15 +980,31 @@
               </button>
             </h3>
             <div class="sd-zone-detail">
+              <div class="sd-zone-reco">
+                <span class="sd-zone-reco-label">Recommended fixtures</span>
+                <div class="sd-zone-slider">
+                  <ul class="sd-zone-track" tabindex="0" role="region" aria-label="Recommended fixtures for zone F">
+                    <li><a class="sd-zone-product" href="products/effect-light/">
+                      <img src="assets/img/light/02.jpg" alt="BLINDER DEMO 4100 — Effect Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">BLINDER DEMO 4100</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/effect-light/">
+                      <img src="assets/img/light/100w LED摇头灯 白底图 (1).jpg" alt="BLINDER DEMO 2100 — Effect Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">BLINDER DEMO 2100</span>
+                    </a></li>
+                    <li><a class="sd-zone-product" href="products/par-light/">
+                      <img src="assets/img/light/5.jpg" alt="PAR DEMO 1218 WP — Par Light by MOKA LITE" loading="lazy">
+                      <span class="sd-zone-product-name">PAR DEMO 1218 WP</span>
+                    </a></li>
+                  </ul>
+                  <button class="sd-zone-nav sd-zone-prev" type="button" aria-label="Scroll recommended fixtures back" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  <button class="sd-zone-nav sd-zone-next" type="button" aria-label="Scroll recommended fixtures forward" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                </div>
+                <button class="sd-zone-more" type="button" aria-expanded="false" hidden></button>
+              </div>
               <dl>
-                <div><dt>Purpose</dt><dd>Turns the crowd into part of the show for drops and finales; supports house-light integration.</dd></div>
-                <div><dt>Typical position</dt><dd>FOH truss, delay towers or balcony rails facing the audience.</dd></div>
-                <div><dt>Design considerations</dt><dd>Safe glare angles for the crowd; exposure limits for continuous audience-facing output.</dd></div>
-                <div><dt>Recommended fixtures</dt><dd>Audience blinder fixtures and high-CRI house wash options.</dd></div>
-                <div><dt>Selection criteria</dt><dd>Warm-white quality, dimming curve smoothness, rigging weight for FOH positions.</dd></div>
                 <div><dt>Example quantity</dt><dd>4&ndash;8 fixtures for the configuration shown.</dd></div>
               </dl>
-              <a class="sd-fixture-link" href="products/effect-light/">Related products <span aria-hidden="true">&rarr;</span></a>
             </div>
           </article>
 
@@ -945,18 +1039,6 @@
         Zoning adapts to the venue type &mdash; a bar plan splits into counter, seating, DJ and stage zones;
         a theater plan into front, top, side and house light. Send your stage dimensions and we draw the plot.
       </p>
-
-      <!-- CAD line -->
-      <div class="sd-cad sd-reveal">
-        <div>
-          <h3>Sample CAD lighting plan</h3>
-          <p>DWG/PDF with DMX addressing, power runs and suspension points &mdash; the same format you receive with a real project.</p>
-        </div>
-        <div class="sd-cad-actions">
-          <a class="btn btn-ghost" href="#sd-inquiry">Download a Sample CAD Plan</a>
-          <a class="btn btn-primary" href="#sd-inquiry">Get a Custom Lighting Plan &amp; Quote <span aria-hidden="true">&rarr;</span></a>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -1034,85 +1116,6 @@
           </div>
         </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================ FIXTURES BY ZONE ============================ -->
-  <section class="sd-section" id="fixtures" aria-labelledby="sd-fixture-title">
-    <div class="container">
-      <div class="sd-section-head sd-reveal">
-        <div>
-          <span class="eyebrow">Recommended Fixtures</span>
-          <h2 id="sd-fixture-title">Recommended fixtures by lighting zone</h2>
-        </div>
-      </div>
-
-      <div class="sd-fixture-grid">
-        <article class="sd-fixture-card sd-reveal">
-          <div class="sd-fixture-media" role="button" tabindex="0" aria-label="Preview light effect of MOKA MINI 740 EYE wash">
-            <img class="sd-fixture-product" src="assets/img/light/5.jpg" alt="MOKA MINI 740 EYE wash moving head" loading="lazy" decoding="async">
-            <img class="sd-fixture-effect" src="assets/img/solutions/solutions-nightlife.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-            <span class="sd-fixture-effect-label">Effect preview</span>
-          </div>
-          <div class="sd-fixture-body">
-            <span class="sd-fixture-zone">Zones A / C / E &middot; Front wash &amp; side light</span>
-            <h3>MOKA MINI 740 EYE Wash</h3>
-            <p class="sd-fixture-role">Performer wash, color transitions and camera-facing key support.</p>
-            <p class="sd-fixture-specs">Key factors: 4&ndash;60&deg; zoom range, RGBW color mixing, camera-friendly dimming. <em>Example quantity &times;14 for the configuration shown above.</em></p>
-            <a class="sd-fixture-link" href="products/wash-light/">Product details <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </article>
-
-        <article class="sd-fixture-card sd-reveal">
-          <div class="sd-fixture-media" role="button" tabindex="0" aria-label="Preview light effect of MOKA MINI LEDSPOT 100">
-            <img class="sd-fixture-product" src="assets/img/light/100w LED摇头灯 白底图 (1).jpg" alt="MOKA MINI LEDSPOT 100W spot moving head" loading="lazy" decoding="async">
-            <img class="sd-fixture-effect" src="assets/img/solutions/solutions-performance.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-            <span class="sd-fixture-effect-label">Effect preview</span>
-          </div>
-          <div class="sd-fixture-body">
-            <span class="sd-fixture-zone">Zone B &middot; Overhead beams</span>
-            <h3>MOKA MINI LEDSPOT 100 Spot</h3>
-            <p class="sd-fixture-role">Aerial beams and gobo texture above the stage.</p>
-            <p class="sd-fixture-specs">Key factors: output at 8&ndash;10 m trim, pan/tilt speed, gobo + prism package. <em>Example quantity &times;18 for the configuration shown above.</em></p>
-            <a class="sd-fixture-link" href="products/beam-light/">Product details <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </article>
-
-        <article class="sd-fixture-card sd-reveal">
-          <div class="sd-fixture-media" role="button" tabindex="0" aria-label="Preview light effect of MOKA Tour PAR halo">
-            <img class="sd-fixture-product" src="assets/img/light/1.jpg" alt="MOKA Tour PAR 12-lens LED PAR with halo ring" loading="lazy" decoding="async">
-            <img class="sd-fixture-effect" src="assets/img/solutions/solutions-multipurpose.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-            <span class="sd-fixture-effect-label">Effect preview</span>
-          </div>
-          <div class="sd-fixture-body">
-            <span class="sd-fixture-zone">Zone C &middot; Side towers</span>
-            <h3>MOKA Tour PAR 12&times;15W Halo</h3>
-            <p class="sd-fixture-role">Side-tower color and pixel accents that sculpt the performers.</p>
-            <p class="sd-fixture-specs">Key factors: RGBWA+UV color range, halo pixel ring, quiet cooling. <em>Example quantity &times;8 for the configuration shown above.</em></p>
-            <a class="sd-fixture-link" href="products/par-light/">Product details <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </article>
-
-        <article class="sd-fixture-card sd-reveal">
-          <div class="sd-fixture-media" role="button" tabindex="0" aria-label="Preview light effect of MOKA Tour Strobe 1000">
-            <img class="sd-fixture-product" src="assets/img/light/02.jpg" alt="MOKA Tour Strobe 1000 LED strobe bar" loading="lazy" decoding="async">
-            <img class="sd-fixture-effect" src="assets/img/solutions/solutions-hero-stage.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-            <span class="sd-fixture-effect-label">Effect preview</span>
-          </div>
-          <div class="sd-fixture-body">
-            <span class="sd-fixture-zone">Zone D &middot; Backdrop &amp; effects</span>
-            <h3>MOKA Tour Strobe 1000 Bar</h3>
-            <p class="sd-fixture-role">High-energy hits and pixel strobe lines framing the LED wall.</p>
-            <p class="sd-fixture-specs">Key factors: pixel-mapping resolution, strobe rate, camera-friendly dimming. <em>Example quantity &times;8 for the configuration shown above.</em></p>
-            <a class="sd-fixture-link" href="products/effect-light/">Product details <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </article>
-      </div>
-
-      <div class="sd-tip sd-reveal">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.2" fill="currentColor"/></svg>
-        <p>Quantities are example values for the configuration shown above. Final counts depend on stage size, trim height, throw distance and camera requirements &mdash; confirmed in your zone plan.</p>
       </div>
     </div>
   </section>

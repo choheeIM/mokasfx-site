@@ -7,7 +7,7 @@
      scrollspy active state
    - system architecture: hover/tap a node -> caption + zoom
    - zone plan: map <-> accordion sync (hover + click/tap)
-   - fixture cards: tap-to-preview for touch devices
+   - zone recommended fixtures: swipe on mobile, grid + expand on desktop
    ============================================================ */
 (function () {
   "use strict";
@@ -210,17 +210,58 @@
     });
   }
 
-  /* ---------- fixture cards: tap-to-preview on touch / keyboard ---------- */
-  document.querySelectorAll(".sd-fixture-media").forEach(function (media) {
-    var card = media.closest(".sd-fixture-card");
-    if (!card) return;
-    var toggle = function () { card.classList.toggle("is-preview"); };
-    media.addEventListener("click", toggle);
-    media.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
+  /* ---------- zone recommended fixtures: swipe on mobile, grid + expand on desktop ---------- */
+  var zoneGridMq = window.matchMedia("(min-width: 769px)");
+  document.querySelectorAll(".sd-zone-reco").forEach(function (reco) {
+    var track = reco.querySelector(".sd-zone-track");
+    var prev = reco.querySelector(".sd-zone-prev");
+    var next = reco.querySelector(".sd-zone-next");
+    var more = reco.querySelector(".sd-zone-more");
+    if (!track) return;
+    var count = track.children.length;
+
+    var updateNav = function () {
+      if (!prev || !next) return;
+      var overflow = !zoneGridMq.matches && track.scrollWidth - track.clientWidth > 4;
+      prev.hidden = next.hidden = !overflow;
+      prev.disabled = track.scrollLeft <= 4;
+      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
+    };
+    if (prev && next) {
+      prev.addEventListener("click", function () {
+        track.scrollBy({ left: -track.clientWidth, behavior: "smooth" });
+      });
+      next.addEventListener("click", function () {
+        track.scrollBy({ left: track.clientWidth, behavior: "smooth" });
+      });
+      track.addEventListener("scroll", updateNav, { passive: true });
+    }
+
+    var setMoreLabel = function () {
+      var expanded = reco.classList.contains("is-expanded");
+      more.textContent = expanded ? "Show fewer fixtures" : "Show all " + count + " fixtures";
+      more.setAttribute("aria-expanded", expanded ? "true" : "false");
+    };
+    var applyMode = function () {
+      var gridMode = zoneGridMq.matches && count > 2;
+      reco.classList.toggle("is-grid", gridMode);
+      if (!gridMode) reco.classList.remove("is-expanded");
+      if (more) {
+        more.hidden = !gridMode;
+        if (gridMode) setMoreLabel();
       }
-    });
+      updateNav();
+    };
+    if (more) {
+      more.addEventListener("click", function () {
+        reco.classList.toggle("is-expanded");
+        setMoreLabel();
+      });
+    }
+    window.addEventListener("resize", applyMode);
+    if (typeof ResizeObserver === "function") {
+      new ResizeObserver(updateNav).observe(track);
+    }
+    applyMode();
   });
 })();

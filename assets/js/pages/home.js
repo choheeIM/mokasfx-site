@@ -2,7 +2,16 @@
 (function () {
   "use strict";
 
-  const { onReady } = window.MokaLightUtils;
+  const { onReady } = window.MokaLightUtils || {
+    // fallback so a failed utils.js request can't take down every component
+    onReady: (cb) => {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", cb, { once: true });
+      } else {
+        cb();
+      }
+    },
+  };
   onReady(() => {
     // ----- Hero video is desktop-only -----
     // The <source> carries data-src, so mobile never downloads the mp4 and the
