@@ -4,8 +4,7 @@
  * Compiles the post catalog below into fully pre-rendered HTML:
  *   site/projects.html                        -> "Projects" listing, page 1
  *   site/projects/page/<n>/index.html         -> "Projects" listing, page n
- *   site/blog.html                            -> "Blog" listing, page 1
- *   site/blog/page/<n>/index.html             -> "Blog" listing, page n
+ *   site/blog.html                            -> "Blog" listing, every post
  *   site/technical-guides.html                -> redirect to the Blog listing
  *   site/<category>/<slug>/index.html         -> article page (posts with a
  *                                                POST_CONTENT entry); project
@@ -15,7 +14,10 @@
  *
  * The two categories are switched with a two-state toggle that is just two
  * links — each state is its own static URL, so both listings are fully
- * indexable without JS. Every page carries its own title, meta description,
+ * indexable without JS. The Blog listing is a single URL: every post card is
+ * in its HTML, and pages/blog.js filters them by TOPIC (a row of tabs, All +
+ * one per topic) and pages through them PAGE_SIZE at a time — no extra URLs,
+ * and with JS off every card is shown. Every page carries its own title, meta description,
  * canonical link, rel="prev"/rel="next", breadcrumbs and JSON-LD, and all
  * post cards live in the HTML source.
  *
@@ -64,11 +66,21 @@ const CATEGORIES = [
     label: "Blog",
     h1: "Blog",
     heroText:
-      "Engineering notes from the MOKA LITE lab — DMX networks, optics, power and fixture care, written for installers, rental teams and venue technicians.",
-    title: "Blog — Technical Lighting Guides: DMX, Optics, Power & Maintenance | MOKA LITE",
+      "Planning advice, engineering notes and company news from MOKA LITE — written for installers, rental teams and venue technicians.",
+    title: "Blog — Lighting Planning, Technical Guides & News | MOKA LITE",
     description:
-      "Practical stage lighting guides from MOKA LITE engineers: DMX signal planning, IP ratings, beam angles, LED vs discharge, atmosphere effects, power distribution and fixture maintenance.",
+      "Stage lighting articles from MOKA LITE: lighting planning for real venues, technical guides on DMX, IP ratings, power and maintenance, plus company news and events.",
+    // One URL with every post; topic tabs and paging happen in pages/blog.js.
+    filterable: true,
   },
+];
+
+/** Blog sub-categories, in tab order. Every blog post has exactly one. They
+    are filters on the Blog listing, not pages of their own. */
+const TOPICS = [
+  { slug: "lighting-planning", label: "Lighting Planning" },
+  { slug: "technical-guides", label: "Technical Guides" },
+  { slug: "news-events", label: "News & Events" },
 ];
 
 /** Newest first — page 1 shows the latest posts. */
@@ -210,10 +222,24 @@ const POSTS = [
       "A rental house wanted its logo in steel and glass gobos across a 60-fixture fleet. The artwork prep, material choices and quality checks behind a 21-day custom turnaround — plus the files to send us to get started.",
   },
 
-  /* -------------------------- Technical Guides -------------------------- */
+  /* -------------------------------- Blog -------------------------------- */
+  {
+    slug: "trade-show-season-2026",
+    category: "blog",
+    topic: "news-events",
+    title: "Trade Show Season: Where to See MOKA LITE Fixtures Running Live",
+    date: "2026-10-08",
+    image: "assets/img/solutions/solutions-performance.jpg",
+    imageWidth: 1200,
+    imageHeight: 840,
+    alt: "Concert stage with blue lighting beams during a live performance",
+    excerpt:
+      "Our team is heading to lighting and pro-audio exhibitions this season. What we are bringing, which fixtures you can see running live, and how to book a one-to-one meeting with our engineers.",
+  },
   {
     slug: "theater-stage-effects-equipment",
     category: "blog",
+    topic: "lighting-planning",
     title: "Theater Stage Effects: How Do You Choose the Right Equipment?",
     date: "2026-09-15",
     image: "assets/img/solutions/solutions-hero-stage.jpg",
@@ -226,6 +252,7 @@ const POSTS = [
   {
     slug: "dmx-signal-planning",
     category: "blog",
+    topic: "technical-guides",
     title: "DMX Signal Planning: Universes, Splitters and Cable Runs That Never Drop",
     date: "2026-09-03",
     image: "assets/img/product-detail/pulse-1.webp",
@@ -236,8 +263,22 @@ const POSTS = [
       "How many fixtures per universe, when an opto-splitter stops being optional, and the termination habits that separate a rock-solid rig from one that glitches only during the headline set.",
   },
   {
+    slug: "kinetic-led-ball-packages",
+    category: "blog",
+    topic: "news-events",
+    title: "Kinetic LED Balls Join Our Standard Range for Banquet Venues",
+    date: "2026-08-28",
+    image: "assets/img/projects/wedding-hall.webp",
+    imageWidth: 1672,
+    imageHeight: 941,
+    alt: "Ballroom with a circular kinetic LED ball chandelier above rows of banquet tables",
+    excerpt:
+      "Kinetic LED balls are now a standard MOKA LITE package, with winches, balls and controller sized for ballrooms. What is included and how venues use them between events.",
+  },
+  {
     slug: "ip-ratings-explained",
     category: "blog",
+    topic: "technical-guides",
     title: "IP Ratings Explained: When IP65 Actually Matters for Stage Lights",
     date: "2026-08-22",
     image: "assets/img/light/02.jpg",
@@ -250,6 +291,7 @@ const POSTS = [
   {
     slug: "beam-angle-selection",
     category: "blog",
+    topic: "lighting-planning",
     title: "Beam Angle Selection: Matching Optics to Throw Distance and Trim Height",
     date: "2026-08-10",
     image: "assets/img/light/1.jpg",
@@ -262,6 +304,7 @@ const POSTS = [
   {
     slug: "led-vs-discharge",
     category: "blog",
+    topic: "technical-guides",
     title: "LED vs Discharge: Real Power, Heat and Lamp-Life Math for Moving Heads",
     date: "2026-07-29",
     image: "assets/img/light/5.jpg",
@@ -274,6 +317,7 @@ const POSTS = [
   {
     slug: "pixel-mapping-basics",
     category: "blog",
+    topic: "lighting-planning",
     title: "Pixel Mapping Basics: From Fixture Groups to Full-Stage Looks",
     date: "2026-07-16",
     image: "assets/img/product-detail/pulse-4.webp",
@@ -286,6 +330,7 @@ const POSTS = [
   {
     slug: "haze-vs-fog-vs-low-fog",
     category: "blog",
+    topic: "lighting-planning",
     title: "Haze vs Fog vs Low Fog: Choosing Atmosphere for Beams and Cameras",
     date: "2026-07-02",
     image: "assets/img/product-detail/nightclub.webp",
@@ -298,6 +343,7 @@ const POSTS = [
   {
     slug: "power-distribution-stage-rigs",
     category: "blog",
+    topic: "technical-guides",
     title: "Power Distribution for Stage Rigs: Loads, Phases and Inrush Explained",
     date: "2026-06-18",
     image: "assets/img/product-detail/pulse-7.webp",
@@ -308,8 +354,22 @@ const POSTS = [
       "Why a rig that draws 80A on paper can trip a 100A breaker at blackout recovery. Balancing phases, respecting inrush, and the distro checklist we run before every load-in.",
   },
   {
+    slug: "showroom-demo-days",
+    category: "blog",
+    topic: "news-events",
+    title: "Showroom Demo Days: Book a Live Fixture Walkthrough in Guangzhou",
+    date: "2026-06-12",
+    image: "assets/img/products/overview-effect-light.webp",
+    imageWidth: 1200,
+    imageHeight: 1200,
+    alt: "Strobe, retro effect panel and moving head bar fixtures from the MOKA LITE effect light range",
+    excerpt:
+      "See beam, wash and effect fixtures side by side before you order. How our demo days work, what to bring, and how to book a session with the engineering team.",
+  },
+  {
     slug: "wireless-dmx-vs-wired",
     category: "blog",
+    topic: "technical-guides",
     title: "Wireless DMX vs Wired Runs: Latency, Reliability and When to Trust Each",
     date: "2026-06-05",
     image: "assets/img/product-detail/pulse-6.webp",
@@ -322,6 +382,7 @@ const POSTS = [
   {
     slug: "moving-head-maintenance-schedule",
     category: "blog",
+    topic: "technical-guides",
     title: "Moving Head Maintenance Schedule: Keep Tour Fixtures Show-Ready",
     date: "2026-05-22",
     image: "assets/img/product-detail/pulse-11.webp",
@@ -385,7 +446,12 @@ const POST_CONTENT = {
 
 const postsIn = (slug) => POSTS.filter((p) => p.category === slug);
 const categoryOf = (slug) => CATEGORIES.find((c) => c.slug === slug);
+const topicOf = (slug) => TOPICS.find((t) => t.slug === slug);
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+for (const post of postsIn("blog")) {
+  if (!topicOf(post.topic)) throw new Error(`Blog post "${post.slug}" needs a topic from TOPICS.`);
+}
 
 /* --------------------------- listing helpers --------------------------- */
 
@@ -407,8 +473,14 @@ function prefixFor(urlPath) {
   return "../".repeat(depth);
 }
 
-function pageCount(slug) {
+/** Pages of PAGE_SIZE posts a listing needs (shown client-side when filterable). */
+function postPages(slug) {
   return Math.max(1, Math.ceil(postsIn(slug).length / PAGE_SIZE));
+}
+
+/** Static URLs a listing is written to — a filterable listing is a single one. */
+function pageCount(slug) {
+  return categoryOf(slug).filterable ? 1 : postPages(slug);
 }
 
 /* ------------------------------ partials ------------------------------ */
@@ -586,8 +658,8 @@ function hero(prefix, listing, crumbs) {
     .map((item, i) => {
       const last = i === crumbs.length - 1;
       return last
-        ? `<span aria-current="page">${item.name}</span>`
-        : `<a href="${prefix}${item.path}">${item.name}</a>`;
+        ? `<span aria-current="page">${esc(item.name)}</span>`
+        : `<a href="${prefix}${item.path}">${esc(item.name)}</a>`;
     })
     .join(`\n        ${sep}\n        `);
 
@@ -598,7 +670,7 @@ function hero(prefix, listing, crumbs) {
       <nav class="blog-hero-crumbs" aria-label="Breadcrumb">
         ${items}
       </nav>
-      <h1 id="blog-hero-title">${listing.h1}</h1>
+      <h1 id="blog-hero-title">${esc(listing.h1)}</h1>
       <div class="blog-hero-divider" aria-hidden="true"></div>
       <p class="blog-hero-text">${listing.heroText}</p>
     </div>
@@ -673,11 +745,27 @@ ${CATEGORIES.map(option).join("\n")}
   </div>`;
 }
 
-function postCard(prefix, post) {
+/** Topic filter buttons for a filterable listing: "All" + one per topic that
+    has posts. They only change which cards are visible (pages/blog.js). */
+function topicTabs(listing) {
+  if (!listing.filterable) return "";
+  const posts = postsIn(listing.slug);
+  const topics = TOPICS.filter((t) => posts.some((p) => p.topic === t.slug));
+  const tab = (slug, label, active) =>
+    `        <button class="blog-cat-tab${active ? " is-active" : ""}" type="button" aria-pressed="${active}" data-blog-cat-tab="${slug}">${label}</button>`;
+  return `
+      <div class="blog-cat-tabs" role="group" aria-label="Filter articles by category" data-blog-cat-tabs>
+${[tab("all", "All", true), ...topics.map((t) => tab(t.slug, esc(t.label), false))].join("\n")}
+      </div>
+`;
+}
+
+function postCard(prefix, post, { filterable = false, hidden = false } = {}) {
   // Posts without a POST_CONTENT body and no hand-built custom page have no
   // detail page yet — point their cards at the friendly 404 page instead.
   const url = POST_CONTENT[post.slug] || post.custom ? `${prefix}${post.category}/${post.slug}/` : `${prefix}404.html`;
-  return `<article class="post-card" itemscope itemtype="https://schema.org/BlogPosting">
+  const filterAttrs = filterable ? ` data-blog-cat="${post.topic}"${hidden ? " hidden" : ""}` : "";
+  return `<article class="post-card" itemscope itemtype="https://schema.org/BlogPosting"${filterAttrs}>
           <a class="post-card-media" href="${url}" aria-label="Read: ${esc(post.title)}" tabindex="-1">
             <img src="${prefix}${esc(post.image)}" alt="${esc(post.alt)}" width="${post.imageWidth}" height="${post.imageHeight}" loading="lazy" decoding="async" itemprop="image">
           </a>
@@ -711,6 +799,27 @@ function pagination(prefix, slug, currentPage, totalPages) {
       </nav>`;
 }
 
+/** Client-side pager of a filterable listing, server-rendered in its first
+    state (All, page 1). Same look as the static pagination, but buttons:
+    pages/blog.js rebuilds the numbers whenever the filter changes. */
+function filterPager(slug) {
+  const totalPages = postPages(slug);
+  const parts = [
+    `<button class="products-page-link is-disabled" type="button" aria-label="Previous page" data-blog-page="prev" disabled>&larr;</button>`,
+  ];
+  for (let page = 1; page <= totalPages; page += 1) {
+    parts.push(
+      `<button class="products-page-link${page === 1 ? " is-active" : ""}" type="button" data-blog-page="${page}"${page === 1 ? ' aria-current="page"' : ""}>${page}</button>`
+    );
+  }
+  parts.push(
+    `<button class="products-page-link${totalPages === 1 ? " is-disabled" : ""}" type="button" aria-label="Next page" data-blog-page="next"${totalPages === 1 ? " disabled" : ""}>&rarr;</button>`
+  );
+  return `<nav class="products-pagination" aria-label="${categoryOf(slug).label} pages" data-blog-pager${totalPages === 1 ? " hidden" : ""}>
+        ${parts.join("\n        ")}
+      </nav>`;
+}
+
 function jsonLd(blocks) {
   return blocks
     .map((b) => `<script type="application/ld+json">\n${JSON.stringify(b, null, 2)}\n</script>`)
@@ -733,8 +842,11 @@ const breadcrumbLd = (items) => ({
 function listingPage(listing, page) {
   const slug = listing.slug;
   const totalPages = pageCount(slug);
-  const items = postsIn(slug).slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  const totalItems = postsIn(slug).length;
+  const posts = postsIn(slug);
+  // A filterable listing carries every post; cards past the first page start
+  // hidden and pages/blog.js takes over the paging.
+  const items = listing.filterable ? posts : posts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const totalItems = posts.length;
 
   const urlPath = urlPathFor(slug, page);
   const prefix = prefixFor(urlPath);
@@ -761,7 +873,19 @@ function listingPage(listing, page) {
     page < totalPages ? `<link rel="next" href="${SITE_URL}/${urlPathFor(slug, page + 1)}">` : "",
   ].filter(Boolean).join("\n");
 
-  const cards = items.map((p) => postCard(prefix, p)).join("\n        ");
+  const cards = items
+    .map((p, i) => postCard(prefix, p, { filterable: listing.filterable, hidden: listing.filterable && i >= PAGE_SIZE }))
+    .join("\n        ");
+
+  const countText = "Showing {start}&ndash;{end} of {total} articles";
+  const count = listing.filterable
+    ? `<p class="blog-collection-count" aria-live="polite" data-count-template="${countText}">Showing ${rangeStart}&ndash;${rangeEnd} of ${totalItems} articles</p>`
+    : `<p class="blog-collection-count">Showing ${rangeStart}&ndash;${rangeEnd} of ${totalItems} articles</p>`;
+
+  // Without JS the filter and pager cannot work, so show every card instead.
+  const noscript = listing.filterable
+    ? `\n<noscript><style>.blog-collection .post-card[hidden]{display:flex}.blog-cat-tabs,[data-blog-pager]{display:none}</style></noscript>`
+    : "";
 
   const ld = jsonLd([
     breadcrumbLd(crumbsLd),
@@ -797,7 +921,7 @@ ${relLinks}
 <meta property="og:description" content="${description}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${SITE_URL}/${encodeURI(items[0].image)}">
-<link rel="stylesheet" href="${prefix}assets/css/style.css?v=${CSS_VERSION}">
+<link rel="stylesheet" href="${prefix}assets/css/style.css?v=${CSS_VERSION}">${noscript}
 ${ld}
 </head>
 <body>
@@ -813,14 +937,14 @@ ${header(prefix, slug)}
       <h2 class="visually-hidden" id="blog-collection-title">${listing.label} articles</h2>
       <div class="blog-collection-head">
         ${categorySwitch(prefix, slug)}
-        <p class="blog-collection-count">Showing ${rangeStart}&ndash;${rangeEnd} of ${totalItems} articles</p>
+        ${count}
       </div>
-
+${topicTabs(listing)}
       <div class="post-grid">
         ${cards}
       </div>
 
-      ${pagination(prefix, slug, page, totalPages)}
+      ${listing.filterable ? filterPager(slug) : pagination(prefix, slug, page, totalPages)}
     </div>
   </section>
 </main>
@@ -833,7 +957,7 @@ ${footer(prefix)}
 <script src="${prefix}assets/js/core/utils.js"></script>
 <script src="${prefix}assets/js/vendor/lenis.1.3.11.min.js?v=2"></script>
 <script src="${prefix}assets/js/core/smooth-scroll.js"></script>
-<script src="${prefix}assets/js/core/site.js"></script>
+<script src="${prefix}assets/js/core/site.js"></script>${listing.filterable ? `\n<script src="${prefix}assets/js/pages/blog.js"></script>` : ""}
 <script src="${prefix}assets/js/forms/inquiry-form.js"></script>
 </body>
 </html>
@@ -870,6 +994,7 @@ function redirectPage(relPath, target) {
 
 function articlePage(post) {
   const category = categoryOf(post.category);
+  const topic = topicOf(post.topic);
   const content = POST_CONTENT[post.slug];
   const urlPath = `${post.category}/${post.slug}/`;
   const prefix = prefixFor(urlPath);
@@ -936,6 +1061,7 @@ ${tocItems.map((item) => `      <li><a href="#${item.id}">${item.text}</a></li>`
       author: { "@type": "Organization", name: "MOKA LITE" },
       publisher: { "@type": "Organization", name: "MOKA LITE" },
       mainEntityOfPage: canonical,
+      ...(topic ? { articleSection: topic.label } : {}),
     },
   ]);
 
@@ -975,7 +1101,7 @@ ${header(prefix, post.category)}
       </nav>
       <h1 id="article-title">${esc(post.title)}</h1>
       <div class="blog-hero-divider" aria-hidden="true"></div>
-      <p class="article-meta"><span class="cat">${category.label}</span> <span class="dot" aria-hidden="true">&bull;</span> <time datetime="${post.date}">${post.date}</time> <span class="dot" aria-hidden="true">&bull;</span> ${content.readingTime}</p>
+      <p class="article-meta"><span class="cat">${esc(topic ? topic.label : category.label)}</span> <span class="dot" aria-hidden="true">&bull;</span> <time datetime="${post.date}">${post.date}</time> <span class="dot" aria-hidden="true">&bull;</span> ${content.readingTime}</p>
     </div>
   </section>
 
@@ -1064,8 +1190,9 @@ for (const post of POSTS) {
   }
 }
 
+// The Blog listing is a single URL now, so both legacy URLs land on it.
 emit("technical-guides.html", redirectPage("technical-guides.html", "blog.html"));
-emit(join("technical-guides", "page", "2", "index.html"), redirectPage("technical-guides/page/2/index.html", "blog/page/2/"));
+emit(join("technical-guides", "page", "2", "index.html"), redirectPage("technical-guides/page/2/index.html", "blog.html"));
 
 // Sitemap covering every paginated blog listing URL.
 const today = new Date().toISOString().slice(0, 10);
@@ -1101,8 +1228,8 @@ emit("sitemap-blog.xml", sitemap);
 // import. Kept out of the public web root on purpose.
 const csvEscape = (value) => (/[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value);
 const csvRows = [
-  ["slug", "title", "category", "date", "image", "alt", "excerpt"],
-  ...POSTS.map((p) => [p.slug, p.title, p.category, p.date, p.image, p.alt, p.excerpt]),
+  ["slug", "title", "category", "date", "image", "alt", "excerpt", "topic"],
+  ...POSTS.map((p) => [p.slug, p.title, p.category, p.date, p.image, p.alt, p.excerpt, p.topic || ""]),
 ];
 writeFileSync(join(TOOLS_DIR, "blog-catalog.csv"), csvRows.map((row) => row.map(csvEscape).join(",")).join("\n") + "\n", "utf8");
 

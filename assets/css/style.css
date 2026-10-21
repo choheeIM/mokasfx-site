@@ -3880,6 +3880,47 @@ img.partner-card-media {
 .blog-switch-option:hover { color: var(--c-text); }
 .blog-switch-option.is-active { color: #111; }
 
+/* Blog category tabs (All + one per category) — a second, lighter level under the
+   switch. They are buttons that filter the cards on the page (pages/blog.js). */
+.blog-collection-head:has(+ .blog-cat-tabs) { margin-bottom: var(--sp-6); }
+.blog-cat-tabs {
+  display: flex;
+  gap: var(--sp-8);
+  margin-bottom: var(--sp-10);
+  border-bottom: 1px solid var(--c-line);
+}
+.blog-cat-tab {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: var(--sp-3) 0;
+  color: var(--c-text-mute);
+  font-size: var(--fs-14); font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  transition: color .2s var(--ease);
+}
+.blog-cat-tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--c-accent);
+  transform: scaleX(0);
+  transition: transform .25s var(--ease);
+}
+.blog-cat-tab:hover { color: var(--c-text); }
+.blog-cat-tab.is-active { color: var(--c-text); }
+.blog-cat-tab.is-active::after { transform: scaleX(1); }
+.blog-cat-tab:focus-visible { outline: 2px solid var(--c-accent); outline-offset: -2px; border-radius: 2px; }
+/* Cards outside the current filter/page, and the pager when one page is enough. */
+.post-grid .post-card[hidden],
+.products-pagination[hidden] { display: none; }
+
 /* Post grid: 2 columns x 4 rows per page (8 cards), single column on mobile */
 .post-grid {
   display: grid;
@@ -3999,6 +4040,26 @@ img.partner-card-media {
 @media (max-width: 900px) {
   .post-grid { grid-template-columns: 1fr; }
   .blog-collection-head { flex-direction: column; align-items: center; }
+  /* Centered while the tabs fit; scrolls sideways (from the left) once they don't. */
+  .blog-cat-tabs {
+    justify-content: safe center;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .blog-cat-tabs::-webkit-scrollbar { display: none; }
+  /* Fade the edge that has more tabs past it (classes set by pages/blog.js). */
+  .blog-cat-tabs.has-more-end {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+            mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+  }
+  .blog-cat-tabs.has-more-start {
+    -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent);
+            mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent);
+  }
+  .blog-cat-tabs.has-more-start.has-more-end {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+            mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+  }
 }
 @media (max-width: 720px) {
   .blog-hero { min-height: 440px; }
@@ -4006,11 +4067,14 @@ img.partner-card-media {
   .blog-hero h1 { font-size: clamp(34px, 9vw, 44px); }
   .blog-switch { width: 100%; max-width: 340px; }
   .blog-switch-option { height: 38px; padding: 0 var(--sp-3); font-size: var(--fs-12); }
+  .blog-cat-tabs { gap: var(--sp-6); margin-bottom: var(--sp-8); }
+  .blog-cat-tab { font-size: var(--fs-13); }
 }
 @media (prefers-reduced-motion: reduce) {
   .post-card,
   .post-card-media img,
-  .post-card-more span { transition: none; }
+  .post-card-more span,
+  .blog-cat-tab::after { transition: none; }
   .post-card:hover { transform: none; }
 }
 
@@ -4242,6 +4306,34 @@ img.partner-card-media {
   text-transform: uppercase;
 }
 .article-body td { color: #454545; line-height: 1.6; }
+
+/* Other rich-text elements an editor can add to an article (sub-headings,
+   images, quotes). Tables and images may arrive wrapped in a <figure>. */
+.article-body h3 {
+  margin: var(--sp-8) 0 var(--sp-4);
+  color: #1b1b1b;
+  font-size: clamp(20px, 2vw, 24px);
+  scroll-margin-top: calc(var(--header-h) + 18px);
+}
+.article-body figure { margin: 0 0 var(--sp-8); }
+.article-body figure:has(> table) { overflow-x: auto; }
+.article-body figure > table { margin-bottom: 0; }
+.article-body img { height: auto; border-radius: var(--radius-lg); }
+.article-body figcaption {
+  margin-top: var(--sp-3);
+  color: #6b6b6b;
+  font-size: var(--fs-12);
+  line-height: 1.6;
+  text-align: center;
+}
+.article-body blockquote {
+  margin: 0 0 var(--sp-6);
+  padding: var(--sp-1) 0 var(--sp-1) var(--sp-6);
+  border-left: 3px solid var(--c-accent);
+  color: #1b1b1b;
+  font-size: var(--fs-16);
+  line-height: 1.75;
+}
 
 /* In-article social share row */
 .article-share {
