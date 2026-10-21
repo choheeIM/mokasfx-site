@@ -620,7 +620,8 @@
 .sd-zone-track > li { flex: 0 0 calc(50% - 6px); min-width: 0; }
 .sd-zone-nav {
   position: absolute;
-  top: calc(37.5% - 15px);
+  /* centred on the square photo: 40px name strip below, 32px button */
+  top: calc(50% - 36px);
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -649,7 +650,8 @@
 .sd-zone-product img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   background: var(--bg-1);
 }
