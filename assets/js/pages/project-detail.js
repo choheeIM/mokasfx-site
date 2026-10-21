@@ -15,6 +15,43 @@
   onReady(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    /* ---------- equipment groups: two-by-two, arrows only when needed ---------- */
+    const equipmentSlider = document.querySelector("[data-pjd-equip-slider]");
+    if (equipmentSlider) {
+      const cards = Array.from(equipmentSlider.querySelectorAll(".pjd-equip-card"));
+      const prevBtn = equipmentSlider.querySelector(".pjd-equip-btn--prev");
+      const nextBtn = equipmentSlider.querySelector(".pjd-equip-btn--next");
+      const pageSize = 4;
+      const pageCount = Math.ceil(cards.length / pageSize);
+
+      if (cards.length > pageSize && prevBtn && nextBtn) {
+        let page = 0;
+        const render = () => {
+          const start = page * pageSize;
+          cards.forEach((card, index) => {
+            const visible = index >= start && index < start + pageSize;
+            card.hidden = !visible;
+            card.setAttribute("aria-hidden", visible ? "false" : "true");
+          });
+          prevBtn.disabled = page === 0;
+          nextBtn.disabled = page === pageCount - 1;
+        };
+
+        equipmentSlider.classList.add("is-paged");
+        prevBtn.hidden = false;
+        nextBtn.hidden = false;
+        prevBtn.addEventListener("click", () => {
+          page = Math.max(0, page - 1);
+          render();
+        });
+        nextBtn.addEventListener("click", () => {
+          page = Math.min(pageCount - 1, page + 1);
+          render();
+        });
+        render();
+      }
+    }
+
     /* ---------- gallery carousel ---------- */
     const gallery = document.querySelector("[data-pjd-gallery]");
     if (gallery) {

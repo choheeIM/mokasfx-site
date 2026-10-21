@@ -25,12 +25,16 @@
  * Run from the site directory:  node tools/build-blog.mjs
  */
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SITE_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
 const TOOLS_DIR = dirname(fileURLToPath(import.meta.url));
+
+/* Cache-bust the shared stylesheet so regenerated pages never pair new HTML
+   with a visitor's stale cached CSS. */
+const CSS_VERSION = Math.round(statSync(join(SITE_DIR, "assets/css/style.css")).mtimeMs);
 
 /**
  * URL base for canonical links and structured data. Empty = root-relative
@@ -793,7 +797,7 @@ ${relLinks}
 <meta property="og:description" content="${description}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${SITE_URL}/${encodeURI(items[0].image)}">
-<link rel="stylesheet" href="${prefix}assets/css/style.css">
+<link rel="stylesheet" href="${prefix}assets/css/style.css?v=${CSS_VERSION}">
 ${ld}
 </head>
 <body>
@@ -850,7 +854,7 @@ function redirectPage(relPath, target) {
 <meta name="robots" content="noindex,follow">
 <link rel="canonical" href="${SITE_URL}/${target}">
 <meta http-equiv="refresh" content="0; url=${href}">
-<link rel="stylesheet" href="${prefix}assets/css/style.css">
+<link rel="stylesheet" href="${prefix}assets/css/style.css?v=${CSS_VERSION}">
 </head>
 <body>
 <main class="blog-redirect">
@@ -900,6 +904,20 @@ ${tocItems.map((item) => `      <li><a href="#${item.id}">${item.text}</a></li>`
   const prevPost = categoryPosts[categoryPosts.indexOf(post) + 1] || null; // older
   const nextPost = categoryPosts[categoryPosts.indexOf(post) - 1] || null; // newer
   const title = `${post.title} | MOKA LITE`;
+  const publicOrigin = SITE_URL || "https://mokalites.com";
+  const sharePageUrl = `${publicOrigin}/${urlPath}`;
+  const shareImageUrl = `${publicOrigin}/${encodeURI(post.image)}`;
+  const shareUrl = encodeURIComponent(sharePageUrl);
+  const shareTitle = encodeURIComponent(post.title);
+  const shareImage = encodeURIComponent(shareImageUrl);
+  const shareText = encodeURIComponent(`${post.title} ${sharePageUrl}`);
+  const shareLinks = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
+    x: `https://twitter.com/intent/tweet?url=${shareUrl}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
+    pinterest: `https://pinterest.com/pin/create/button/?url=${shareUrl}&media=${shareImage}&description=${shareTitle}`,
+    whatsapp: `https://wa.me/?text=${shareText}`,
+  };
 
   const ld = jsonLd([
     breadcrumbLd([
@@ -935,7 +953,7 @@ ${tocItems.map((item) => `      <li><a href="#${item.id}">${item.text}</a></li>`
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${SITE_URL}/${encodeURI(post.image)}">
 <meta property="article:published_time" content="${post.date}">
-<link rel="stylesheet" href="${prefix}assets/css/style.css">
+<link rel="stylesheet" href="${prefix}assets/css/style.css?v=${CSS_VERSION}">
 ${ld}
 </head>
 <body>
@@ -964,12 +982,15 @@ ${header(prefix, post.category)}
   <article class="article-body">
   ${toc}
 ${body}
-    <div class="article-cta">
-      <div>
-        <h2>Need the right optics mix?</h2>
-        <p>Send us your trim height, stage dimensions and event type — we will reply with a fixture-by-fixture beam plan.</p>
+    <div class="article-share" aria-label="Share this post">
+      <span class="article-share-label">Share the Post:</span>
+      <div class="article-share-list">
+        <a class="article-share-link" href="${esc(shareLinks.facebook)}" target="_blank" rel="noopener" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.5 21.888v-8.638h2.9l.434-3.364H13.5V7.738c0-.974.27-1.638 1.664-1.638h1.78V3.1c-.308-.04-1.364-.132-2.592-.132-2.566 0-4.324 1.566-4.324 4.443v2.475H7.125v3.364h2.903v8.638h3.472Z"/></svg></a>
+        <a class="article-share-link" href="${esc(shareLinks.x)}" target="_blank" rel="noopener" aria-label="Share on X"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18.244 2.25h3.308l-7.227 8.26 8.501 11.24h-6.66l-5.217-6.817-5.966 6.817H1.674l7.73-8.835L1.5 2.25h6.828l4.714 6.231 5.202-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg></a>
+        <a class="article-share-link" href="${esc(shareLinks.linkedin)}" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.98 3.5C4.98 4.604 4.105 5.5 3 5.5S1.02 4.604 1.02 3.5 1.895 1.5 3 1.5s1.98.896 1.98 2Zm.02 4.5H1v13h4V8Zm7.982 0H9v13h4v-6.861c0-2.022 1.316-2.639 2.203-2.639 1.098 0 1.797.735 1.797 2.639V21h4v-7.143c0-3.615-1.917-5.857-4.717-5.857-2.187 0-3.15 1.204-3.701 2.031V8Z"/></svg></a>
+        <a class="article-share-link" href="${esc(shareLinks.pinterest)}" target="_blank" rel="noopener" aria-label="Share on Pinterest"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.017 1.5c-6.09 0-9.017 4.341-9.017 7.918 0 2.164.82 4.084 2.578 4.805.288.118.546.004.63-.313.057-.228.192-.81.25-1.05.082-.313.05-.423-.173-.694-.484-.58-.793-1.33-.793-2.394 0-3.082 2.303-5.84 6-5.84 3.27 0 5.068 2 5.068 4.668 0 3.51-1.553 6.472-3.857 6.472-1.275 0-2.229-1.054-1.923-2.348.366-1.543 1.075-3.208 1.075-4.32 0-.997-.535-1.828-1.643-1.828-1.303 0-2.35 1.349-2.35 3.156 0 1.151.388 1.93.388 1.93s-1.331 5.635-1.563 6.62c-.464 1.96-.14 4.363-.073 4.607.039.141.178.174.251.064.104-.157 1.45-1.796 1.907-3.456.129-.47.742-2.9.742-2.9.367.7 1.44 1.312 2.58 1.312 3.398 0 5.703-3.098 5.703-7.24 0-3.844-3.283-7.652-7.78-7.652Z"/></svg></a>
+        <a class="article-share-link" href="${esc(shareLinks.whatsapp)}" target="_blank" rel="noopener" aria-label="Share on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.186 8.186 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.15l-.3-.17-3.12.82.83-3.04-.2-.32a8.188 8.188 0 0 1-1.26-4.38c.01-4.54 3.7-8.24 8.25-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.86-.87 2.07 0 1.22.89 2.39 1 2.56.14.17 1.76 2.67 4.25 3.73.59.27 1.05.42 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.16-.48-.27-.25-.14-1.47-.74-1.69-.82-.23-.08-.37-.12-.56.12-.16.25-.64.81-.78.97-.15.17-.29.19-.53.07-.26-.13-1.06-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.12-.24-.01-.39.11-.5.11-.11.27-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.11-.56-1.35-.77-1.84-.2-.48-.4-.42-.56-.43-.14 0-.3-.01-.47-.01"/></svg></a>
       </div>
-      <a class="btn btn-primary" href="${prefix}contact.html#inquiry">Request a Quote <span aria-hidden="true">&rarr;</span></a>
     </div>
   </article>
 
@@ -979,17 +1000,24 @@ ${body}
       <span class="article-nav-label"><span aria-hidden="true">&larr;</span> Previous article</span>
       <span class="article-nav-title">${esc(prevPost.title)}</span>
     </a>`
-      : `<a class="article-nav-card" href="${prefix}${urlPathFor(post.category, 1)}" rel="prev">
-      <span class="article-nav-label"><span aria-hidden="true">&larr;</span> Back to category</span>
+      : nextPost
+        ? `<a class="article-nav-card" href="${prefix}${urlPathFor(post.category, 1)}" rel="prev">
+      <span class="article-nav-label"><span aria-hidden="true">&larr;</span> Browse all articles</span>
       <span class="article-nav-title">${category.label}</span>
-    </a>`}
+    </a>`
+        : ""}
     ${nextPost
       ? `<a class="article-nav-card article-nav-card--next" href="${prefix}${nextPost.category}/${nextPost.slug}/" rel="next">
       <span class="article-nav-label">Next article <span aria-hidden="true">&rarr;</span></span>
       <span class="article-nav-title">${esc(nextPost.title)}</span>
     </a>`
-      : `<a class="article-nav-card article-nav-card--next" href="${prefix}${urlPathFor(post.category, 1)}" rel="next">
-      <span class="article-nav-label">More in category <span aria-hidden="true">&rarr;</span></span>
+      : prevPost
+        ? `<a class="article-nav-card article-nav-card--next" href="${prefix}${urlPathFor(post.category, 1)}" rel="next">
+      <span class="article-nav-label">Browse all articles <span aria-hidden="true">&rarr;</span></span>
+      <span class="article-nav-title">${category.label}</span>
+    </a>`
+        : `<a class="article-nav-card article-nav-card--solo" href="${prefix}${urlPathFor(post.category, 1)}">
+      <span class="article-nav-label">Browse all articles <span aria-hidden="true">&rarr;</span></span>
       <span class="article-nav-title">${category.label}</span>
     </a>`}
   </nav>

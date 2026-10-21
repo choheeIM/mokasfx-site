@@ -11,8 +11,8 @@
 <meta property="og:description" content="Lighting equipment supplied for a 900 m² banquet and wedding venue in New York, combining moving head lights and kinetic LED balls for different event settings.">
 <meta property="og:url" content="/projects/banquet-hall-lighting-new-york/">
 <meta property="og:image" content="/assets/img/projects/banquet-hall-new-york-hero.webp">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="stylesheet" href="../../assets/css/project-detail.css">
+<link rel="stylesheet" href="../../assets/css/style.css?v=20261021">
+<link rel="stylesheet" href="../../assets/css/project-detail.css?v=20261021">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -270,7 +270,11 @@
           <p>141 pieces of lighting equipment in total &mdash; 88 moving head fixtures plus the 53-unit kinetic LED ball system.</p>
         </div>
 
-        <div class="pjd-equip-grid">
+        <div class="pjd-equip-slider" data-pjd-equip-slider>
+          <button class="pjd-equip-btn pjd-equip-btn--prev" type="button" aria-label="Previous equipment group" hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="pjd-equip-grid">
           <article class="pjd-equip-card pjd-reveal">
             <a class="pjd-equip-media" href="../../flat-par-light-p-12-pulse-1818-x6.html?id=moka-aura-z1940" aria-label="View AURA Z1940 product details">
               <img src="../../assets/img/light/02.jpg" alt="AURA Z1940 wash moving head" loading="lazy" decoding="async">
@@ -317,6 +321,10 @@
               <p>Dynamic ceiling effects</p>
             </div>
           </article>
+          </div>
+          <button class="pjd-equip-btn pjd-equip-btn--next" type="button" aria-label="Next equipment group" hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
       </div>
     </section>
@@ -383,9 +391,46 @@
         <span class="eyebrow">Start Your Project</span>
         <h2 id="pjd-cta-title">Planning a Banquet Hall or Wedding Venue?</h2>
         <p>Send your venue dimensions and event requirements &mdash; a sales engineer will reply with a lighting plan, equipment list and quotation.</p>
-        <div class="pjd-cta-actions">
-          <a class="btn btn-primary" href="../../contact.html#inquiry">Get a Custom Lighting Plan &amp; Quote <span aria-hidden="true">&rarr;</span></a>
-        </div>
+        <form class="inquiry-form pjd-cta-form" data-inquiry-form novalidate>
+          <div class="form-feedback" data-form-feedback role="status" aria-live="polite"></div>
+
+          <div class="inquiry-field row-2">
+            <div class="field-control">
+              <label for="pjd-inquiry-name">Name <span class="required" aria-hidden="true">*</span></label>
+              <input id="pjd-inquiry-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required data-error-required="Please enter your name.">
+              <p class="field-error" data-error-for="name"></p>
+            </div>
+            <div class="field-control">
+              <label for="pjd-inquiry-country">Country <span class="required" aria-hidden="true">*</span></label>
+              <input id="pjd-inquiry-country" name="country" type="text" autocomplete="country-name" placeholder="Enter your country / region" required data-error-required="Please enter your country / region.">
+              <p class="field-error" data-error-for="country"></p>
+            </div>
+          </div>
+
+          <div class="inquiry-field row-2">
+            <div class="field-control">
+              <label for="pjd-inquiry-phone">Phone <span class="required" aria-hidden="true">*</span></label>
+              <input id="pjd-inquiry-phone" name="phone" type="tel" autocomplete="tel" placeholder="(+xx)" required data-error-required="Please enter your phone number." data-error-format="Use an international phone format, for example +86 189 9881 8260.">
+              <p class="field-error" data-error-for="phone"></p>
+            </div>
+            <div class="field-control">
+              <label for="pjd-inquiry-email">Email <span class="required" aria-hidden="true">*</span></label>
+              <input id="pjd-inquiry-email" name="email" type="email" autocomplete="email" placeholder="name@company.com" required data-error-required="Please enter your email." data-error-format="Please enter a valid email address.">
+              <p class="field-error" data-error-for="email"></p>
+            </div>
+          </div>
+
+          <div class="inquiry-field">
+            <label for="pjd-inquiry-details">Project Details <span class="required" aria-hidden="true">*</span></label>
+            <textarea id="pjd-inquiry-details" name="projectDetails" rows="5" placeholder="Tell us your venue dimensions, event requirements, event date or special requirements." required data-error-required="Please describe your project details."></textarea>
+            <p class="field-error" data-error-for="projectDetails"></p>
+          </div>
+
+          <div class="form-submit-row">
+            <button class="btn btn-primary" type="submit" data-submit-label="Send Inquiry">Send Inquiry</button>
+            <p>Required fields are marked with <span class="required" aria-hidden="true">*</span>.</p>
+          </div>
+        </form>
       </div>
     </div>
   </section>
@@ -445,6 +490,7 @@
 <script src="../../assets/js/vendor/lenis.1.3.11.min.js?v=2"></script>
 <script src="../../assets/js/core/smooth-scroll.js"></script>
 <script src="../../assets/js/core/site.js"></script>
-<script src="../../assets/js/pages/project-detail.js"></script>
+<script src="../../assets/js/pages/project-detail.js?v=20261021"></script>
+<script src="../../assets/js/forms/inquiry-form.js"></script>
 </body>
 </html>

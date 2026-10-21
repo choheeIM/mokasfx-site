@@ -4243,23 +4243,43 @@ img.partner-card-media {
 }
 .article-body td { color: #454545; line-height: 1.6; }
 
-/* In-article CTA band */
-.article-cta {
+/* In-article social share row */
+.article-share {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-6);
+  gap: var(--sp-5);
   margin: var(--sp-12) 0 var(--sp-6);
-  padding: var(--sp-8);
-  border: 1px solid #e2e2de;
-  border-radius: var(--radius-lg);
-  background:
-    radial-gradient(circle at 90% 10%, rgba(255,198,0,.14), transparent 40%),
-    #fff;
+  color: #1b1b1b;
 }
-.article-cta h2 { margin: 0 0 var(--sp-2); font-size: clamp(20px, 2.2vw, 26px); color: #1b1b1b; }
-.article-cta p { margin: 0; color: #454545; font-size: var(--fs-14); line-height: 1.7; }
-.article-cta .btn { flex-shrink: 0; }
+.article-share-label {
+  font-size: var(--fs-16);
+  font-weight: 700;
+  line-height: 1.4;
+}
+.article-share-list {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+.article-body .article-share-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #1b1b1b;
+  transition: color .18s var(--ease), transform .18s var(--ease);
+}
+.article-body .article-share-link:hover {
+  color: var(--c-accent-3);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+.article-share-link svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
 
 /* Prev/next article navigation with titles */
 .article-nav {
@@ -4286,6 +4306,7 @@ img.partner-card-media {
   box-shadow: 0 6px 24px rgba(0,0,0,.08);
 }
 .article-nav-card--next { text-align: right; align-items: flex-end; }
+.article-nav-card--solo { grid-column: 1 / -1; text-align: center; align-items: center; }
 .article-nav-label {
   display: inline-flex;
   align-items: center;
@@ -4309,7 +4330,7 @@ img.partner-card-media {
 @media (max-width: 720px) {
   .blog-hero--article { min-height: 400px; }
   .article-body { padding-top: var(--sp-10); }
-  .article-cta { flex-direction: column; align-items: flex-start; padding: var(--sp-6); }
+  .article-share { flex-wrap: wrap; row-gap: var(--sp-3); }
   .article-body table { font-size: var(--fs-13); }
   .article-body th, .article-body td { padding: 10px 12px; }
   .article-nav { grid-template-columns: 1fr; }
