@@ -607,14 +607,14 @@
   text-transform: uppercase;
   color: var(--accent);
 }
-.sd-zone-slider { position: relative; }
+/* the slider clips; the track moves (clipping the track itself would move the clip with it) */
+.sd-zone-slider { position: relative; overflow: hidden; }
 .sd-zone-track {
   display: flex;
   gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
-  overflow: hidden;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .sd-zone-track > li { flex: 0 0 calc(50% - 6px); min-width: 0; }
