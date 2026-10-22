@@ -2746,6 +2746,24 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 .blog-card:hover .blog-card-media span {
   transform: scale(1.06);
 }
+/* The post's featured image covers the drawn placeholder art; a card
+   without an image keeps the art (<span></span> in place of the <img>). */
+.blog-card-media img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .45s var(--ease);
+}
+.blog-card:hover .blog-card-media img {
+  transform: scale(1.06);
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog-card-media img { transition: none; }
+  .blog-card:hover .blog-card-media img { transform: none; }
+}
 .blog-card-body {
   display: flex;
   flex-direction: column;
