@@ -323,8 +323,10 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 
 .nav-toggle { display: none; }
 
+/* Positioned against the sticky header (not the viewport) so the panels always
+   hang 8px below its bottom edge, exactly like .nav-dropdown under its item. */
 .mega {
-  position: fixed; top: var(--header-h);
+  position: absolute; top: calc(100% + 8px);
   background: var(--c-bg-3);
   border: 1px solid var(--c-line); border-radius: var(--radius-lg);
   box-shadow: var(--shadow-2);
@@ -332,6 +334,8 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   transition: opacity .25s var(--ease), transform .25s var(--ease);
 }
 .mega.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+/* hover bridge across the gap so the pointer can travel from the nav link to the panel */
+.mega::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 10px; }
 /* Compact dropdown panels: width follows content, centered under the header */
 .nav-item.has-mega { position: relative; }
 #mega-products { left: 50%; transform: translate(-50%, -6px); width: min(960px, calc(100vw - var(--sp-6) * 2)); }
@@ -677,114 +681,30 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   gap: var(--sp-4);
   margin-top: var(--sp-10);
 }
-.factory-intro-visual {
-  position: relative;
-  aspect-ratio: 5 / 4;
-  max-width: 580px;
-  margin-left: auto;
-  width: 100%;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--c-line);
-  background: radial-gradient(circle at 30% 30%, #1f1f1f 0%, #0a0a0a 70%);
-  overflow: hidden;
-  isolation: isolate;
-}
-.factory-intro-glow {
+/* Full-bleed background photo. Its subject sits on the right; the copy floats
+   on the darker left side, kept readable by the gradient overlay. */
+#categories { position: relative; }
+#categories > .container { position: relative; z-index: 1; }
+.factory-intro-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
-.factory-intro-glow img {
-  position: absolute;
-  inset: 0;
+.factory-intro-bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transform: scale(1.04);
-  animation: factory-photo-carousel 12s infinite;
-  will-change: opacity, transform;
+  object-position: right center;
 }
-.factory-intro-glow img:nth-child(2) {
-  animation-delay: 4s;
-}
-.factory-intro-glow img:nth-child(3) {
-  animation-delay: 8s;
-}
-.factory-intro-glow::after {
+.factory-intro-bg::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.08) 48%, rgba(0,0,0,.62)),
-    radial-gradient(circle at 72% 28%, rgba(255,198,0,.16), transparent 46%);
-  pointer-events: none;
-}
-.factory-intro-visual.has-factory-carousel .factory-intro-fixture,
-.factory-intro-visual.has-factory-carousel .factory-intro-beam,
-.factory-intro-visual.has-factory-carousel .factory-intro-rings {
-  display: none;
-}
-@keyframes factory-photo-carousel {
-  0% {
-    opacity: 0;
-    transform: scale(1.04);
-  }
-  8%,
-  34% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  42%,
-  100% {
-    opacity: 0;
-    transform: scale(1.035);
-  }
-}
-.factory-intro-fixture {
-  position: absolute;
-  left: 50%; bottom: 18%;
-  transform: translateX(-50%);
-  width: 28%; aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, #fff8d6 0%, var(--c-accent) 45%, #6e5400 100%);
-  box-shadow: 0 0 80px 30px rgba(255,198,0,.35), inset 0 0 0 6px #1b1b1b;
-  z-index: 1;
-}
-.factory-intro-fixture::after {
-  content: "";
-  position: absolute;
-  inset: 18%;
-  border-radius: 50%;
-  border: 2px solid rgba(0,0,0,.6);
-  background: radial-gradient(circle at 35% 35%, #fff, var(--c-accent) 60%, #2b2000);
-}
-.factory-intro-beam {
-  position: absolute;
-  left: 50%; top: -10%;
-  transform: translateX(-50%) rotate(-18deg);
-  width: 140%; height: 60%;
-  background: linear-gradient(180deg, transparent 0%, rgba(255,198,0,.22) 40%, transparent 95%);
-  filter: blur(8px);
-  z-index: 0;
-}
-.factory-intro-rings span {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(255,198,0,.18);
-}
-.factory-intro-rings span:nth-child(1) { inset: 8%; }
-.factory-intro-rings span:nth-child(2) { inset: 18%; border-color: rgba(255,198,0,.10); }
-.factory-intro-rings span:nth-child(3) { inset: 30%; border-color: rgba(255,198,0,.06); }
-.factory-intro-caption {
-  position: absolute;
-  left: 18px; bottom: 16px;
-  z-index: 2;
-  font-size: var(--fs-12);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--c-text);
-  text-shadow: 0 1px 6px rgba(0,0,0,.7);
+    linear-gradient(90deg, rgba(27,27,27,.9) 0%, rgba(27,27,27,.72) 34%, rgba(27,27,27,.2) 56%, rgba(27,27,27,0) 72%),
+    linear-gradient(180deg, var(--c-bg) 0%, rgba(27,27,27,0) 14%, rgba(27,27,27,0) 86%, var(--c-bg) 100%);
 }
 /* Categories light stage: pinned flashlight reveal */
 .categories-light-stage {
@@ -804,27 +724,35 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   top: 0;
   background: var(--c-bg);
 }
-@media (prefers-reduced-motion: reduce) {
-  .factory-intro-glow img:first-child {
-    opacity: 1;
-    transform: none;
-  }
-}
 @media (max-width: 1100px) {
   /* The light effect is desktop-only; skip its blackout scroll distance. */
   .hero-light-stage { height: calc(100vh + min(56vh, 480px)); }
   .categories-light-stage { height: auto; }
   .categories-light-stage.light-stage-active { margin-top: 0; }
-  .categories-light-stage #categories { position: static; }
+  .categories-light-stage #categories { position: relative; }
   #categories {
     min-height: auto;
     display: block;
+    padding-top: 0;
   }
   #categories > .container {
     transform: none;
   }
   .factory-intro { grid-template-columns: 1fr; gap: var(--sp-10); }
-  .factory-intro-visual { max-width: 640px; margin: 0 auto; width: 100%; }
+  /* The photo becomes an edge-to-edge banner above the copy, cropped to its
+     right-hand subject and fading into the page below. */
+  .factory-intro-bg {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 16 / 9;
+    margin-bottom: calc(var(--sp-12) * -1);
+  }
+  .factory-intro-bg::after {
+    background: linear-gradient(180deg, var(--c-bg) 0%, rgba(27,27,27,0) 12%, rgba(27,27,27,0) 55%, var(--c-bg) 100%);
+  }
+}
+@media (max-width: 720px) {
+  .factory-intro-bg { aspect-ratio: 4 / 3; }
 }
 
 /* ============================================================
@@ -1844,7 +1772,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   min-width: 0;
 }
 /* 270px-wide tile: square 270px media on top, compact body below
-   (whole card ~270x370). */
+   (whole card ~270x370). The photo fills the square frame edge to edge. */
 .product-card {
   display: flex;
   min-width: 0;
@@ -1871,8 +1799,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
 .product-card-media img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: var(--sp-4);
+  object-fit: cover;
   transition: transform .35s var(--ease);
 }
 .product-card:hover .product-card-media img {
@@ -2120,9 +2047,6 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   }
   .product-card-media {
     aspect-ratio: 1 / 1;
-  }
-  .product-card-media img {
-    padding: var(--sp-2);
   }
   .product-card-body {
     padding: var(--sp-3);

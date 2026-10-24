@@ -1,12 +1,10 @@
 /* Reference: mokalites.com/product-detail/ (Elementor page 14009).
-   Scoped to the detail content; the site's existing chrome is unchanged. */
-@font-face{font-family:"Product Cal Sans";src:url("../fonts/product-detail/cal-sans-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Product Golos Text";src:url("../fonts/product-detail/golos-text-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Product Golos Text";src:url("../fonts/product-detail/golos-text-700.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
-.pd-main{--pd-yellow:#ffc600;--pd-ink:#1c1c1d;--pd-text:#313131;background:#fff;color:var(--pd-text);font:400 17px/26px "Product Golos Text",Arial,sans-serif;isolation:isolate}
+   Scoped to the detail content; the site's existing chrome is unchanged.
+   Type uses the site-wide Generator family (style.css). */
+.pd-main{--pd-yellow:#ffc600;--pd-ink:#1c1c1d;--pd-text:#313131;background:#fff;color:var(--pd-text);font:400 17px/26px var(--ff-sans);isolation:isolate}
 .pd-main *{box-sizing:border-box}
 .pd-main [id]{scroll-margin-top:calc(var(--header-h,80px) + 24px)}
-.pd-main h1,.pd-main h2,.pd-main h3{font-family:"Product Cal Sans",Arial,sans-serif;font-weight:400;color:var(--pd-ink);letter-spacing:normal}
+.pd-main h1,.pd-main h2,.pd-main h3{font-family:inherit;color:var(--pd-ink)}
 .pd-main h2{font-size:52px;line-height:62px;margin:0 0 26px}
 .pd-main h3{font-size:30px;line-height:40px;margin:0 0 20px}
 .pd-main p{margin:0}
@@ -69,7 +67,7 @@
 .pd-faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px 45px;list-style:none;margin:0;padding:0}
 .pd-faq-item{position:relative;padding-top:12px}
 .pd-faq-item::before{content:"";display:block;width:120px;height:1px;background:#e3e3e8;position:absolute;top:0;left:0}
-.pd-faq-number{font:400 30px/40px "Product Cal Sans",Arial,sans-serif;color:var(--pd-yellow)}
+.pd-faq-number{font:700 30px/40px var(--ff-sans);color:var(--pd-yellow)}
 .pd-faq-item h3{font-size:20px;line-height:30px;letter-spacing:.5px;margin:15px 0 10px}
 .pd-faq-grid.reveal-ready .pd-faq-item{opacity:0;transform:translateY(26px);transition:opacity .4s ease,transform .4s var(--ease,cubic-bezier(.22,.61,.36,1));transition-delay:calc(var(--i,0)*70ms)}
 .pd-faq-grid.reveal-ready.is-inview .pd-faq-item{opacity:1;transform:none}
@@ -78,7 +76,7 @@
 .pd-scenarios-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .pd-scenarios figure{margin:0;min-width:0}
 .pd-scenarios img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
-.pd-scenarios figcaption{font:400 24px/34px "Product Cal Sans",Arial,sans-serif;letter-spacing:1.4px;color:var(--pd-ink);text-align:center;margin-top:20px}
+.pd-scenarios figcaption{font:600 24px/34px var(--ff-sans);letter-spacing:1.4px;color:var(--pd-ink);text-align:center;margin-top:20px}
 @media(min-width:1025px) and (max-width:1366px){.pd-main h2{font-size:48px;line-height:58px}.pd-main h3{font-size:26px;line-height:34px}.pd-faq-item h3{font-size:20px;line-height:30px}.pd-quote{padding-inline:40px}.pd-quote h2{font-size:48px;line-height:58px}.pd-scenarios h2{font-size:40px;line-height:50px}}
 @media(max-width:1024px){.pd-hero{gap:24px;padding-top:40px}.pd-hero-copy h1{font-size:36px;line-height:1.3}.pd-gallery-track img{height:400px}.pd-main h2{font-size:30px;line-height:40px}.pd-main h3{font-size:24px;line-height:34px}.pd-overview,.pd-specifications{padding-top:80px}.pd-spec-grid{gap:30px}.pd-quote-wrap{padding-top:85px}.pd-quote{gap:32px;padding:40px}.pd-quote h2{font-size:38px;line-height:48px}.pd-video{padding-top:260px}.pd-faq{padding-top:80px}.pd-faq-item h3{font-size:20px;line-height:30px}.pd-scenarios{padding-top:75px;padding-bottom:75px}.pd-scenarios figcaption{font-size:20px;line-height:30px}}
 @media(max-width:767px){.pd-container,.pd-quote-wrap{width:calc(100% - 36px)}.pd-hero{grid-template-columns:minmax(0,1fr);gap:26px;padding-top:25px}.pd-gallery-track img{height:auto;aspect-ratio:1/1;max-height:450px}.pd-hero-copy h1{font-size:34px;line-height:1.3;margin-bottom:18px}.pd-hero-copy p{letter-spacing:.2px}.pd-spec-link{margin-top:24px;padding-inline:25px}.pd-overview{padding-top:65px}.pd-overview-copy{margin-inline:0}.pd-specifications{padding-top:70px}.pd-spec-grid{grid-template-columns:minmax(0,1fr);gap:30px}.pd-model{font-size:24px;line-height:34px}.pd-main h3{font-size:24px;line-height:34px}.pd-quote-wrap{padding-top:70px}.pd-quote{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;padding:34px 22px;gap:28px}.pd-quote-link{order:-1}.pd-quote h2{font-size:34px;line-height:44px}.pd-video{width:100%;margin-top:-90px;padding-top:150px}.pd-video .pd-container{width:calc(100% - 36px)}.pd-video-frame{margin-top:22px}.pd-faq{padding-top:70px}.pd-faq-grid{grid-template-columns:minmax(0,1fr);gap:30px}.pd-faq-item h3{font-size:20px;line-height:30px}.pd-scenarios{padding-top:65px;padding-bottom:65px}.pd-scenarios-grid{grid-template-columns:minmax(0,1fr);gap:34px}.pd-scenarios figcaption{font-size:20px;line-height:30px;letter-spacing:.5px}.pd-gallery-controls{gap:4px}}

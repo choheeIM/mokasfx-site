@@ -330,6 +330,14 @@
 
 /* ---------- video ---------- */
 .sd-video { margin-top: var(--sp-12); }
+.sd-slideshow-title {
+  width: 80%;
+  margin: 0 auto var(--sp-6);
+  font-size: 24px;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--text);
+}
 .sd-slideshow {
   position: relative;
   width: 80%;
@@ -355,6 +363,7 @@
   object-fit: cover;
 }
 .sd-slideshow .sd-zone-nav { top: calc(50% - 16px); }
+.sd-zone-nav[hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .sd-slides { transition: none; }
 }
@@ -746,18 +755,40 @@
 .sd-todo-item p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text); }
 
 /* ---------- cases ---------- */
+/* Linked project cards in a native scroll-snap row: two per view (one on
+   phones). Swipe/scroll works without JS; the arrows are added by JS only
+   when the row overflows. */
+.sd-case-slider { position: relative; }
 .sd-case-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 20px) / 2);
   gap: 20px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
 }
+.sd-case-slider.is-enhanced .sd-case-grid { scrollbar-width: none; }
+.sd-case-slider.is-enhanced .sd-case-grid::-webkit-scrollbar { display: none; }
+.sd-case-slider .sd-zone-nav { top: calc(50% - 16px); }
 .sd-case-card {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border);
+  scroll-snap-align: start;
 }
+.sd-case-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.sd-case-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: inherit; }
+.sd-case-link:hover h3,
+.sd-case-link:focus-visible h3 { color: var(--accent); }
 .sd-case-card img {
   position: absolute;
   inset: 0;
@@ -778,12 +809,16 @@
   right: 22px;
   bottom: 20px;
 }
-.sd-case-body h3 { margin: 0 0 6px; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #fff; }
+.sd-case-body h3 { margin: 0 0 6px; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #fff; transition: color 0.25s; }
 .sd-case-meta {
   margin: 0;
   font-size: 12.5px;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.72);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ---------- FAQ (static two-column) ---------- */
@@ -880,7 +915,15 @@
   .sd-hero-inner { padding-bottom: var(--sp-12); }
   .sd-hero-sub { font-size: 16px; }
   .sd-risk-card { padding: 24px 22px 18px; }
-  .sd-case-grid { grid-template-columns: minmax(0, 1fr); }
+  /* one card per view; the next card peeks in as a swipe hint */
+  .sd-case-grid { grid-auto-columns: 86%; gap: 12px; }
+  .sd-case-card { aspect-ratio: 4 / 3; }
+  /* arrows move below the row so they don't cover the card titles */
+  .sd-case-slider.has-arrows { padding-bottom: 48px; }
+  .sd-case-slider .sd-zone-nav { top: auto; bottom: 0; }
+  .sd-case-slider .sd-zone-prev { left: calc(50% - 40px); }
+  .sd-case-slider .sd-zone-next { right: calc(50% - 40px); }
+  .sd-slideshow-title { width: 100%; font-size: 20px; margin-bottom: var(--sp-4); }
   .sd-fit { padding-left: 24px; }
   .sd-fit-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .sd-zone-detail dl > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }

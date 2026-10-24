@@ -8,6 +8,7 @@
    - system architecture: hover/tap a node -> caption + zoom
    - zone plan: map <-> accordion sync (hover + click/tap)
    - arrow pagers: zone fixtures (2 per view), show photos (1 per view)
+   - project cases: scroll-snap row, arrows when it overflows
    ============================================================ */
 (function () {
   "use strict";
@@ -235,5 +236,37 @@
   if (pagers.length) {
     window.addEventListener("resize", function () { pagers.forEach(function (p) { p(); }); });
   }
+
+  /* ---------- project cases: arrows page the native scroll-snap row ---------- */
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-sd-case-slider]").forEach(function (slider) {
+    var track = slider.querySelector(".sd-case-grid");
+    var prev = slider.querySelector(".sd-zone-prev");
+    var next = slider.querySelector(".sd-zone-next");
+    if (!track || !prev || !next) return;
+    slider.classList.add("is-enhanced");
+    /* arrows only when the cards don't all fit (desktop: more than 2) */
+    var update = function () {
+      var overflow = track.scrollWidth - track.clientWidth >= 2;
+      prev.hidden = next.hidden = !overflow;
+      slider.classList.toggle("has-arrows", overflow);
+    };
+    /* one page = as many whole cards as are visible; wraps around at either end */
+    var go = function (dir) {
+      var card = track.firstElementChild;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      var step = card ? card.offsetWidth + gap : track.clientWidth;
+      var perView = Math.max(1, Math.floor((track.clientWidth + gap + 1) / step));
+      var max = track.scrollWidth - track.clientWidth;
+      var left = track.scrollLeft + dir * step * perView;
+      if (dir > 0 && track.scrollLeft >= max - 2) left = 0;
+      if (dir < 0 && track.scrollLeft <= 2) left = max;
+      track.scrollTo({ left: left, behavior: reduceMotion ? "auto" : "smooth" });
+    };
+    prev.addEventListener("click", function () { go(-1); });
+    next.addEventListener("click", function () { go(1); });
+    window.addEventListener("resize", update);
+    update();
+  });
 
 })();
