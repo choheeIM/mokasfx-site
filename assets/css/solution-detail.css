@@ -695,11 +695,11 @@
 }
 
 /* ---------- deliverables checklist (industrial todo) ---------- */
+/* full container width, like the other sections; two wide columns inside */
 .sd-todo-frame {
   position: relative;
-  max-width: 900px;
-  margin: 0 auto var(--sp-12);
-  padding: 0 28px 10px;
+  margin: 0 0 var(--sp-12);
+  padding: 0 var(--sp-10) 10px;
   border: 1.5px dashed rgba(255, 198, 0, 0.55);
   border-radius: 6px;
 }
@@ -720,7 +720,7 @@
 .sd-todo {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: var(--sp-10);
+  column-gap: var(--sp-16);
 }
 .sd-todo-item {
   display: flex;
@@ -927,6 +927,7 @@
   .sd-fit { padding-left: 24px; }
   .sd-fit-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .sd-zone-detail dl > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .sd-todo-frame { padding: 0 28px 10px; }
   .sd-todo { grid-template-columns: minmax(0, 1fr); }
   .sd-faq { grid-template-columns: minmax(0, 1fr); }
 }
