@@ -3,19 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Search | MOKA LITE</title>
+<title>Search Results for Stage Lighting | MOKA LITE</title>
 <meta name="description" content="Search MOKA LITE products, lighting solutions, projects and technical guides.">
 <link rel="canonical" href="/search.html">
 <meta name="robots" content="noindex,follow">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Search | MOKA LITE">
+<meta property="og:title" content="Search Results for Stage Lighting | MOKA LITE">
 <meta property="og:description" content="Search MOKA LITE products, lighting solutions, projects and technical guides.">
 <meta property="og:url" content="/search.html">
 <meta property="og:site_name" content="MOKA LITE">
 <meta property="og:image" content="/assets/img/solutions/stack-outdoor-stage.webp">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=28">
+<link rel="stylesheet" href="assets/css/search.css?v=3">
 </head>
+<body>
+<a class="search-skip-link" href="#main-content">Skip to search results</a>
 
 <!-- ============================ HEADER ============================ -->
 <header class="site-header" id="siteHeader">
@@ -62,9 +65,9 @@
       </div>
 
       <div class="nav-item has-dropdown">
-        <span class="nav-link is-active" tabindex="0">Resources <span class="caret" aria-hidden="true"></span></span>
+        <span class="nav-link" tabindex="0">Resources <span class="caret" aria-hidden="true"></span></span>
         <div class="nav-dropdown">
-          <a href="about.html" aria-current="page">About us</a>
+          <a href="about.html">About us</a>
           <a href="certificates.html">Certificates</a>
           <a href="privacy.html">Privacy Policy</a>
         </div>
@@ -73,7 +76,7 @@
       <div class="nav-item"><a class="nav-link" href="contact.html#inquiry">Contact us</a></div>
     </nav>
 
-    <a class="nav-search" href="search.html" aria-label="Search the site">
+    <a class="nav-search" href="search.html" aria-label="Search the site" aria-current="page">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <span class="nav-search-text">Search</span>
     </a>
@@ -108,7 +111,6 @@
           </ul>
         </section>
       </div>
-      </div>
     </div>
   </div>
 
@@ -135,32 +137,172 @@
 </header>
 
 
-<main class="search-page">
+<main class="search-page search-results-page" id="main-content">
   <div class="container">
-    <div class="search-page-head">
-      <span class="eyebrow">Search</span>
-      <h1>Search the site</h1>
+    <nav class="search-breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index.html">Home</a></li>
+        <li aria-current="page">Search</li>
+      </ol>
+    </nav>
+
+    <div class="search-results-head">
+      <span class="eyebrow">Explore MOKA LITE</span>
+      <h1>Search results</h1>
+      <p>Find the right lighting for your next project.</p>
     </div>
 
-    <!-- WordPress-native search form: after the WP migration this works as-is
-         (results live at /?s=keyword). On the static site there is no search
-         backend yet, so submissions simply land on the home page. -->
-    <form class="search-page-form" role="search" action="/" method="get">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input class="search-page-input" type="search" name="s" placeholder="Search products, solutions, articles&hellip;" aria-label="Search the site" autocomplete="off" spellcheck="false">
+    <!-- Static design preview: the keyword and six results below are fixtures,
+         not a live query. Keep all result content in HTML; no client-side renderer.
+         WordPress: replace the form action with esc_url(home_url('/')) and its
+         value with get_search_query() (escaped for the input attribute).
+         Keep the WordPress-native GET + s contract; the static host has no query
+         handler, so submitting /?s=keyword displays the homepage until migration.
+         Do not add client-side search logic solely for the static preview. -->
+    <form class="search-results-form" role="search" action="/" method="get">
+      <label class="search-visually-hidden" for="site-search">Search products, solutions, projects and articles</label>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="site-search" type="search" name="s" value="stage lighting" placeholder="Search the site…" enterkeyhint="search">
+      <button class="btn btn-primary" type="submit">Search</button>
     </form>
 
-    <div class="search-page-links">
-      <p>Or browse every section directly:</p>
-      <ul>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="solutions.html">Solutions</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="about.html">About us</a></li>
-        <li><a href="contact.html">Contact us</a></li>
+    <!-- WordPress: render this branch only for a non-empty query with matches.
+         Replace the count/query with the server query's found_posts and an
+         escaped get_search_query(false). Replace the six articles with the Loop.
+         Each result supplies its type, permalink, title, excerpt, image and alt.
+         Technical guides use the Blog type; never output placeholder products. -->
+    <section class="search-results-collection" aria-labelledby="search-results-heading" data-page-size="12">
+      <div class="search-results-summary">
+        <h2 id="search-results-heading"><strong>6 results</strong> for <span>“stage lighting”</span></h2>
+        <p>Products, solutions, projects &amp; articles</p>
+      </div>
+      <ul class="search-results-grid">
+        <li class="search-results-item">
+          <article class="search-result search-result--product" aria-labelledby="search-result-1">
+            <div class="search-result-media">
+              <img src="assets/img/product-detail/pulse-1.webp" alt="PULSE 1818 X6 flat LED PAR light" width="1100" height="1100" decoding="async">
+            </div>
+            <div class="search-result-body">
+              <p class="search-result-type">Product</p>
+              <h3 id="search-result-1" class="search-result-title"><a href="flat-par-light-p-12-pulse-1818-x6.html">PULSE 1818 X6 Flat LED PAR Light</a></h3>
+              <p class="search-result-excerpt">18 × 18W RGBWA+UV LEDs in a compact flat PAR fixture for stage washes, uplighting and event spaces.</p>
+              <span class="search-result-more" aria-hidden="true">View details <span>&#8599;</span></span>
+            </div>
+          </article>
+        </li>
+        <li class="search-results-item">
+          <article class="search-result" aria-labelledby="search-result-2">
+            <div class="search-result-media">
+              <img src="assets/img/solutions/solutions-performance.jpg" alt="Indoor performance stage with crossing blue lighting beams" width="1200" height="840" decoding="async">
+            </div>
+            <div class="search-result-body">
+              <p class="search-result-type">Solution</p>
+              <h3 id="search-result-2" class="search-result-title"><a href="indoor-stage.html">Indoor Stage Lighting Solution</a></h3>
+              <p class="search-result-excerpt">Explore lighting system design, fixture selection and control planning for indoor stages and live performances.</p>
+              <span class="search-result-more" aria-hidden="true">View details <span>&#8599;</span></span>
+            </div>
+          </article>
+        </li>
+        <li class="search-results-item">
+          <article class="search-result" aria-labelledby="search-result-3">
+            <div class="search-result-media">
+              <img src="assets/img/projects/banquet-hall-new-york-hero.webp" alt="Banquet and wedding hall in New York glowing under a circular kinetic LED ball chandelier and crystal lights during a dinner event" width="1175" height="773" decoding="async">
+            </div>
+            <div class="search-result-body">
+              <p class="search-result-type">Project</p>
+              <h3 id="search-result-3" class="search-result-title"><a href="projects/banquet-hall-lighting-new-york/">Banquet Hall Lighting Project in New York</a></h3>
+              <p class="search-result-excerpt">Lighting equipment supplied for a 900 m² banquet and wedding venue in New York, combining moving head lights and kinetic LED balls for different event settings.</p>
+              <span class="search-result-more" aria-hidden="true">View details <span>&#8599;</span></span>
+            </div>
+          </article>
+        </li>
+        <li class="search-results-item">
+          <article class="search-result" aria-labelledby="search-result-4">
+            <div class="search-result-media">
+              <img src="assets/img/light/1.jpg" alt="Moving head beam fixture optics close-up" width="1100" height="1100" loading="lazy" decoding="async">
+            </div>
+            <div class="search-result-body">
+              <p class="search-result-type">Blog</p>
+              <h3 id="search-result-4" class="search-result-title"><a href="blog/beam-angle-selection/">Beam Angle Selection: Matching Optics to Throw Distance and Trim Height</a></h3>
+              <p class="search-result-excerpt">A 2° beam and a 25° wash solve different problems. A simple throw-distance formula, worked examples from real venues, and the trim-height mistakes that leave stages looking flat.</p>
+              <span class="search-result-more" aria-hidden="true">View details <span>&#8599;</span></span>
+            </div>
+          </article>
+        </li>
+        <li class="search-results-item">
+          <article class="search-result search-result--product" aria-labelledby="search-result-5">
+            <div class="search-result-media">
+              <img src="assets/img/product-detail/pulse-11.webp" alt="PULSE LED PAR fixture from the MOKA LITE PAR light range" width="1100" height="1100" loading="lazy" decoding="async">
+            </div>
+            <div class="search-result-body">
+              <p class="search-result-type">Products</p>
+              <h3 id="search-result-5" class="search-result-title"><a href="products/par-light/">LED PAR Lights for Stages &amp; Events</a></h3>
+              <p class="search-result-excerpt">Browse LED PAR lighting for uplighting, truss washes and stage fills, and find the right fit for your venue.</p>
+              <span class="search-result-more" aria-hidden="true">View details <span>&#8599;</span></span>
+            </div>
+          </article>
+        </li>
+        <li class="search-results-item">
+          <article class="search-result" aria-labelledby="search-result-6">
+            <div class="search-result-media">
+              <img src="assets/img/solutions/solutions-hero-stage.jpg" alt="Performance stage illuminated by dramatic lighting beams" width="1920" height="1080" loading="lazy" decoding="async">
+            </div>
+            <div class="search-result-body">
+              <p class="search-result-type">Blog</p>
+              <h3 id="search-result-6" class="search-result-title"><a href="blog.html">Stage Lighting Planning &amp; Technical Guides</a></h3>
+              <p class="search-result-excerpt">Browse lighting planning advice, technical guides and news for installers, rental teams and venue technicians.</p>
+              <span class="search-result-more" aria-hidden="true">View details <span>&#8599;</span></span>
+            </div>
+          </article>
+        </li>
       </ul>
-    </div>
+
+      <!-- Static pagination preview: six fixtures fit on one page, so both
+           directions are disabled. Keep visible here for design review only.
+           Production WordPress: set posts_per_page to 12 on the main search
+           query, not just in this data-page-size attribute; render this entire
+           nav only when max_num_pages > 1. Calculate the visible range from
+           (paged - 1) * 12 + 1 through min(paged * 12, found_posts).
+           Use paginate_links() to render native <a class="page-numbers"> links
+           inside this list, preserving s and paged. The current page is a span
+           with class="page-numbers current" and aria-current="page"; unavailable
+           directions remain non-interactive spans. Omit them from keyboard order.
+           Never implement page changes by hiding cards in JavaScript. -->
+      <nav class="search-pagination" aria-label="Search results pages">
+        <p class="search-pagination-summary">Showing <strong>1–6</strong> of <strong>6</strong> results</p>
+        <ul class="search-pagination-list">
+          <li><span class="page-numbers prev is-disabled" role="link" aria-disabled="true"><span aria-hidden="true">&#8592;</span> Previous</span></li>
+          <li><span class="page-numbers current" aria-label="Page 1" aria-current="page">1</span></li>
+          <li><span class="page-numbers next is-disabled" role="link" aria-disabled="true">Next <span aria-hidden="true">&#8594;</span></span></li>
+        </ul>
+      </nav>
+    </section>
+
+    <!-- WordPress alternative: empty keyword. Output instead of the results section;
+         leave the input empty and use Search the site as the page H1.
+    <section class="search-empty" aria-labelledby="search-empty-heading">
+      <h2 id="search-empty-heading">What are you looking for?</h2>
+      <p>Enter a product name, lighting application or topic to get started.</p>
+      <a class="btn-link" href="products.html">Browse products</a>
+    </section>
+    -->
+
+    <!-- WordPress alternative: non-empty keyword with zero matches. Output instead
+         of the results section, retain the escaped query in the input and summary.
+    <section class="search-empty" aria-labelledby="search-empty-heading">
+      <h2 id="search-empty-heading">No results found</h2>
+      <p>Try a shorter phrase, check your spelling or browse our lighting products.</p>
+      <a class="btn-link" href="products.html">Browse products</a>
+      <a class="btn-link" href="contact.html#inquiry">Talk to our team</a>
+    </section>
+    -->
+
+    <!-- WordPress migration: render the requested search page on the server
+         using the 12-results-per-page contract documented above.
+         Replace relative static content URLs with their WordPress permalinks.
+         Keep noindex,follow, omit search URLs from sitemaps and keep them crawlable.
+         Replace static title/description/canonical with query-aware server values;
+         a paginated response must not canonicalize to an unrelated static URL. -->
   </div>
 </main>
 
@@ -200,7 +342,7 @@
       <nav class="footer-col footer-nav-support" aria-label="Footer support links">
         <h5>Support</h5>
         <ul>
-          <li><a href="about.html" aria-current="page">About MOKA LITE</a></li>
+          <li><a href="about.html">About MOKA LITE</a></li>
           <li><a href="certificates.html">Certificates</a></li>
           <li><a href="contact.html#support">Terms of Service</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
