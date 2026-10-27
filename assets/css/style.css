@@ -1772,7 +1772,8 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   min-width: 0;
 }
 /* 270px-wide tile: square 270px media on top, compact body below
-   (whole card ~270x370). The photo fills the square frame edge to edge. */
+   (whole card ~270x370). The photo fills the square frame edge to edge,
+   and its lower half fades into the card body. */
 .product-card {
   display: flex;
   min-width: 0;
@@ -1795,6 +1796,10 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: linear-gradient(180deg, #f7f7f5, #e4e4e1);
+  /* Masking (not an overlay) lets the card's own background show through,
+     so the fade still matches when the card background changes on hover. */
+  -webkit-mask-image: linear-gradient(180deg, #000 52%, rgba(0,0,0,.8) 72%, rgba(0,0,0,.3) 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 52%, rgba(0,0,0,.8) 72%, rgba(0,0,0,.3) 88%, transparent 100%);
 }
 .product-card-media img {
   width: 100%;
