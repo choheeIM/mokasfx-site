@@ -1446,7 +1446,7 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   width: 100%;
   margin: 0 auto;
   /* fill the (taller) text column's height so the CTA lands flush with the
-     image bottom; images are contain-fit so the stretch never distorts */
+     image bottom; images are cover-fit so the stretch never distorts */
   align-self: stretch;
   border-radius: var(--radius-lg);
   background: radial-gradient(circle at 50% 65%, rgba(255,198,0,.18) 0%, transparent 55%), #0a0a0a;
@@ -1462,15 +1462,15 @@ hr { border: 0; border-top: 1px solid var(--c-line); margin: 0; }
   background: radial-gradient(circle, rgba(255,198,0,.45) 0%, transparent 60%);
   filter: blur(20px);
 }
-/* Category imagery: one cutout per accordion category, cross-faded by
-   home.js as items open. */
+/* Category imagery: one 1:1 image with its own background per accordion
+   category, cross-faded by home.js as items open. Cover-fit fills the frame;
+   on desktop the frame is taller than wide, so the left/right edges crop. */
 .products-overview-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: var(--sp-8);
+  object-fit: cover;
   opacity: 0;
   transform: scale(.96);
   transition: opacity .35s var(--ease), transform .35s var(--ease);

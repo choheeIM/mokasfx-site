@@ -53,26 +53,26 @@
 
     // ----- Products overview accordion -----
     // Opening a category also cross-fades the visual to that category's
-    // product image (matched by data-category on both sides).
+    // product image (matched by data-category on both sides). One category
+    // always stays open: closing all would shorten the visual and rescale
+    // the cover-fit image.
     const accItems = document.querySelectorAll('.products-accordion-item');
     const overviewImgs = document.querySelectorAll('.products-overview-img');
     accItems.forEach((item) => {
       const trigger = item.querySelector('.products-accordion-trigger');
       if (!trigger) return;
       trigger.addEventListener('click', () => {
-        const willOpen = !item.classList.contains('is-open');
+        if (item.classList.contains('is-open')) return;
         accItems.forEach((other) => {
           other.classList.remove('is-open');
           const t = other.querySelector('.products-accordion-trigger');
           if (t) t.setAttribute('aria-expanded', 'false');
         });
-        if (willOpen) {
-          item.classList.add('is-open');
-          trigger.setAttribute('aria-expanded', 'true');
-          overviewImgs.forEach((img) => {
-            img.classList.toggle('is-active', img.dataset.category === item.dataset.category);
-          });
-        }
+        item.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+        overviewImgs.forEach((img) => {
+          img.classList.toggle('is-active', img.dataset.category === item.dataset.category);
+        });
       });
     });
 
